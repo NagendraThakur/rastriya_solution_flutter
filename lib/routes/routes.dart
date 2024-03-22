@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rastriya_solution_flutter/model/batch_model.dart';
 import 'package:rastriya_solution_flutter/model/brand_model.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
 import 'package:rastriya_solution_flutter/model/company_model.dart';
@@ -24,6 +25,8 @@ import 'package:rastriya_solution_flutter/pages/company/edit_company_screen.dart
 import 'package:rastriya_solution_flutter/pages/dashboard/dashboard_screen.dart';
 import 'package:rastriya_solution_flutter/pages/invalid/invalid-screen.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/Inventory_screen.dart';
+import 'package:rastriya_solution_flutter/pages/inventory/batch/batch_list.dart';
+import 'package:rastriya_solution_flutter/pages/inventory/batch/edit_batch.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/brand/brand_list.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/brand/edit_brand.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/category/category_list.dart';
@@ -138,6 +141,18 @@ class Routes {
             builder: (context) => EditBrandScreen(
                   brand: brand,
                 ));
+      case "/edit_batch":
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        final List<ProductModel> productList = arguments['productList'];
+        final BatchModel? batch = arguments['batch'];
+        return MaterialPageRoute(
+            builder: (context) => EditBatchScreen(
+                  productList: productList,
+                  batch: batch,
+                ));
+      case "/batch_list":
+        return MaterialPageRoute(builder: (context) => const BatchListScreen());
       case "/edit_loyalty_member":
         final LoyaltyMemberModel? loyaltyMember =
             settings.arguments as LoyaltyMemberModel?;

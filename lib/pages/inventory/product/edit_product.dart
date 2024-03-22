@@ -220,28 +220,64 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   TwoRowComponent(
                     horizontalPadding: 0,
                     middleSpace: true,
-                    firstComponent:
-                        CustomSwitch(values: showInPos, label: "Pos Product"),
-                    secondComponent:
-                        CustomSwitch(values: blocked, label: "Blocked"),
-                  ),
-                  verticalSpaceRegular,
-                  TwoRowComponent(
-                    horizontalPadding: 0,
-                    middleSpace: true,
                     firstComponent: CustomSwitch(
-                        values: discountable, label: "Discountable"),
+                        onChanged: (bool value) {
+                          setState(() {
+                            showInPos = value;
+                          });
+                        },
+                        values: showInPos,
+                        label: "Pos Product"),
                     secondComponent: CustomSwitch(
-                        values: inventoryItem, label: "Inventory Item"),
+                        onChanged: (bool value) {
+                          setState(() {
+                            blocked = value;
+                          });
+                        },
+                        values: blocked,
+                        label: "Blocked"),
                   ),
                   verticalSpaceRegular,
                   TwoRowComponent(
                     horizontalPadding: 0,
                     middleSpace: true,
                     firstComponent: CustomSwitch(
-                        values: sellableItem, label: "Sellable Item"),
-                    secondComponent:
-                        CustomSwitch(values: batchLot, label: "Batch Lot"),
+                        onChanged: (bool value) {
+                          setState(() {
+                            discountable = value;
+                          });
+                        },
+                        values: discountable,
+                        label: "Discountable"),
+                    secondComponent: CustomSwitch(
+                        onChanged: (bool value) {
+                          setState(() {
+                            inventoryItem = value;
+                          });
+                        },
+                        values: inventoryItem,
+                        label: "Inventory Item"),
+                  ),
+                  verticalSpaceRegular,
+                  TwoRowComponent(
+                    horizontalPadding: 0,
+                    middleSpace: true,
+                    firstComponent: CustomSwitch(
+                        onChanged: (bool value) {
+                          setState(() {
+                            sellableItem = value;
+                          });
+                        },
+                        values: sellableItem,
+                        label: "Sellable Item"),
+                    secondComponent: CustomSwitch(
+                        onChanged: (bool value) {
+                          setState(() {
+                            batchLot = value;
+                          });
+                        },
+                        values: batchLot,
+                        label: "Batch Lot"),
                   ),
                   verticalSpaceSmall,
                 ],

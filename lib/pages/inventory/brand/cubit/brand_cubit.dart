@@ -16,14 +16,15 @@ class BrandCubit extends Cubit<BrandState> {
     emit(state.copyWith(isLoading: true));
 
     try {
+      final body = {"name": brand.name, "logo": brand.logo};
       dynamic response;
 
       if (brand.id == null) {
         response = await PostRepository()
-            .postRequest(path: GetRepository.brand, body: brand.toJson());
+            .postRequest(path: GetRepository.brand, body: body);
       } else {
         response = await PutRepository().putRequest(
-            path: GetRepository.brand, editId: brand.id, body: brand.toJson());
+            path: GetRepository.brand, editId: brand.id, body: body);
       }
       emit(state.copyWith(isLoading: false));
       if (response["status"] == "success") {
@@ -51,7 +52,7 @@ class BrandCubit extends Cubit<BrandState> {
       List? data = response["data"];
       if (data != null && data.isNotEmpty) {
         List<BrandModel> brandList =
-            data.map((ledger) => BrandModel.fromJson(ledger)).toList();
+            data.map((brand) => BrandModel.fromJson(brand)).toList();
         emit(state.copyWith(brandList: brandList));
       }
     }
