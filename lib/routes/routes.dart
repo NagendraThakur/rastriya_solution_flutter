@@ -33,6 +33,8 @@ import 'package:rastriya_solution_flutter/pages/inventory/category/category_list
 import 'package:rastriya_solution_flutter/pages/inventory/category/edit_category.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/edit_product.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/product_list.dart';
+import 'package:rastriya_solution_flutter/pages/inventory/unit/edit_unit.dart';
+import 'package:rastriya_solution_flutter/pages/inventory/unit/unit_list.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/customer/customer_list.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/customer/edit_customer.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/ledger_accounts_screen.dart';
@@ -153,6 +155,15 @@ class Routes {
                 ));
       case "/batch_list":
         return MaterialPageRoute(builder: (context) => const BatchListScreen());
+
+      case "/unit_list":
+        return MaterialPageRoute(builder: (context) => const UnitListScreen());
+      case "/edit_unit":
+        final UnitModel? unit = settings.arguments as UnitModel?;
+        return MaterialPageRoute(
+            builder: (context) => EditUnitScreen(
+                  unit: unit,
+                ));
       case "/edit_loyalty_member":
         final LoyaltyMemberModel? loyaltyMember =
             settings.arguments as LoyaltyMemberModel?;

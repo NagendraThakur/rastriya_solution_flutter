@@ -1,13 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/batch_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
+import 'package:rastriya_solution_flutter/pages/inventory/batch/cubit/batch_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
+import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/switch.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
+import 'package:toastification/toastification.dart';
 
 class EditBatchScreen extends StatefulWidget {
   final List<ProductModel> productList;
@@ -32,6 +37,18 @@ class _EditBatchScreenState extends State<EditBatchScreen> {
   TextEditingController lastUnitCost = TextEditingController();
 
   bool status = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.batch != null) {
+      batchName.text = widget.batch!.batchName;
+      lastUnitPrice.text = widget.batch?.unitPrice.toStringAsFixed(2) ?? "0";
+      lastUnitCost.text = widget.batch?.unitCost?.toStringAsFixed(2) ?? "0";
+      productId = widget.batch!.productId;
+      status = widget.batch?.status == "1" ? true : false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +109,34 @@ class _EditBatchScreenState extends State<EditBatchScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: CustomButton(
+          horizontalPadding: 10,
+          buttonText: "Save",
+          onPressed: () {
+            if (productId == null) {
+              showToastification(
+                  context: context,
+                  message: "Product Not Selected",
+                  toastificationType: ToastificationType.warning);
+              return;
+            }
+            double unitCost = lastUnitCost.text.isNotEmpty
+                ? double.parse(lastUnitCost.text)
+                : 0.0;
+            double unitPrice = lastUnitPrice.text.isNotEmpty
+                ? double.parse(lastUnitPrice.text)
+                : 0.0;
+            BatchModel batch = BatchModel(
+                id: widget.batch?.id,
+                productId: productId!,
+                batchName: batchName.text,
+                unitCost: unitCost,
+                unitPrice: unitPrice,
+                manufacturingDate: DateTime.now().toString(),
+                expirationDate: DateTime.now().toString(),
+                status: status == true ? "1" : "0");
+            BlocProvider.of<BatchCubit>(context).saveBatch(batch: batch);
+          }),
     );
   }
 }

@@ -20,6 +20,11 @@ class InventoryScreen extends StatelessWidget {
           pushNamed: "/product_list"),
       ComponentButtonModel(
           svgPath: "svgPath",
+          label: "Unit",
+          description: "Unit Description",
+          pushNamed: "/unit_list"),
+      ComponentButtonModel(
+          svgPath: "svgPath",
           label: "Brand",
           description: "Brand Description",
           pushNamed: "/brand_list"),
