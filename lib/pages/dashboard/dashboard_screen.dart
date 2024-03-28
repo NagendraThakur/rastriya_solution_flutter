@@ -75,27 +75,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
       DashboardMenuModel(
           permission: true,
           navigationPath: "/account_setup",
-          imagePath: "accout",
+          imagePath: "assets/svg/company_setup.svg",
           label: "Company Setup"),
       DashboardMenuModel(
           permission: true,
           navigationPath: "/inventory",
-          imagePath: "accout",
+          imagePath: "assets/svg/inventory.svg",
           label: "Inventory"),
       DashboardMenuModel(
           permission: true,
           navigationPath: "/loyalty_member_list",
-          imagePath: "accout",
+          imagePath: "assets/svg/loyalty_member.svg",
           label: "Loyalty Member"),
       DashboardMenuModel(
           permission: true,
           navigationPath: "/ledger_accounts",
-          imagePath: "accout",
+          imagePath: "assets/svg/ledger_account.svg",
           label: "Ledger Account"),
       DashboardMenuModel(
           permission: true,
+          navigationPath: "/pos_setup",
+          imagePath: "assets/svg/pos_setup.svg",
+          label: "Pos Setup"),
+      DashboardMenuModel(
+          permission: true,
           navigationPath: "/setting",
-          imagePath: "accout",
+          imagePath: "assets/svg/setting.svg",
           label: "Setting"),
     ];
     final loginData =

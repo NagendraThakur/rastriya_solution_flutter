@@ -110,6 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       labelText: "Email",
                       hintText: "Enter Email",
                       controller: emailController,
+                      prefixIcon: const Icon(Icons.email_outlined),
                       validator: (value) {
                         final emailRegex = RegExp(
                             r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
@@ -126,6 +127,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       hintText: "Enter Password",
                       controller: passwordController,
                       obscureText: !isPasswordVisible,
+                      prefixIcon: const Icon(Icons.password),
                       suffixIcon: IconButton(
                         icon: Icon(
                           isPasswordVisible

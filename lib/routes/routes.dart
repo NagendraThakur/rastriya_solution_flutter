@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/model/batch_model.dart';
 import 'package:rastriya_solution_flutter/model/brand_model.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
@@ -7,8 +6,11 @@ import 'package:rastriya_solution_flutter/model/company_model.dart';
 import 'package:rastriya_solution_flutter/model/employee_model.dart';
 import 'package:rastriya_solution_flutter/model/ledger_model.dart';
 import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
+import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
+import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/model/store_model.dart';
+import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/model/terminal_model.dart';
 import 'package:rastriya_solution_flutter/model/unit_model.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/account_setup_screen.dart';
@@ -37,11 +39,20 @@ import 'package:rastriya_solution_flutter/pages/inventory/unit/edit_unit.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/unit/unit_list.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/customer/customer_list.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/customer/edit_customer.dart';
+import 'package:rastriya_solution_flutter/pages/ledger_accounts/general_ledger/edit_general_ledger.dart';
+import 'package:rastriya_solution_flutter/pages/ledger_accounts/general_ledger/general_ledger_list.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/ledger_accounts_screen.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/edit_vendor.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/vendor_list.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/edit_loyalty_member.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/loyalty_meber_list.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/edit_payment_mode.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/payment_mode_list.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/pos_setup_screen.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/edit_print_station.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/print_station_list.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/edit_table_setup.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setup_list.dart';
 import 'package:rastriya_solution_flutter/pages/setting/setting_screen.dart';
 import 'package:rastriya_solution_flutter/pages/splash-screen/splash_screen.dart';
 
@@ -196,6 +207,55 @@ class Routes {
             builder: (context) => EditVendor(
                   ledger: ledger,
                 ));
+      case "/general_ledger_list":
+        return MaterialPageRoute(
+            builder: (context) => const GeneralLedgerList());
+      case "/edit_general_ledger":
+        final LedgerModel? ledger = settings.arguments as LedgerModel?;
+        return MaterialPageRoute(
+            builder: (context) => EditGeneralLedger(
+                  ledger: ledger,
+                ));
+      case "/pos_setup":
+        return MaterialPageRoute(
+          builder: (context) => const PosSetupScreen(),
+        );
+      case "/print_station_list":
+        return MaterialPageRoute(
+          builder: (context) => const PrintStationList(),
+        );
+      case "/edit_print_station":
+        final PrintStationModel? printStation =
+            settings.arguments as PrintStationModel?;
+        return MaterialPageRoute(
+          builder: (context) => EditPrintStation(
+            printstation: printStation,
+          ),
+        );
+      case "/payment_mode_list":
+        return MaterialPageRoute(
+          builder: (context) => const PaymentModeListScreen(),
+        );
+      case "/edit_payment_mode":
+        final PaymentModeModel? paymentMode =
+            settings.arguments as PaymentModeModel?;
+        return MaterialPageRoute(
+          builder: (context) => EditPaymentModeScreen(
+            paymentModeInfo: paymentMode,
+          ),
+        );
+
+      case "/table_list":
+        return MaterialPageRoute(
+          builder: (context) => const TableSetupList(),
+        );
+      case "/edit_table":
+        final TableModel? table = settings.arguments as TableModel?;
+        return MaterialPageRoute(
+          builder: (context) => EditTableSetup(
+            table: table,
+          ),
+        );
 
       case "/setting":
         return MaterialPageRoute(builder: (context) => const SettingScreen());

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rastriya_solution_flutter/model/component_button_model.dart';
+import 'package:rastriya_solution_flutter/pages/setting/logout/logout.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -10,7 +12,7 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<ComponentButtonModel> menuList = [
       ComponentButtonModel(
-          svgPath: "svgPath",
+          svgPath: "assets/svg/switch.svg",
           label: "Switch Company",
           description: "Switch Company Description",
           pushNamed: "/company_list"),
@@ -26,7 +28,10 @@ class SettingScreen extends StatelessWidget {
             ComponentButtonModel item = menuList[index];
             return ListTile(
               onTap: () => Navigator.of(context).pushNamed(item.pushNamed),
-              leading: const Icon(Icons.abc),
+              leading: SvgPicture.asset(
+                item.svgPath,
+                width: 50,
+              ),
               title: Text(item.label),
               subtitle: Text(item.description),
               trailing: const Icon(CupertinoIcons.chevron_forward),
@@ -36,7 +41,12 @@ class SettingScreen extends StatelessWidget {
           secondaryButton: true,
           horizontalPadding: 10,
           buttonText: "Log Out",
-          onPressed: () {}),
+          onPressed: () => showDialog(
+                context: context,
+                builder: (_) {
+                  return const LogOutDialog();
+                },
+              )),
     );
   }
 }

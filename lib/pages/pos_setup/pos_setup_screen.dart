@@ -1,40 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:rastriya_solution_flutter/model/component_button_model.dart';
 
-class AccountSetupScreen extends StatelessWidget {
-  const AccountSetupScreen({super.key});
+class PosSetupScreen extends StatelessWidget {
+  const PosSetupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     List<ComponentButtonModel> menuList = [
       ComponentButtonModel(
-          svgPath: "assets/svg/terminal.svg",
-          label: "Terminal",
-          description: "Terminal Description",
-          pushNamed: "/terminal_list"),
+          svgPath: "assets/svg/print_station.svg",
+          label: "Print Station",
+          description: "Print Station Description",
+          pushNamed: "/print_station_list"),
       ComponentButtonModel(
-          svgPath: "assets/svg/store.svg",
-          label: "Store Setup",
-          description: "Store Description",
-          pushNamed: "/store_setup_list"),
+          svgPath: "assets/svg/payment_mode.svg",
+          label: "Payment Mode",
+          description: "Payment Mode Description",
+          pushNamed: "/payment_mode_list"),
       ComponentButtonModel(
-          svgPath: "assets/svg/account_setting.svg",
-          label: "Account Setting",
-          description: "Account Setting Description",
-          pushNamed: "/account_setting"),
-      ComponentButtonModel(
-          svgPath: "assets/svg/employee.svg",
-          label: "Staff",
-          description: "Staff Description",
-          pushNamed: "/employee_list"),
+          svgPath: "assets/svg/table.svg",
+          label: "Table",
+          description: "Table Description",
+          pushNamed: "/table_list"),
     ];
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Company Setup"),
+        title: const Text("POS Setup"),
       ),
       body: ListView.builder(
           itemCount: menuList.length,

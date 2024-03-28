@@ -22,9 +22,16 @@ class MenuCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           verticalSpaceSmall,
-          SvgPicture.asset(
-            menuItem.imagePath,
-            height: 40,
+          CustomContainer(
+            color: Colors.blue.shade300,
+            radius: 20,
+            width: 45,
+            height: 45,
+            child: SvgPicture.asset(
+              menuItem.imagePath,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
           ),
           verticalSpaceTiny,
           Text(
