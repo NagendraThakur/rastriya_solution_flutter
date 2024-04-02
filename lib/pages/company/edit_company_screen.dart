@@ -164,6 +164,7 @@ class _EditCompanyScreenState extends State<EditCompanyScreen> {
                   },
                 ),
                 CustomDropDownButton(
+                    avatarInitials: "C",
                     hintText: "Choose Category",
                     label: "Company Category",
                     value: industyId,
@@ -179,6 +180,7 @@ class _EditCompanyScreenState extends State<EditCompanyScreen> {
                       DropdownMenuItem(value: "1", child: Text("Saloon")),
                     ]),
                 CustomDropDownButton(
+                  avatarInitials: "F",
                   hintText: "Choose Fiscal Year",
                   label: "Fiscal Year",
                   value: fisalYearId,

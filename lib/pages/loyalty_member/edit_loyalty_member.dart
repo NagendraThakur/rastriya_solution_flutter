@@ -100,24 +100,30 @@ class _EditLoyaltyMemberScreenState extends State<EditLoyaltyMemberScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomDropDownButton(
+                    avatarInitials: "G",
                     hintText: "Select Gender",
                     label: "Gender",
                     value: gender,
                     padding: const EdgeInsets.only(top: 20),
                     onChanged: (String value) {
-                      gender = value;
+                      setState(() {
+                        gender = value;
+                      });
                     },
                     items: const [
                       DropdownMenuItem(value: "male", child: Text("male")),
                       DropdownMenuItem(value: "female", child: Text("female")),
                     ]),
                 secondComponent: CustomDropDownButton(
+                    avatarInitials: "D",
                     hintText: "Select  Scheme",
                     label: "Discount",
                     value: discountScheme,
                     padding: const EdgeInsets.only(top: 20),
                     onChanged: (String value) {
-                      discountScheme = value;
+                      setState(() {
+                        discountScheme = value;
+                      });
                     },
                     items: const [
                       DropdownMenuItem(

@@ -71,6 +71,7 @@ class _EditTableSetupState extends State<EditTableSetup> {
                   },
                 ),
                 CustomDropDownButton(
+                    avatarInitials: "A",
                     hintText: "Select Availability",
                     label: "Availability",
                     value: availability,
@@ -87,6 +88,7 @@ class _EditTableSetupState extends State<EditTableSetup> {
                           value: "Reserved", child: Text("Reserved")),
                     ]),
                 CustomDropDownButton(
+                    avatarInitials: "C",
                     hintText: "Select Capacity",
                     label: "Capacity",
                     value: capacity,
@@ -101,6 +103,7 @@ class _EditTableSetupState extends State<EditTableSetup> {
                       );
                     })),
                 CustomDropDownButton(
+                  avatarInitials: "S",
                   hintText: "Select Section",
                   label: "Section",
                   value: sectionId,

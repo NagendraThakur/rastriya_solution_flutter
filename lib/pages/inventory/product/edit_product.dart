@@ -95,6 +95,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomDropDownButton(
+                  avatarInitials: "U",
                   hintText: "Choose Unit",
                   label: "Unit",
                   value: unitId,
@@ -112,12 +113,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   }).toList(),
                 ),
                 secondComponent: CustomDropDownButton(
+                    avatarInitials: "V",
                     hintText: "Choose Vat",
                     label: "VAT Percentage",
                     value: vatPercentage,
                     padding: const EdgeInsets.only(top: 20),
                     onChanged: (String value) {
-                      vatPercentage = value;
+                      setState(() {
+                        vatPercentage = value;
+                      });
                     },
                     items: const [
                       DropdownMenuItem(value: "0", child: Text("0 %")),
@@ -125,6 +129,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ]),
               ),
               CustomDropDownButton(
+                avatarInitials: "C",
                 hintText: "Choose Category",
                 label: "Category",
                 value: categoryId,

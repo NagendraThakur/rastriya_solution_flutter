@@ -93,6 +93,7 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
                   },
                 ),
                 CustomDropDownButton(
+                  avatarInitials: "L",
                   hintText: "Select Legder",
                   label: "Ledger",
                   value: ledgerCode,
@@ -108,6 +109,7 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
                   }).toList(),
                 ),
                 CustomDropDownButton(
+                    avatarInitials: "P",
                     hintText: "Select Payment Type",
                     label: "Type",
                     value: paymentType,

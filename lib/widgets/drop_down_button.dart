@@ -1,39 +1,36 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 
-class CustomDropDownButton extends StatefulWidget {
+class CustomDropDownButton extends StatelessWidget {
   final String label;
   String? value;
   final Function(String) onChanged;
   final List<DropdownMenuItem<String>>? items;
-  final String? hintText;
+  final String hintText;
   final EdgeInsetsGeometry? padding;
+  final String avatarInitials;
 
   CustomDropDownButton({
-    Key? key,
     required this.label,
     required this.value,
     required this.onChanged,
-    this.padding,
     this.items,
-    this.hintText,
-  }) : super(key: key);
+    required this.hintText,
+    this.padding,
+    required this.avatarInitials,
+  });
 
-  @override
-  State<CustomDropDownButton> createState() => _GeneralDropDownButtonState();
-}
-
-class _GeneralDropDownButtonState extends State<CustomDropDownButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
+    return GestureDetector(
+      onTap: () {
+        _showBottomSheet(context);
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(widget.label, style: kBodyRegularTextStyle1),
+          Text(label, style: kBodyRegularTextStyle1),
           Container(
             height: 38,
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -41,30 +38,69 @@ class _GeneralDropDownButtonState extends State<CustomDropDownButton> {
               border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(5),
             ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                elevation: 2,
-                icon: const Icon(CupertinoIcons.chevron_down),
-                iconSize: 15,
-                value: widget.value,
-                borderRadius: BorderRadius.circular(10),
-                isDense: true,
-                menuMaxHeight: 400,
-                onChanged: (String? value) {
-                  setState(() {
-                    widget.value = value!;
-                    widget.onChanged(widget.value!);
-                  });
-                },
-                items: widget.items,
-                hint: widget.hintText != null ? Text(widget.hintText!) : null,
-                style: const TextStyle(
-                    fontFamily: 'Manrope', fontSize: 13, color: Colors.grey),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                value != null ? _getItemChild(value!) : Text(hintText),
+                const Icon(Icons.arrow_drop_down),
+              ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _getItemChild(String value) {
+    // Find the DropdownMenuItem corresponding to the selected value
+    var selectedItem = items!.firstWhere((item) => item.value == value);
+    // Return the child of the selected DropdownMenuItem
+    return selectedItem.child!;
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      scrollControlDisabledMaxHeightRatio: 0.9,
+      shape: const RoundedRectangleBorder(
+        // <-- SEE HERE
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10.0),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var item in items!)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    child: ListTile(
+                      onTap: () {
+                        value = item.value;
+                        onChanged(value!);
+                        Navigator.pop(context);
+                      },
+                      leading: CircleAvatar(
+                          backgroundColor: item.value == value
+                              ? Colors.blue
+                              : Colors.grey.shade400,
+                          child: Text(avatarInitials)),
+                      title: item.child,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

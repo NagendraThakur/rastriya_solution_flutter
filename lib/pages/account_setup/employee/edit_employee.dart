@@ -67,12 +67,15 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 ),
               ),
               CustomDropDownButton(
+                  avatarInitials: "A",
                   hintText: "Choose Authority",
                   label: "POS",
                   value: posting,
                   padding: const EdgeInsets.only(top: 20),
                   onChanged: (String value) {
-                    posting = value;
+                    setState(() {
+                      posting = value;
+                    });
                   },
                   items: const [
                     DropdownMenuItem(
@@ -82,12 +85,12 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                         child: Text("Take Order & Save Bill")),
                   ]),
               CustomDropDownButton(
+                avatarInitials: "S",
                 hintText: "Choose Store",
                 label: "Store",
                 value: storeId,
                 padding: const EdgeInsets.only(top: 20),
                 onChanged: (String value) {
-                  print(value);
                   setState(() {
                     storeId = value;
                   });
@@ -100,6 +103,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 }).toList(),
               ),
               CustomDropDownButton(
+                avatarInitials: "T",
                 hintText: "Choose Terminal",
                 label: "Terminal",
                 value: terminalId,

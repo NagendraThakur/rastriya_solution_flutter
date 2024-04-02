@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -11,23 +10,24 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final String? labelText;
   final TextInputType? textInputType;
-  final TextStyle? style;
+  final TextStyle? textStyle;
   final bool? enabled;
   final bool? autofocus;
   final TextAlign? textAlign;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
-  final String? Function(String?)? onChanged;
-  final String? Function(String?)? onFieldSubmitted;
+  final void Function(String?)? onChanged;
+  final void Function(String?)? onFieldSubmitted;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final double? topPadding;
-  final InputDecoration? inputDecoration;
-  final InputBorder? inputBorder;
+  final InputDecoration? decoration;
   final EdgeInsetsGeometry? padding;
+  final bool? filled;
+  final bool? required;
 
   const CustomTextField({
-    super.key,
+    Key? key,
     this.focusNode,
     this.icon,
     this.hintText,
@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
     this.width,
     this.controller,
     this.validator,
-    this.style,
+    this.textStyle,
     this.textAlign,
     this.onChanged,
     this.onFieldSubmitted,
@@ -47,10 +47,11 @@ class CustomTextField extends StatelessWidget {
     this.height,
     this.prefixIcon,
     this.topPadding,
-    this.inputDecoration,
-    this.inputBorder,
+    this.decoration,
     this.padding,
-  });
+    this.filled = true,
+    this.required = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +64,27 @@ class CustomTextField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            labelText != null
-                ? Text(labelText!, style: kBodyRegularTextStyle1)
-                : const SizedBox.shrink(),
+            if (labelText != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: RichText(
+                  text: TextSpan(
+                    style: kBodyRegularTextStyle1.copyWith(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: labelText!,
+                      ),
+                      if (required!)
+                        const TextSpan(
+                          text: "*",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
             TextFormField(
               autofocus: autofocus ?? false,
               focusNode: focusNode,
@@ -73,24 +92,38 @@ class CustomTextField extends StatelessWidget {
               enabled: enabled ?? true,
               obscureText: obscureText ?? false,
               keyboardType: textInputType ?? TextInputType.text,
-              style: style ??
+              style: textStyle ??
                   const TextStyle(
-                      fontFamily: 'Manrope', fontSize: 13, color: Colors.grey),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Manrope',
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
               validator: validator,
               onChanged: onChanged,
               onFieldSubmitted: onFieldSubmitted,
               textAlign: textAlign ?? TextAlign.left,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(8),
-                  border: inputBorder ?? const OutlineInputBorder(),
-                  isDense: true,
-                  hintText: hintText,
-                  suffixIcon: suffixIcon,
-                  prefixIcon: prefixIcon),
+              decoration: decoration ?? _buildInputDecoration(),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  InputDecoration _buildInputDecoration() {
+    return InputDecoration(
+      filled: filled ?? false,
+      fillColor: Colors.grey.shade200,
+      contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      isDense: true,
+      hintText: hintText,
+      suffixIcon: suffixIcon,
+      prefixIcon: prefixIcon,
     );
   }
 }

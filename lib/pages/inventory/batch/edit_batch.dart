@@ -67,6 +67,7 @@ class _EditBatchScreenState extends State<EditBatchScreen> {
               controller: batchName,
             ),
             CustomDropDownButton(
+              avatarInitials: "P",
               hintText: "Choose Product",
               label: "Product",
               value: productId,

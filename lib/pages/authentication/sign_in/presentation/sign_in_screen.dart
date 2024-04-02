@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/helper/dialog_utility.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/cubit/sign_in_cubit.dart';
+import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
@@ -29,7 +31,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero, () {
       if (Config.userAuthenticationToken != null &&
@@ -76,9 +77,10 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    verticalSpaceMassive,
                     Text(
                       "Hey",
-                      style: kHeading2TextStyle,
+                      style: kHeading1TextStyle,
                     ),
                     RichText(
                       text: TextSpan(
@@ -110,7 +112,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       labelText: "Email",
                       hintText: "Enter Email",
                       controller: emailController,
-                      prefixIcon: const Icon(Icons.email_outlined),
+                      // inputBorder: InputBorder.none,
+                      filled: false,
+                      prefixIcon: const Icon(CupertinoIcons.mail),
                       validator: (value) {
                         final emailRegex = RegExp(
                             r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
@@ -127,7 +131,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       hintText: "Enter Password",
                       controller: passwordController,
                       obscureText: !isPasswordVisible,
-                      prefixIcon: const Icon(Icons.password),
+                      filled: false,
+                      prefixIcon: const Icon(CupertinoIcons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
                           isPasswordVisible

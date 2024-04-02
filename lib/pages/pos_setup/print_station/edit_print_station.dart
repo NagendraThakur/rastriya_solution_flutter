@@ -75,6 +75,7 @@ class _EditPrintStationState extends State<EditPrintStation> {
               middleSpace: true,
               horizontalPadding: 0,
               firstComponent: CustomDropDownButton(
+                  avatarInitials: "S",
                   hintText: "Select size",
                   label: "Print Size",
                   value: orderPrinterSize,
@@ -87,6 +88,7 @@ class _EditPrintStationState extends State<EditPrintStation> {
                     DropdownMenuItem(value: "3", child: Text("3 inch")),
                   ]),
               secondComponent: CustomDropDownButton(
+                  avatarInitials: "E",
                   hintText: "Select End Gap",
                   label: "End Gap Size",
                   value: endGapSized,

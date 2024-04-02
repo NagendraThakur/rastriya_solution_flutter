@@ -58,14 +58,17 @@ class _TerminalEditScreenState extends State<TerminalEditScreen> {
                 labelText: "Terminal Name",
                 hintText: "Enter Terminal Name",
                 controller: terminalName,
+                required: true,
               ),
               secondComponent: CustomTextField(
                 labelText: "Printer Name",
                 hintText: "Enter Printer Name",
                 controller: printerName,
+                required: true,
               ),
             ),
             CustomDropDownButton(
+              avatarInitials: "S",
               hintText: "Choose Store",
               label: "Store",
               value: storeId,

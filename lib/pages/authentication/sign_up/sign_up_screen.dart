@@ -92,16 +92,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                verticalSpaceLarge,
+                verticalSpaceMassive,
                 Text(
                   "Let's start,",
                   style: kHeading2TextStyle,
                 ),
                 RichText(
                   text: TextSpan(
-                    style: kHeading2TextStyle,
+                    style: kHeading1TextStyle,
                     children: const [
                       TextSpan(
                         text: "with ",
@@ -125,7 +124,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   labelText: "Email",
                   hintText: "Enter Email",
                   controller: emailController,
-                  prefixIcon: const Icon(Icons.email_outlined),
+                  filled: false,
+                  prefixIcon: const Icon(CupertinoIcons.mail),
                   validator: (value) {
                     final emailRegex = RegExp(
                         r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
@@ -142,7 +142,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintText: "Enter Password",
                   controller: passwordController,
                   obscureText: !isPasswordVisible,
-                  prefixIcon: const Icon(Icons.password),
+                  prefixIcon: const Icon(CupertinoIcons.lock),
+                  filled: false,
                   suffixIcon: IconButton(
                     icon: Icon(
                       isPasswordVisible
