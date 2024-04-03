@@ -22,9 +22,9 @@ class AccountSetupScreen extends StatelessWidget {
           pushNamed: "/store_setup_list"),
       ComponentButtonModel(
           svgPath: "assets/svg/account_setting.svg",
-          label: "Account Setting",
-          description: "Account Setting Description",
-          pushNamed: "/account_setting"),
+          label: "Company Setting",
+          description: "Company Setting Description",
+          pushNamed: "/edit_account_setting"),
       ComponentButtonModel(
           svgPath: "assets/svg/employee.svg",
           label: "Staff",

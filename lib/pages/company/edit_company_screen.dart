@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/data/repository/post_repository.dart';
 import 'package:rastriya_solution_flutter/helper/dialog_utility.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
-import 'package:rastriya_solution_flutter/model/fiscal_year_model.dart';
 import 'package:rastriya_solution_flutter/pages/company/cubit/company_cubit.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
-import 'package:rastriya_solution_flutter/widgets/container.dart';
 import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:toastification/toastification.dart';
@@ -182,12 +180,9 @@ class _EditCompanyScreenState extends State<EditCompanyScreen> {
                           industyId = value;
                         },
                         items: const [
-                          DropdownMenuItem(value: "2", child: Text("Retail")),
+                          DropdownMenuItem(value: "1", child: Text("Retail")),
                           DropdownMenuItem(
-                              value: "1", child: Text("Restaurant")),
-                          DropdownMenuItem(value: "1", child: Text("Cafe")),
-                          DropdownMenuItem(value: "1", child: Text("Hotel")),
-                          DropdownMenuItem(value: "1", child: Text("Saloon")),
+                              value: "2", child: Text("Restaurant")),
                         ]),
                     CustomDropDownButton(
                       avatarInitials: "F",

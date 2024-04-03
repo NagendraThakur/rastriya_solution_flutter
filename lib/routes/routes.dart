@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/model/batch_model.dart';
 import 'package:rastriya_solution_flutter/model/brand_model.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
@@ -13,6 +14,8 @@ import 'package:rastriya_solution_flutter/model/store_model.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/model/terminal_model.dart';
 import 'package:rastriya_solution_flutter/model/unit_model.dart';
+import 'package:rastriya_solution_flutter/pages/account_setup/account_setting/cubit/account_setting_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/account_setup/account_setting/edit_account_setting.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/account_setup_screen.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/employee/edit_employee.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/employee/employee_list.dart';
@@ -71,6 +74,12 @@ class Routes {
             builder: (context) => const CompanyListScreen());
       case "/edit_company":
         return MaterialPageRoute(builder: (context) => EditCompanyScreen());
+      case "/edit_account_setting":
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                  create: (context) => AccountSettingCubit(),
+                  child: const EditAccountSetting(),
+                ));
       case "/splash":
         return MaterialPageRoute(builder: (context) => const SplashScreen());
       case "/sign_in":

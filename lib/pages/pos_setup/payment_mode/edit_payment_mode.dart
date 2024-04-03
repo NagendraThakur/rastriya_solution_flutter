@@ -130,6 +130,7 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
         },
       ),
       bottomNavigationBar: CustomButton(
+          horizontalPadding: 10,
           buttonText: "Save",
           onPressed: () {
             if (ledgerCode == null || paymentType == null) {
