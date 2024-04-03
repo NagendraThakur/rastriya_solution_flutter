@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/brand_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/brand/cubit/brand_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -53,11 +54,27 @@ class _BrandListScreenState extends State<BrandListScreen> {
           ),
           body: state.isFetching == true
               ? const CustomShimmer()
-              : SingleChildScrollView(
-                  child: CustomDataTable(
-                      columnNames: const ["Name"],
-                      createRow: createRow(data: state.brandList)),
-                ),
+              : ListView.builder(
+                  itemCount: state.brandList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    BrandModel brand = state.brandList![index];
+                    return ListViewContainer(
+                        child: ListTile(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed("/edit_brand", arguments: brand);
+                      },
+                      leading: CircleAvatar(
+                          child:
+                              Text(brand.name.substring(0, 1).toUpperCase())),
+                      title: Text(brand.name.toUpperCase()),
+                    ));
+                  }),
+          // : SingleChildScrollView(
+          //     child: CustomDataTable(
+          //         columnNames: const ["Name"],
+          //         createRow: createRow(data: state.brandList)),
+          //   ),
           floatingActionButton: FloatingActionButton.extended(
               icon: const Icon(CupertinoIcons.add),
               label: Text(

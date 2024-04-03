@@ -107,103 +107,115 @@ class _EditCompanyScreenState extends State<EditCompanyScreen> {
         title: const Text("Create Company"),
         leading: const CupertinoNavigationBarBackButton(),
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                CustomTextField(
-                  topPadding: 0,
-                  labelText: "Company Name",
-                  hintText: "Your Compan Name",
-                  controller: name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Company Name cannot be empty";
-                    }
-                    return null;
-                  },
+      body: BlocBuilder<CompanyCubit, CompanyState>(
+        builder: (context, state) {
+          if (state is LoadingState) {
+            return Container();
+          }
+          return SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    CustomTextField(
+                      required: true,
+                      topPadding: 0,
+                      labelText: "Company Name",
+                      hintText: "Your Compan Name",
+                      controller: name,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Company Name cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomTextField(
+                      required: true,
+                      labelText: "Company Contact",
+                      hintText: "Your Company Contact",
+                      controller: phone,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Company Contact cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomTextField(
+                      required: true,
+                      labelText: "Company Email",
+                      hintText: "Your Company Email",
+                      controller: email,
+                      validator: (value) {
+                        final emailRegex = RegExp(
+                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+                        if (value!.isEmpty) {
+                          return "Email cannot be empty";
+                        } else if (!emailRegex.hasMatch(value)) {
+                          return "Email must be valid";
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomTextField(
+                      required: true,
+                      labelText: "Company Address",
+                      hintText: "Your Company Address",
+                      controller: address,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Company Address cannot be empty";
+                        }
+                        return null;
+                      },
+                    ),
+                    CustomDropDownButton(
+                        avatarInitials: "C",
+                        hintText: "Choose Category",
+                        label: "Company Category",
+                        value: industyId,
+                        padding: const EdgeInsets.only(top: 20),
+                        onChanged: (String value) {
+                          industyId = value;
+                        },
+                        items: const [
+                          DropdownMenuItem(value: "2", child: Text("Retail")),
+                          DropdownMenuItem(
+                              value: "1", child: Text("Restaurant")),
+                          DropdownMenuItem(value: "1", child: Text("Cafe")),
+                          DropdownMenuItem(value: "1", child: Text("Hotel")),
+                          DropdownMenuItem(value: "1", child: Text("Saloon")),
+                        ]),
+                    CustomDropDownButton(
+                      avatarInitials: "F",
+                      hintText: "Choose Fiscal Year",
+                      label: "Fiscal Year",
+                      value: fisalYearId,
+                      padding: const EdgeInsets.only(top: 20),
+                      onChanged: (String value) {
+                        setState(() {
+                          fisalYearId = value;
+                        });
+                      },
+                      items: (BlocProvider.of<CompanyCubit>(context).state
+                              as LoadedState)
+                          .fiscalYearList
+                          ?.map((fiscalYear) {
+                        return DropdownMenuItem<String>(
+                          value: fiscalYear.id,
+                          child: Text(fiscalYear.name),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
-                CustomTextField(
-                  labelText: "Company Contact",
-                  hintText: "Your Company Contact",
-                  controller: phone,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Company Contact cannot be empty";
-                    }
-                    return null;
-                  },
-                ),
-                CustomTextField(
-                  labelText: "Company Email",
-                  hintText: "Your Company Email",
-                  controller: email,
-                  validator: (value) {
-                    final emailRegex = RegExp(
-                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
-                    if (value!.isEmpty) {
-                      return "Email cannot be empty";
-                    } else if (!emailRegex.hasMatch(value)) {
-                      return "Email must be valid";
-                    }
-                    return null;
-                  },
-                ),
-                CustomTextField(
-                  labelText: "Company Address",
-                  hintText: "Your Company Address",
-                  controller: address,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Company Address cannot be empty";
-                    }
-                    return null;
-                  },
-                ),
-                CustomDropDownButton(
-                    avatarInitials: "C",
-                    hintText: "Choose Category",
-                    label: "Company Category",
-                    value: industyId,
-                    padding: const EdgeInsets.only(top: 20),
-                    onChanged: (String value) {
-                      industyId = value;
-                    },
-                    items: const [
-                      DropdownMenuItem(value: "2", child: Text("Retail")),
-                      DropdownMenuItem(value: "1", child: Text("Restaurant")),
-                      DropdownMenuItem(value: "1", child: Text("Cafe")),
-                      DropdownMenuItem(value: "1", child: Text("Hotel")),
-                      DropdownMenuItem(value: "1", child: Text("Saloon")),
-                    ]),
-                CustomDropDownButton(
-                  avatarInitials: "F",
-                  hintText: "Choose Fiscal Year",
-                  label: "Fiscal Year",
-                  value: fisalYearId,
-                  padding: const EdgeInsets.only(top: 20),
-                  onChanged: (String value) {
-                    setState(() {
-                      fisalYearId = value;
-                    });
-                  },
-                  items: (BlocProvider.of<CompanyCubit>(context).state
-                          as LoadedState)
-                      .fiscalYearList
-                      ?.map((fiscalYear) {
-                    return DropdownMenuItem<String>(
-                      value: fiscalYear.id,
-                      child: Text(fiscalYear.name),
-                    );
-                  }).toList(),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
       bottomNavigationBar: CustomButton(
           horizontalPadding: 20,

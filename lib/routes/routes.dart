@@ -101,8 +101,11 @@ class Routes {
             builder: (context) => const StoreSetupListScreen());
 
       case "/edit_store_setup":
+        final StoreModel? store = settings.arguments as StoreModel?;
         return MaterialPageRoute(
-            builder: (context) => const EditStoreSetupScreen());
+            builder: (context) => EditStoreSetupScreen(
+                  store: store,
+                ));
 
       case "/employee_list":
         return MaterialPageRoute(

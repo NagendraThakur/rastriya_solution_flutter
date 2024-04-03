@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/helper/toast.dart';
@@ -54,9 +55,10 @@ class _EditLoyaltyMemberScreenState extends State<EditLoyaltyMemberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const CloseButton(),
-        title: const Text("Create Loyalty Member"),
-        elevation: 2,
+        leading: const CupertinoNavigationBarBackButton(),
+        title: Text(widget.loyaltyMember == null
+            ? "Create Loyalty Member"
+            : "Edit Loyalty Member"),
       ),
       body: Form(
         key: _formKey,
@@ -65,6 +67,7 @@ class _EditLoyaltyMemberScreenState extends State<EditLoyaltyMemberScreen> {
           child: Column(
             children: [
               CustomTextField(
+                required: true,
                 labelText: "Name",
                 controller: name,
                 validator: (value) {
@@ -78,6 +81,7 @@ class _EditLoyaltyMemberScreenState extends State<EditLoyaltyMemberScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Contact Number",
                   controller: phone,
                   textInputType: TextInputType.number,
@@ -91,6 +95,7 @@ class _EditLoyaltyMemberScreenState extends State<EditLoyaltyMemberScreen> {
                   },
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Email",
                   controller: email,
                   textInputType: TextInputType.number,

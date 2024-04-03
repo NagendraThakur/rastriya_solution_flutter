@@ -8,6 +8,7 @@ import 'package:rastriya_solution_flutter/pages/account_setup/store_setup/cubit/
 import 'package:rastriya_solution_flutter/pages/account_setup/terminal/cubit/terminal_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -53,19 +54,43 @@ class _StoreSetupListScreenState extends State<StoreSetupListScreen> {
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: CustomDataTable(columnNames: const [
-                        "Store Name",
-                        "Store Address",
-                        "Store Contact",
-                        "Store Email",
-                        "Owner Name",
-                        "Owner Contact"
-                      ], createRow: createRow(state.storeList)),
-                    ),
-                  ),
+                : ListView.builder(
+                    itemCount: state.storeList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      StoreModel store = state.storeList[index];
+                      return ListViewContainer(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).pushNamed("/edit_store_setup",
+                                arguments: store);
+                          },
+                          leading: CircleAvatar(
+                            child: Text(
+                              store.name!.substring(0, 1).toUpperCase(),
+                            ),
+                          ),
+                          title: Text(store.name!.toUpperCase()),
+                          subtitle: Text("${store.address},${store.phone}"),
+                          trailing: Text(
+                            "${store.contactPersonName}\n${store.contactPersonPhone}",
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      );
+                    }),
+            // : SingleChildScrollView(
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 10),
+            //       child: CustomDataTable(columnNames: const [
+            //         "Store Name",
+            //         "Store Address",
+            //         "Store Contact",
+            //         "Store Email",
+            //         "Owner Name",
+            //         "Owner Contact"
+            //       ], createRow: createRow(state.storeList)),
+            //     ),
+            //   ),
             floatingActionButton: FloatingActionButton.extended(
                 icon: const Icon(CupertinoIcons.add),
                 label: Text(
@@ -81,42 +106,42 @@ class _StoreSetupListScreenState extends State<StoreSetupListScreen> {
     );
   }
 
-  List<DataRow> createRow(List<StoreModel> data) {
-    return data.map((StoreModel item) {
-      return DataRow(
-        selected: false,
-        cells: [
-          DataCell(Text(
-            item.name ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.address ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.phone ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.email ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.contactPersonName ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.contactPersonPhone ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-        ],
-        onSelectChanged: (value) async {
-          Navigator.of(context).pushNamed(
-            "/edit_store_setup",
-          );
-        },
-      );
-    }).toList();
-  }
+  // List<DataRow> createRow(List<StoreModel> data) {
+  //   return data.map((StoreModel item) {
+  //     return DataRow(
+  //       selected: false,
+  //       cells: [
+  //         DataCell(Text(
+  //           item.name ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.address ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.phone ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.email ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.contactPersonName ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.contactPersonPhone ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //       ],
+  //       onSelectChanged: (value) async {
+  //         Navigator.of(context).pushNamed(
+  //           "/edit_store_setup",
+  //         );
+  //       },
+  //     );
+  //   }).toList();
+  // }
 }

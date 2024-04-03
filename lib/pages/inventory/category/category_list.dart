@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/category_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/category/cubit/category_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -52,17 +53,35 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: CustomDataTable(columnNames: const [
-                        "Name",
-                        "Platinum Discount",
-                        "Gold Discount",
-                        "Silver Discount",
-                      ], createRow: createRow(state.categoryList)),
-                    ),
-                  ),
+                : ListView.builder(
+                    itemCount: state.categoryList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      CategoryModel category = state.categoryList[index];
+                      return ListViewContainer(
+                          child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            "/edit_category",
+                            arguments: category,
+                          );
+                        },
+                        leading: CircleAvatar(
+                            child: Text(
+                                category.name.substring(0, 1).toUpperCase())),
+                        title: Text(category.name.toUpperCase()),
+                      ));
+                    }),
+            // : SingleChildScrollView(
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 10),
+            //       child: CustomDataTable(columnNames: const [
+            //         "Name",
+            //         "Platinum Discount",
+            //         "Gold Discount",
+            //         "Silver Discount",
+            //       ], createRow: createRow(state.categoryList)),
+            //     ),
+            //   ),
             floatingActionButton: FloatingActionButton.extended(
                 icon: const Icon(CupertinoIcons.add),
                 label: Text(

@@ -14,6 +14,7 @@ class PaymentModeCubit extends Cubit<PaymentModeState> {
   PaymentModeCubit() : super(PaymentModeState.initial());
 
   Future<void> savePaymentMode({required PaymentModeModel paymentMode}) async {
+    emit(state.copyWith(isLoading: true));
     dynamic body = {
       'name': paymentMode.name,
       'status': paymentMode.status ? 1 : 0,
@@ -32,15 +33,16 @@ class PaymentModeCubit extends Cubit<PaymentModeState> {
           editId: paymentMode.id!,
           body: body);
     }
+    emit(state.copyWith(isLoading: false));
 
     if (response["status"] == "success") {
       emit(state.copyWith(
         message: response["message"],
-        isLoading: false,
       ));
+      emit(state.copyWith(isLoading: false));
+      fetchPaymentMode();
     } else {
-      emit(state.copyWith(
-          message: 'Failed: ${response["message"]}', isLoading: false));
+      emit(state.copyWith(message: 'Failed: ${response["message"]}'));
     }
   }
 
@@ -92,9 +94,8 @@ class PaymentModeCubit extends Cubit<PaymentModeState> {
 
   // fetch payment modes for the view payment modes
   Future<void> fetchPaymentMode() async {
-    emit(state.copyWith(isLoading: true, message: ''));
-
     try {
+      emit(state.copyWith(isFetching: true));
       final response = await GetRepository().getRequest(
           path: GetRepository.paymentMode,
           additionalHeader: {"company-id": Config.companyInfo!.id});
@@ -105,13 +106,13 @@ class PaymentModeCubit extends Cubit<PaymentModeState> {
           paymentModeList: paymentModeData
               .map((json) => PaymentModeModel.fromJson(json))
               .toList(),
-          isLoading: false,
         ));
       } else {
-        emit(state.copyWith(message: 'Failed to fetch data', isLoading: false));
+        emit(state.copyWith(message: 'Failed to fetch data'));
       }
+      emit(state.copyWith(isFetching: false));
     } catch (e) {
-      emit(state.copyWith(message: 'Error: $e', isLoading: false));
+      emit(state.copyWith(message: 'Error: $e'));
     }
   }
 }

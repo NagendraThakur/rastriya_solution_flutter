@@ -14,10 +14,17 @@ class CustomShimmer extends StatelessWidget {
         itemCount: 12, // Adjust according to your needs
         itemBuilder: (context, index) {
           return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: 25,
+            ),
             title: Container(
-              width: double.infinity,
               height: 20,
-              color: Colors.white, // Or any other color you desire
+              color: Colors.grey,
+            ),
+            subtitle: Container(
+              height: 15,
+              color: Colors.grey,
             ),
           );
         },

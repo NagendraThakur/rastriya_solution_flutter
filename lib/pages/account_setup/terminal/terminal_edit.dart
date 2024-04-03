@@ -45,7 +45,8 @@ class _TerminalEditScreenState extends State<TerminalEditScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Create Terminal"),
+        title:
+            Text(widget.terminal == null ? "Create Terminal" : "Edit Terminal"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),

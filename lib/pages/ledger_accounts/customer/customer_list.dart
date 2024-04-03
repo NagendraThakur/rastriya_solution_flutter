@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/ledger_model.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/cubit/ledger_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -55,11 +56,30 @@ class _CustomerListState extends State<CustomerList> {
           ),
           body: state.isFetching == true
               ? const CustomShimmer()
-              : SingleChildScrollView(
-                  child: CustomDataTable(
-                      columnNames: const ["Code", "Name", "Phone", "Email"],
-                      createRow: createRow(data: state.ledgerList)),
-                ),
+              : ListView.builder(
+                  itemCount: state.ledgerList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    LedgerModel ledger = state.ledgerList![index];
+                    return ListViewContainer(
+                        child: ListTile(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed("/edit_customer", arguments: ledger);
+                      },
+                      leading: const CircleAvatar(child: Text("C")),
+                      title: Text(ledger.name),
+                      subtitle: ledger.billingPhone1 == null &&
+                              ledger.billingEmail == null
+                          ? null
+                          : Text(
+                              "${ledger.billingEmail ?? ""}${ledger.billingPhone1 ?? ""}"),
+                    ));
+                  }),
+          // : SingleChildScrollView(
+          //     child: CustomDataTable(
+          //         columnNames: const ["Code", "Name", "Phone", "Email"],
+          //         createRow: createRow(data: state.ledgerList)),
+          //   ),
           floatingActionButton: FloatingActionButton.extended(
               icon: const Icon(CupertinoIcons.add),
               label: Text(
@@ -73,24 +93,24 @@ class _CustomerListState extends State<CustomerList> {
     );
   }
 
-  List<DataRow>? createRow({required List<LedgerModel>? data}) {
-    if (data!.isEmpty) {
-      return null;
-    }
+  // List<DataRow>? createRow({required List<LedgerModel>? data}) {
+  //   if (data!.isEmpty) {
+  //     return null;
+  //   }
 
-    return data.map((LedgerModel ledger) {
-      return DataRow(
-        selected: false,
-        cells: [
-          DataCell(Text(ledger.code ?? "-")),
-          DataCell(Text(ledger.name)),
-          DataCell(Text(ledger.billingPhone1 ?? "-")),
-          DataCell(Text(ledger.billingEmail ?? "-")),
-        ],
-        onSelectChanged: (value) {
-          Navigator.of(context).pushNamed("/edit_customer", arguments: ledger);
-        },
-      );
-    }).toList();
-  }
+  //   return data.map((LedgerModel ledger) {
+  //     return DataRow(
+  //       selected: false,
+  //       cells: [
+  //         DataCell(Text(ledger.code ?? "-")),
+  //         DataCell(Text(ledger.name)),
+  //         DataCell(Text(ledger.billingPhone1 ?? "-")),
+  //         DataCell(Text(ledger.billingEmail ?? "-")),
+  //       ],
+  //       onSelectChanged: (value) {
+  //         Navigator.of(context).pushNamed("/edit_customer", arguments: ledger);
+  //       },
+  //     );
+  //   }).toList();
+  // }
 }

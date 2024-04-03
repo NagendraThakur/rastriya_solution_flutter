@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/unit_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/unit/cubit/unit_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -53,18 +54,33 @@ class _UnitListScreenState extends State<UnitListScreen> {
           ),
           body: state.isFetching == true
               ? const CustomShimmer()
-              : SingleChildScrollView(
-                  child: CustomDataTable(
-                      columnNames: const ["Name"],
-                      createRow: createRow(data: state.unitList)),
-                ),
+              : ListView.builder(
+                  itemCount: state.unitList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    UnitModel unit = state.unitList![index];
+                    return ListViewContainer(
+                        child: ListTile(
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed("/edit_unit", arguments: unit);
+                      },
+                      leading: CircleAvatar(
+                          child: Text(unit.name.substring(0, 1).toUpperCase())),
+                      title: Text(unit.name.toUpperCase()),
+                    ));
+                  }),
+          // : SingleChildScrollView(
+          //     child: CustomDataTable(
+          //         columnNames: const ["Name"],
+          //         createRow: createRow(data: state.unitList)),
+          //   ),
           floatingActionButton: FloatingActionButton.extended(
               icon: const Icon(CupertinoIcons.add),
               label: Text(
                 "Add Unit",
                 style: kSubtitleRegularTextStyle,
               ),
-              onPressed: () => Navigator.of(context).pushNamed("/edit_brand")),
+              onPressed: () => Navigator.of(context).pushNamed("/edit_unit")),
         );
       },
     );
@@ -74,7 +90,7 @@ class _UnitListScreenState extends State<UnitListScreen> {
     if (data!.isEmpty) {
       return null;
     }
-    print("i am not empty");
+
     return data.map((UnitModel item) {
       return DataRow(
         selected: false,

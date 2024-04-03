@@ -19,12 +19,22 @@ class EditUnitScreen extends StatefulWidget {
 
 class _EditUnitScreenState extends State<EditUnitScreen> {
   TextEditingController name = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.unit != null) {
+      name.text = widget.unit?.name ?? "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Create Brand"),
+        title: Text(widget.unit == null ? "Create Unit" : "Edit Unit"),
       ),
       body: CustomTextField(
         padding: const EdgeInsets.symmetric(horizontal: 10),

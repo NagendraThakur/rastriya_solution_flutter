@@ -53,7 +53,7 @@ class _EditVendorState extends State<EditVendor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Vendor"),
+        title: Text(widget.ledger == null ? "Create Vendor" : "Edit Vendor"),
         leading: const CupertinoNavigationBarBackButton(),
       ),
       body: Padding(
@@ -62,6 +62,7 @@ class _EditVendorState extends State<EditVendor> {
           child: Column(
             children: [
               CustomTextField(
+                required: true,
                 labelText: "Vendor Name",
                 hintText: "Enter Vendor Name",
                 controller: name,
@@ -70,6 +71,7 @@ class _EditVendorState extends State<EditVendor> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Phone Number",
                   hintText: "Enter Phone Number",
                   controller: phone,

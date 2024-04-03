@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 
 class CustomDropDownButton extends StatelessWidget {
   final String label;
@@ -30,7 +32,9 @@ class CustomDropDownButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
+          verticalSpaceRegular,
           Text(label, style: kBodyRegularTextStyle1),
+          verticalSpaceSmall,
           Container(
             height: 38,
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -70,18 +74,34 @@ class CustomDropDownButton extends StatelessWidget {
       ),
       builder: (BuildContext context) {
         return SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var item in items!)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(5),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                verticalSpaceTiny,
+                Container(
+                  height: 5,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                verticalSpaceSmall,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      label,
+                      style: kHeading3TextStyle,
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    const CloseButton()
+                  ],
+                ),
+                verticalSpaceSmall,
+                for (var item in items!)
+                  ListViewContainer(
                     child: ListTile(
                       onTap: () {
                         value = item.value;
@@ -95,9 +115,9 @@ class CustomDropDownButton extends StatelessWidget {
                           child: Text(avatarInitials)),
                       title: item.child,
                     ),
-                  ),
-                ),
-            ],
+                  )
+              ],
+            ),
           ),
         );
       },

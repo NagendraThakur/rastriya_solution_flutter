@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
@@ -11,6 +12,7 @@ import 'package:rastriya_solution_flutter/pages/authentication/sign_in/cubit/sig
 import 'package:rastriya_solution_flutter/pages/dashboard/portion/menu_card.dart';
 import 'package:rastriya_solution_flutter/shared/shared_pre.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
+import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 
 class DashboardScreen extends StatefulWidget {
   final CompanyModel companyInfo;
@@ -114,32 +116,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
           text: TextSpan(
             style: kHeading2TextStyle,
             children: [
-              const TextSpan(
+              TextSpan(
                 text: "Welcome\n",
                 style: TextStyle(
                   fontFamily: 'Manrope',
-                  color: Colors.blue,
+                  color: Colors.blue.shade800,
                 ),
               ),
               TextSpan(
                 text: "${userInfo.username}\n",
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Manrope',
-                  color: Colors.grey,
+                  color: Colors.grey.shade900,
                 ),
               ),
               TextSpan(
                 text: Config.storeInfo?.name ?? "",
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Manrope',
-                  color: Colors.grey,
+                  color: Colors.grey.shade900,
                 ),
               ),
               TextSpan(
                 text: "\n${Config.companyInfo?.companyName}",
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Manrope',
-                  color: Colors.grey,
+                  color: Colors.grey.shade900,
                   fontSize: 8,
                 ),
               ),
@@ -156,29 +158,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Text(
                 Config.terminalInfo?.terminalName ?? "Terminal: N/A",
-                style: kSmallRegularTextStyle,
+                style: kSmallRegularTextStyle.copyWith(color: Colors.black),
               ),
             ],
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: GridView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 100.0,
-            mainAxisExtent: 90,
-            mainAxisSpacing: 2,
-            crossAxisSpacing: 10,
+      body: Column(
+        children: [
+          Container(
+            height: 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              border: const Border(
+                bottom: BorderSide(
+                  color: Colors.blue,
+                  width: 2.0,
+                ),
+              ),
+            ),
+            child: null,
           ),
-          itemCount: menuList.length,
-          itemBuilder: (BuildContext context, int index) {
-            final menuItem = menuList[index];
-            return MenuCard(menuItem: menuItem);
-          },
-        ),
+          const CustomTextField(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            prefixIcon: Icon(CupertinoIcons.search),
+            hintText: "Search For Everything",
+            filled: false,
+            enabled: false,
+          ),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 100.0,
+              mainAxisExtent: 90,
+              mainAxisSpacing: 2,
+              crossAxisSpacing: 10,
+            ),
+            itemCount: menuList.length,
+            itemBuilder: (BuildContext context, int index) {
+              final menuItem = menuList[index];
+              return MenuCard(menuItem: menuItem);
+            },
+          ),
+        ],
       ),
     );
   }

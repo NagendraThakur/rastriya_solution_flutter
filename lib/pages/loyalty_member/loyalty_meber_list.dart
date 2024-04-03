@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/cubit/loyalty_member_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -53,14 +54,35 @@ class _LoyaltyMemberListState extends State<LoyaltyMemberList> {
           ),
           body: state.isFetching == true
               ? const CustomShimmer()
-              : SingleChildScrollView(
-                  child: CustomDataTable(columnNames: const [
-                    "Code",
-                    "Name",
-                    "Phone",
-                    "Email",
-                  ], createRow: createRow(data: state.loyaltyMemberList)),
-                ),
+              : ListView.builder(
+                  itemCount: state.loyaltyMemberList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    LoyaltyMemberModel loyaltyMember =
+                        state.loyaltyMemberList![index];
+                    return ListViewContainer(
+                      child: ListTile(
+                        onTap: () => Navigator.of(context).pushNamed(
+                            "/edit_loyalty_member",
+                            arguments: loyaltyMember),
+                        leading: CircleAvatar(
+                            child: Text(loyaltyMember.memberName
+                                .substring(0, 1)
+                                .toUpperCase())),
+                        title: Text(loyaltyMember.memberName.toUpperCase()),
+                        subtitle: Text(
+                            "${loyaltyMember.emailAddress?.toUpperCase() ?? ""} ${loyaltyMember.mobileNumber ?? ""}"),
+                        trailing: Text(loyaltyMember.memberCode ?? ""),
+                      ),
+                    );
+                  }),
+          // : SingleChildScrollView(
+          //     child: CustomDataTable(columnNames: const [
+          //       "Code",
+          //       "Name",
+          //       "Phone",
+          //       "Email",
+          //     ], createRow: createRow(data: state.loyaltyMemberList)),
+          //   ),
           floatingActionButton: FloatingActionButton.extended(
               icon: const Icon(CupertinoIcons.add),
               label: Text(
@@ -74,25 +96,25 @@ class _LoyaltyMemberListState extends State<LoyaltyMemberList> {
     );
   }
 
-  List<DataRow>? createRow({required List<LoyaltyMemberModel>? data}) {
-    if (data!.isEmpty) {
-      return null;
-    }
+  // List<DataRow>? createRow({required List<LoyaltyMemberModel>? data}) {
+  //   if (data!.isEmpty) {
+  //     return null;
+  //   }
 
-    return data.map((LoyaltyMemberModel loyaltyMember) {
-      return DataRow(
-        selected: false,
-        cells: [
-          DataCell(Text(loyaltyMember.memberCode ?? "-")),
-          DataCell(Text(loyaltyMember.memberName)),
-          DataCell(Text(loyaltyMember.mobileNumber ?? "-")),
-          DataCell(Text(loyaltyMember.emailAddress ?? "-")),
-        ],
-        onSelectChanged: (value) {
-          Navigator.of(context)
-              .pushNamed("/edit_loyalty_member", arguments: loyaltyMember);
-        },
-      );
-    }).toList();
-  }
+  //   return data.map((LoyaltyMemberModel loyaltyMember) {
+  //     return DataRow(
+  //       selected: false,
+  //       cells: [
+  //         DataCell(Text(loyaltyMember.memberCode ?? "-")),
+  //         DataCell(Text(loyaltyMember.memberName)),
+  //         DataCell(Text(loyaltyMember.mobileNumber ?? "-")),
+  //         DataCell(Text(loyaltyMember.emailAddress ?? "-")),
+  //       ],
+  //       onSelectChanged: (value) {
+  //         Navigator.of(context)
+  //             .pushNamed("/edit_loyalty_member", arguments: loyaltyMember);
+  //       },
+  //     );
+  //   }).toList();
+  // }
 }

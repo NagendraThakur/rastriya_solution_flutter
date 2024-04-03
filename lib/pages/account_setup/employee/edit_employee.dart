@@ -41,10 +41,27 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   bool rateChange = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.employee != null) {
+      email.text = widget.employee?.email ?? "";
+      nickName.text = widget.employee?.nickName ?? "";
+      posting = widget.employee?.documentPostingLevel;
+      storeId = widget.employee?.storeId;
+      terminalId = widget.employee?.terminalId;
+      admin = widget.employee?.isAdmin ?? false;
+      posUser = widget.employee?.posUser ?? false;
+      creditSales = widget.employee?.creditSales ?? false;
+      rateChange = widget.employee?.rateChange ?? false;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Staff"),
+        title: Text(widget.employee == null ? "Create Staff" : "Edit Staff"),
         leading: const CupertinoNavigationBarBackButton(),
       ),
       body: SingleChildScrollView(
@@ -56,11 +73,13 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Email",
                   hintText: "Your Staff Email",
                   controller: email,
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Nick Name",
                   hintText: "Your Staff Nick Name",
                   controller: nickName,

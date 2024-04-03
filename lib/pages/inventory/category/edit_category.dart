@@ -24,9 +24,9 @@ class EditCategoryScreen extends StatefulWidget {
 
 class _EditCategoryScreenState extends State<EditCategoryScreen> {
   TextEditingController name = TextEditingController();
-  TextEditingController platinum = TextEditingController();
-  TextEditingController gold = TextEditingController();
-  TextEditingController silver = TextEditingController();
+  TextEditingController platinum = TextEditingController(text: "0");
+  TextEditingController gold = TextEditingController(text: "0");
+  TextEditingController silver = TextEditingController(text: "0");
   TextEditingController seriesPrefix = TextEditingController();
   TextEditingController prefixFormat = TextEditingController();
   bool showInPos = true;
@@ -51,7 +51,8 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Create Category"),
+        title:
+            Text(widget.category == null ? "Create Category" : "Edit Category"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -62,6 +63,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Name",
                   hintText: "Your Category Name",
                   controller: name,
@@ -93,11 +95,13 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Series Prefix",
                   hintText: "Your series Prefix",
                   controller: seriesPrefix,
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Prefix Format",
                   hintText: "Your Prefix Format",
                   controller: prefixFormat,

@@ -33,11 +33,13 @@ class _EditPrintStationState extends State<EditPrintStation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    printerName.text = widget.printstation?.printerName ?? "";
-    printTitle.text = widget.printstation?.printTitle ?? "";
-    doubleCopy = widget.printstation?.doubleCopy == "0" ? false : true;
-    orderPrinterSize = widget.printstation?.orderPrintSizeInInch ?? "2";
-    endGapSized = widget.printstation?.endGapSizeInInch ?? "1";
+    if (widget.printstation != null) {
+      printerName.text = widget.printstation?.printerName ?? "";
+      printTitle.text = widget.printstation?.printTitle ?? "";
+      doubleCopy = widget.printstation?.doubleCopy == "0" ? false : true;
+      orderPrinterSize = widget.printstation?.orderPrintSizeInInch ?? "2";
+      endGapSized = widget.printstation?.endGapSizeInInch ?? "1";
+    }
   }
 
   @override
@@ -45,7 +47,9 @@ class _EditPrintStationState extends State<EditPrintStation> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Payment Mode"),
+        title: Text(widget.printstation == null
+            ? "Create Payment Mode"
+            : "Edit Payment Mode"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -55,10 +59,12 @@ class _EditPrintStationState extends State<EditPrintStation> {
                 middleSpace: true,
                 horizontalPadding: 0,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Name",
                   controller: printerName,
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Title",
                   controller: printTitle,
                 )),

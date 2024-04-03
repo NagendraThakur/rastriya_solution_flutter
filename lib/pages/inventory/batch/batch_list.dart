@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/batch_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/batch/cubit/batch_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -55,13 +56,33 @@ class _BatchListScreenState extends State<BatchListScreen> {
           ),
           body: state.isFetching == true
               ? const CustomShimmer()
-              : SingleChildScrollView(
-                  child: CustomDataTable(columnNames: const [
-                    "Batch Name",
-                    "Selling Price",
-                    "Product Name"
-                  ], createRow: createRow(data: state.batchList, state: state)),
-                ),
+              : ListView.builder(
+                  itemCount: state.batchList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    BatchModel batch = state.batchList[index];
+                    return ListViewContainer(
+                        child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/edit_batch",
+                            arguments: {
+                              "productList": state.productList,
+                              "batch": batch
+                            });
+                      },
+                      leading: const CircleAvatar(child: Text("B")),
+                      title: Text(batch.batchName.toUpperCase()),
+                      subtitle: Text(batch.productName ?? ""),
+                      trailing:
+                          Text("Rs ${batch.unitPrice.toStringAsFixed(2)}"),
+                    ));
+                  }),
+          // : SingleChildScrollView(
+          //     child: CustomDataTable(columnNames: const [
+          //       "Batch Name",
+          //       "Selling Price",
+          //       "Product Name"
+          //     ], createRow: createRow(data: state.batchList, state: state)),
+          //   ),
           floatingActionButton: FloatingActionButton.extended(
               icon: const Icon(CupertinoIcons.add),
               label: Text(
@@ -75,25 +96,25 @@ class _BatchListScreenState extends State<BatchListScreen> {
     );
   }
 
-  List<DataRow>? createRow(
-      {required List<BatchModel>? data, required BatchState state}) {
-    if (data!.isEmpty) {
-      return null;
-    }
+  // List<DataRow>? createRow(
+  //     {required List<BatchModel>? data, required BatchState state}) {
+  //   if (data!.isEmpty) {
+  //     return null;
+  //   }
 
-    return data.map((BatchModel item) {
-      return DataRow(
-        selected: false,
-        cells: [
-          DataCell(Text(item.batchName)),
-          DataCell(Text(item.unitPrice.toStringAsFixed(2))),
-          DataCell(Text(item.productName!)),
-        ],
-        onSelectChanged: (value) {
-          Navigator.of(context).pushNamed("/edit_batch",
-              arguments: {"productList": state.productList, "batch": item});
-        },
-      );
-    }).toList();
-  }
+  //   return data.map((BatchModel item) {
+  //     return DataRow(
+  //       selected: false,
+  //       cells: [
+  //         DataCell(Text(item.batchName)),
+  //         DataCell(Text(item.unitPrice.toStringAsFixed(2))),
+  //         DataCell(Text(item.productName!)),
+  //       ],
+  //       onSelectChanged: (value) {
+  //         Navigator.of(context).pushNamed("/edit_batch",
+  //             arguments: {"productList": state.productList, "batch": item});
+  //       },
+  //     );
+  //   }).toList();
+  // }
 }

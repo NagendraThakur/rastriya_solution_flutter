@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/employee_model.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/employee/cubit/employee_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -55,17 +56,45 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: CustomDataTable(columnNames: const [
-                        "Email",
-                        "Nick Name",
-                        "Assigned Store",
-                        "Assigned Terminal",
-                      ], createRow: createRow(state.employeeList, state)),
-                    ),
-                  ),
+                : ListView.builder(
+                    itemCount: state.employeeList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      EmployeeModel employee = state.employeeList[index];
+                      return ListViewContainer(
+                          child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            "/edit_employee",
+                            arguments: {
+                              "employee": employee,
+                              "terminalList": state.terminalList,
+                              "storeList": state.storeList
+                            },
+                          );
+                        },
+                        leading: CircleAvatar(
+                          child: Text(
+                              employee.nickName!.substring(0, 2).toUpperCase()),
+                        ),
+                        title: Text(employee.nickName!),
+                        subtitle: Text(employee.email ?? ""),
+                        trailing: Text(
+                          "${employee.storeName ?? ""}\n${employee.terminalName ?? ""}",
+                          textAlign: TextAlign.end,
+                        ),
+                      ));
+                    }),
+            // : SingleChildScrollView(
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 10),
+            //       child: CustomDataTable(columnNames: const [
+            //         "Email",
+            //         "Nick Name",
+            //         "Assigned Store",
+            //         "Assigned Terminal",
+            //       ], createRow: createRow(state.employeeList, state)),
+            //     ),
+            //   ),
             floatingActionButton: FloatingActionButton.extended(
                 icon: const Icon(CupertinoIcons.add),
                 label: Text(

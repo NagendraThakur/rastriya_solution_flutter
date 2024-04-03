@@ -43,14 +43,16 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    paymentMode = widget.paymentModeInfo;
-    status = paymentMode?.status ?? true;
-    id = paymentMode?.id;
-    imageId = paymentMode?.image;
-    imagePath = paymentMode?.imagePath;
-    name.text = paymentMode?.name ?? "";
-    ledgerCode = paymentMode?.ledgerCode;
-    paymentType = paymentMode?.type;
+    if (widget.paymentModeInfo != null) {
+      paymentMode = widget.paymentModeInfo;
+      status = paymentMode?.status ?? true;
+      id = paymentMode?.id;
+      imageId = paymentMode?.image;
+      imagePath = paymentMode?.imagePath;
+      name.text = paymentMode?.name ?? "";
+      ledgerCode = paymentMode?.ledgerCode;
+      paymentType = paymentMode?.type;
+    }
   }
 
   @override
@@ -59,19 +61,12 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 1,
-        title: const Text("Payment Mode"),
+        title: Text(widget.paymentModeInfo == null
+            ? "Create Payment Mode"
+            : "Edit Payment Mode"),
         leading: const CupertinoNavigationBarBackButton(),
       ),
-      body: BlocConsumer<PaymentModeCubit, PaymentModeState>(
-        listener: (context, state) {
-          // TODO: implement listener
-          if (state.isLoading == true) {
-            Future.delayed(
-                Duration.zero, () => DialogUtils.showProcessingDialog(context));
-          } else if (state.isLoading == false) {
-            Navigator.of(context).pop();
-          }
-        },
+      body: BlocBuilder<PaymentModeCubit, PaymentModeState>(
         builder: (context, state) {
           List<LedgerModel> ledgerList = state.ledgerList;
 
@@ -80,6 +75,7 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
             child: Column(
               children: [
                 CustomTextField(
+                  required: true,
                   labelText: "Name",
                   controller: name,
                 ),
@@ -99,7 +95,9 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
                   value: ledgerCode,
                   padding: const EdgeInsets.only(top: 20),
                   onChanged: (String value) {
-                    ledgerCode = value;
+                    setState(() {
+                      ledgerCode = value;
+                    });
                   },
                   items: ledgerList.map((LedgerModel ledger) {
                     return DropdownMenuItem<String>(
@@ -115,7 +113,9 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
                     value: paymentType,
                     padding: const EdgeInsets.only(top: 20),
                     onChanged: (String value) {
-                      paymentType = value;
+                      setState(() {
+                        paymentType = value;
+                      });
                     },
                     items: const [
                       DropdownMenuItem(value: "CASH", child: Text("CASH")),
@@ -132,11 +132,13 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
       bottomNavigationBar: CustomButton(
           buttonText: "Save",
           onPressed: () {
-            if (ledgerCode == null || paymentType == null || imageId == null) {
+            if (ledgerCode == null || paymentType == null) {
               showToastification(
-                  message: "invalid data",
+                  message: "Choose Ledger and Type Both",
                   context: context,
                   toastificationType: ToastificationType.warning);
+
+              return;
             }
             PaymentModeModel paymentMode = PaymentModeModel(
               id: id,
@@ -150,8 +152,10 @@ class _EditPaymentModeScreenState extends State<EditPaymentModeScreen> {
               amount: null,
             );
 
-            BlocProvider.of<PaymentModeCubit>(context)
-                .savePaymentMode(paymentMode: paymentMode);
+            Future.delayed(
+                Duration.zero,
+                () => BlocProvider.of<PaymentModeCubit>(context)
+                    .savePaymentMode(paymentMode: paymentMode));
           }),
     );
   }

@@ -29,11 +29,25 @@ class _EditStoreSetupScreenState extends State<EditStoreSetupScreen> {
   TextEditingController ownerContact = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.store != null) {
+      storeName.text = widget.store?.name ?? "";
+      storeAddress.text = widget.store?.address ?? "";
+      storeContact.text = widget.store?.phone ?? "";
+      storeEmail.text = widget.store?.email ?? "";
+      ownerName.text = widget.store?.contactPersonName ?? "";
+      ownerContact.text = widget.store?.contactPersonPhone ?? "";
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Create Store"),
+        title: Text(widget.store == null ? "Create Store" : "Edit Store"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -41,6 +55,7 @@ class _EditStoreSetupScreenState extends State<EditStoreSetupScreen> {
           child: Column(
             children: [
               CustomTextField(
+                required: true,
                 labelText: "Store Name",
                 hintText: "Enter Store Name",
                 controller: storeName,
@@ -49,17 +64,20 @@ class _EditStoreSetupScreenState extends State<EditStoreSetupScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Store Address",
                   hintText: "Enter Store Address",
                   controller: storeAddress,
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Store Contact",
                   hintText: "Enter Store Contact",
                   controller: storeContact,
                 ),
               ),
               CustomTextField(
+                required: true,
                 labelText: "Store Email",
                 hintText: "Enter Store Email",
                 controller: storeEmail,
@@ -68,11 +86,13 @@ class _EditStoreSetupScreenState extends State<EditStoreSetupScreen> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Owner Name",
                   hintText: "Enter Owner Name",
                   controller: ownerName,
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Owner Contact",
                   hintText: "Enter Owner Contact",
                   controller: ownerContact,

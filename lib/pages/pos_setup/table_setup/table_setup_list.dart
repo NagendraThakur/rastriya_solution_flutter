@@ -6,6 +6,8 @@ import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/cubit/table_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
+import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 
 class TableSetupList extends StatefulWidget {
   const TableSetupList({Key? key}) : super(key: key);
@@ -35,15 +37,36 @@ class _TableSetupListState extends State<TableSetupList> {
       return Scaffold(
         appBar: AppBar(
           title: const Text("Table"),
-          elevation: 1,
-          leading: const CloseButton(),
+          leading: const CupertinoNavigationBarBackButton(),
         ),
-        body: CustomDataTable(columnNames: const [
-          "Name",
-          "Status",
-          "Availability",
-          "Capacity",
-        ], createRow: createRow((state.tableList))),
+        body: state.isFetching == true
+            ? const CustomShimmer()
+            : ListView.builder(
+                itemCount: state.tableList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  TableModel table = state.tableList[index];
+                  return ListViewContainer(
+                      child: ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        "/edit_table",
+                        arguments: table,
+                      );
+                    },
+                    leading: CircleAvatar(
+                        child: Text(
+                            table.tableName.toUpperCase().substring(0, 1))),
+                    title: Text(table.tableName),
+                    subtitle: Text(table.section?.sectionName ?? ""),
+                    trailing: Text(table.availability),
+                  ));
+                }),
+        // body: CustomDataTable(columnNames: const [
+        //   "Name",
+        //   "Status",
+        //   "Availability",
+        //   "Capacity",
+        // ], createRow: createRow((state.tableList))),
         floatingActionButton: FloatingActionButton.extended(
             icon: const Icon(CupertinoIcons.add),
             label: Text(

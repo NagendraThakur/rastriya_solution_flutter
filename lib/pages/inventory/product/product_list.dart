@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/helper/dialog_utility.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
-import 'package:rastriya_solution_flutter/model/category_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
-import 'package:rastriya_solution_flutter/pages/inventory/category/cubit/category_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/cubit/product_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -57,19 +56,47 @@ class _ProductListScreenState extends State<ProductListScreen> {
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: CustomDataTable(columnNames: const [
-                        "Code",
-                        "Name",
-                        "Unit",
-                        "Purchase Cost",
-                        "Selling Price",
-                        "Category Name"
-                      ], createRow: createRow(state.productList, state)),
-                    ),
-                  ),
+                : ListView.builder(
+                    itemCount: state.productList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      ProductModel product = state.productList[index];
+                      return ListViewContainer(
+                          child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            "/edit_product",
+                            arguments: {
+                              "product": product,
+                              "categoryList": state.categoryList,
+                              "unitList": state.unitList
+                            },
+                          );
+                        },
+                        leading: CircleAvatar(
+                            child: Text(
+                                product.name.substring(0, 1).toUpperCase())),
+                        title: Text(
+                            "${product.name}(${product.baseUnitName ?? "-"})"),
+                        subtitle: Text(product.categoryName ?? ""),
+                        trailing: Text(
+                          "${product.productCode ?? ""}\nNrp${product.lastUnitPrice?.toStringAsFixed(2)}",
+                          textAlign: TextAlign.end,
+                        ),
+                      ));
+                    }),
+            // : SingleChildScrollView(
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 10),
+            //       child: CustomDataTable(columnNames: const [
+            //         "Code",
+            //         "Name",
+            //         "Unit",
+            //         "Purchase Cost",
+            //         "Selling Price",
+            //         "Category Name"
+            //       ], createRow: createRow(state.productList, state)),
+            //     ),
+            //   ),
             floatingActionButton: FloatingActionButton.extended(
                 icon: const Icon(CupertinoIcons.add),
                 label: Text(
@@ -89,47 +116,47 @@ class _ProductListScreenState extends State<ProductListScreen> {
     );
   }
 
-  List<DataRow> createRow(List<ProductModel> data, ProductState state) {
-    return data.map((ProductModel item) {
-      return DataRow(
-        selected: false,
-        cells: [
-          DataCell(Text(
-            item.productCode ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.name,
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.baseUnitName ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.lastUnitCost!.toStringAsFixed(2),
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.lastUnitPrice!.toStringAsFixed(2),
-            style: kBodyRegularTextStyle,
-          )),
-          DataCell(Text(
-            item.categoryName ?? "-",
-            style: kBodyRegularTextStyle,
-          )),
-        ],
-        onSelectChanged: (value) async {
-          Navigator.of(context).pushNamed(
-            "/edit_product",
-            arguments: {
-              "product": item,
-              "categoryList": state.categoryList,
-              "unitList": state.unitList
-            },
-          );
-        },
-      );
-    }).toList();
-  }
+  // List<DataRow> createRow(List<ProductModel> data, ProductState state) {
+  //   return data.map((ProductModel item) {
+  //     return DataRow(
+  //       selected: false,
+  //       cells: [
+  //         DataCell(Text(
+  //           item.productCode ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.name,
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.baseUnitName ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.lastUnitCost!.toStringAsFixed(2),
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.lastUnitPrice!.toStringAsFixed(2),
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //         DataCell(Text(
+  //           item.categoryName ?? "-",
+  //           style: kBodyRegularTextStyle,
+  //         )),
+  //       ],
+  //       onSelectChanged: (value) async {
+  //         Navigator.of(context).pushNamed(
+  //           "/edit_product",
+  //           arguments: {
+  //             "product": item,
+  //             "categoryList": state.categoryList,
+  //             "unitList": state.unitList
+  //           },
+  //         );
+  //       },
+  //     );
+  //   }).toList();
+  // }
 }

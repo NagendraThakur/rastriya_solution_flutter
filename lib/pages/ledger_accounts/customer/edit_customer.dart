@@ -53,7 +53,8 @@ class _EditCustomerState extends State<EditCustomer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Customer"),
+        title:
+            Text(widget.ledger == null ? "Create Customer" : "Edit Customer"),
         leading: const CupertinoNavigationBarBackButton(),
       ),
       body: Padding(
@@ -62,6 +63,7 @@ class _EditCustomerState extends State<EditCustomer> {
           child: Column(
             children: [
               CustomTextField(
+                required: true,
                 labelText: "Customer/Business Name",
                 hintText: "Enter Customer/Business Name",
                 controller: name,
@@ -70,6 +72,7 @@ class _EditCustomerState extends State<EditCustomer> {
                 horizontalPadding: 0,
                 middleSpace: true,
                 firstComponent: CustomTextField(
+                  required: true,
                   labelText: "Phone Number",
                   hintText: "Enter Phone Number",
                   controller: phone,

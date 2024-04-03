@@ -34,7 +34,7 @@ class _EditBatchScreenState extends State<EditBatchScreen> {
 
   TextEditingController lastUnitPrice = TextEditingController();
 
-  TextEditingController lastUnitCost = TextEditingController();
+  TextEditingController lastUnitCost = TextEditingController(text: "0");
 
   bool status = false;
 
@@ -55,13 +55,14 @@ class _EditBatchScreenState extends State<EditBatchScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Create Batch"),
+        title: Text(widget.batch == null ? "Create Batch" : "Edit Batch"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             CustomTextField(
+              required: true,
               labelText: "Name",
               hintText: "Your Batch Name",
               controller: batchName,
@@ -93,6 +94,7 @@ class _EditBatchScreenState extends State<EditBatchScreen> {
                 controller: lastUnitCost,
               ),
               secondComponent: CustomTextField(
+                required: true,
                 labelText: "Selling Price",
                 hintText: "Your Selling Price",
                 controller: lastUnitPrice,

@@ -14,6 +14,7 @@ class TableCubit extends Cubit<TableState> {
   TableCubit() : super(TableState.initial());
 
   Future<void> saveTable({required TableModel table}) async {
+    emit(state.copyWith(isLoading: true));
     dynamic response;
     if (table.id == null) {
       response = await PostRepository()
@@ -24,21 +25,17 @@ class TableCubit extends Cubit<TableState> {
           editId: table.id!.toString(),
           body: table.toJson());
     }
-
+    emit(state.copyWith(isLoading: false));
     if (response["status"] == "success") {
-      emit(state.copyWith(
-        message: response["message"],
-        isLoading: false,
-      ));
+      emit(state.copyWith(message: response["message"], isLoading: false));
       fetchTables();
     } else {
-      emit(state.copyWith(
-          message: 'Failed: ${response["message"]}', isLoading: false));
+      emit(state.copyWith(message: 'Failed: ${response["message"]}'));
     }
   }
 
   Future<void> fetchTables() async {
-    emit(state.copyWith(isLoading: true, message: ''));
+    emit(state.copyWith(isFetching: true));
 
     try {
       final response = await GetRepository().getRequest(
@@ -50,19 +47,17 @@ class TableCubit extends Cubit<TableState> {
         emit(state.copyWith(
           tableList:
               tableList.map((json) => TableModel.fromJson(json)).toList(),
-          isLoading: false,
         ));
       } else {
-        emit(state.copyWith(message: 'Failed to fetch data', isLoading: false));
+        emit(state.copyWith(message: 'Failed to fetch data'));
       }
+      emit(state.copyWith(isFetching: false));
     } catch (e) {
-      emit(state.copyWith(message: 'Error: $e', isLoading: false));
+      emit(state.copyWith(message: 'Error: $e'));
     }
   }
 
   Future<void> fetchSection() async {
-    emit(state.copyWith(isLoading: true, message: ''));
-
     try {
       final response = await GetRepository().getRequest(
           path: GetRepository.section,
@@ -73,14 +68,13 @@ class TableCubit extends Cubit<TableState> {
         emit(state.copyWith(
           sectionList:
               sectionList.map((json) => SectionModel.fromJson(json)).toList(),
-          isLoading: false,
         ));
         log(state.sectionList.length.toString());
       } else {
-        emit(state.copyWith(message: 'Failed to fetch data', isLoading: false));
+        emit(state.copyWith(message: 'Failed to fetch data'));
       }
     } catch (e) {
-      emit(state.copyWith(message: 'Error: $e', isLoading: false));
+      emit(state.copyWith(message: 'Error: $e'));
     }
   }
 }

@@ -34,13 +34,15 @@ class _EditTableSetupState extends State<EditTableSetup> {
     // TODO: implement initState
     super.initState();
     BlocProvider.of<TableCubit>(context).fetchSection();
-    name.text = widget.table?.tableName ?? "";
-    status = widget.table?.status == 0 ? false : true;
-    availability = widget.table?.availability ?? "Available";
-    capacity = widget.table?.guestCapacity != null
-        ? widget.table!.guestCapacity.toString()
-        : "1";
-    sectionId = widget.table?.sectionId;
+    if (widget.table != null) {
+      name.text = widget.table?.tableName ?? "";
+      status = widget.table?.status == 0 ? false : true;
+      availability = widget.table?.availability ?? "Available";
+      capacity = widget.table?.guestCapacity != null
+          ? widget.table!.guestCapacity.toString()
+          : "1";
+      sectionId = widget.table?.sectionId;
+    }
   }
 
   @override
@@ -48,7 +50,7 @@ class _EditTableSetupState extends State<EditTableSetup> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Table"),
+        title: Text(widget.table == null ? "Create Table" : "Edit Table"),
       ),
       body: BlocBuilder<TableCubit, TableState>(
         builder: (context, state) {
@@ -58,6 +60,7 @@ class _EditTableSetupState extends State<EditTableSetup> {
             child: Column(
               children: [
                 CustomTextField(
+                  required: true,
                   labelText: "Name",
                   controller: name,
                 ),

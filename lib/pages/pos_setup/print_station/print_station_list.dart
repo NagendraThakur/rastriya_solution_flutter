@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/cubit/print_station_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -50,11 +51,34 @@ class _PrintStationListState extends State<PrintStationList> {
         ),
         body: state.isFetching == true
             ? const CustomShimmer()
-            : CustomDataTable(columnNames: const [
-                "Print Title",
-                "Printer Name",
-                "Double Copy",
-              ], createRow: createRow((state.printStationList))),
+            : ListView.builder(
+                itemCount: state.printStationList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  PrintStationModel printStation =
+                      state.printStationList[index];
+                  return ListViewContainer(
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          "/edit_print_station",
+                          arguments: printStation,
+                        );
+                      },
+                      leading: CircleAvatar(
+                        child: Text(printStation.printTitle!
+                            .toUpperCase()
+                            .substring(0, 1)),
+                      ),
+                      title: Text(printStation.printTitle!.toUpperCase()),
+                      subtitle: Text(printStation.printerName ?? ""),
+                    ),
+                  );
+                }),
+        // : CustomDataTable(columnNames: const [
+        //     "Print Title",
+        //     "Printer Name",
+        //     "Double Copy",
+        //   ], createRow: createRow((state.printStationList))),
         floatingActionButton: FloatingActionButton.extended(
             icon: const Icon(CupertinoIcons.add),
             label: Text(

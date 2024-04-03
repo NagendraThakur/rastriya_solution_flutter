@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/cubit/payment_mode_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -52,10 +53,29 @@ class _PaymentModeListScreenState extends State<PaymentModeListScreen> {
         ),
         body: state.isFetching == true
             ? const CustomShimmer()
-            : CustomDataTable(
-                columnNames: const ["Name", "Status", "Type", "Ledger"],
-                createRow: paymentModeRow(
-                    context: context, data: state.paymentModeList)),
+            : ListView.builder(
+                itemCount: state.paymentModeList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  PaymentModeModel paymentMode = state.paymentModeList[index];
+                  return ListViewContainer(
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/edit_payment_mode",
+                            arguments: paymentMode);
+                      },
+                      leading: CircleAvatar(
+                          child: Text(
+                              paymentMode.name.toUpperCase().substring(0, 1))),
+                      title: Text(paymentMode.name),
+                      subtitle: Text(paymentMode.ledgerName ?? ""),
+                      trailing: Text(paymentMode.type),
+                    ),
+                  );
+                }),
+        // : CustomDataTable(
+        //     columnNames: const ["Name", "Status", "Type", "Ledger"],
+        //     createRow: paymentModeRow(
+        //         context: context, data: state.paymentModeList)),
         floatingActionButton: FloatingActionButton.extended(
             icon: const Icon(CupertinoIcons.add),
             label: Text(

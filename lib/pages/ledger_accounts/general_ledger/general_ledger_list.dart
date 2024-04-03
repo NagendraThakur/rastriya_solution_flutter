@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/model/ledger_model.dart';
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/cubit/ledger_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
@@ -55,22 +56,40 @@ class _GeneralLedgerListState extends State<GeneralLedgerList> {
           ),
           body: state.isFetching == true
               ? const CustomShimmer()
-              : SingleChildScrollView(
-                  child: CustomDataTable(columnNames: const [
-                    "Ledger Name",
-                    "Trail Balance",
-                    "Type",
-                    "Cash",
-                    "Credit"
-                  ], createRow: createRow(data: state.ledgerList)),
-                ),
+              : ListView.builder(
+                  itemCount: state.ledgerList!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    LedgerModel ledger = state.ledgerList![index];
+                    return ListViewContainer(
+                        child: ListTile(
+                      onTap: () {
+                        // Navigator.of(context)
+                        //     .pushNamed("/edit_vendor", arguments: ledger);
+                      },
+                      leading: CircleAvatar(
+                          child: Text(ledger.trialGroupData?.bsPl ?? "G")),
+                      title: Text(ledger.name),
+                      subtitle: Text(ledger.trialGroupData?.name ?? ""),
+                    ));
+                  }),
+          // : SingleChildScrollView(
+          //     child: CustomDataTable(columnNames: const [
+          //       "Ledger Name",
+          //       "Trail Balance",
+          //       "Type",
+          //       "Cash",
+          //       "Credit"
+          //     ], createRow: createRow(data: state.ledgerList)),
+          //   ),
           floatingActionButton: FloatingActionButton.extended(
               icon: const Icon(CupertinoIcons.add),
               label: Text(
                 "Add Vendor",
                 style: kSubtitleRegularTextStyle,
               ),
-              onPressed: () => Navigator.of(context).pushNamed("/edit_vendor")),
+              onPressed: () {
+                // Navigator.of(context).pushNamed("/edit_vendor");
+              }),
         );
       },
     );

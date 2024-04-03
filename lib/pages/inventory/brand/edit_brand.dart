@@ -28,6 +28,7 @@ class _EditBrandScreenState extends State<EditBrandScreen> {
         title: const Text("Create Brand"),
       ),
       body: CustomTextField(
+        required: true,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         labelText: "Brand",
         hintText: "Your Brand Name",

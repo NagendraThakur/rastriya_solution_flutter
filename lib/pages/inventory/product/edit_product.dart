@@ -35,7 +35,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   String? categoryId;
   String? unitId;
   String? vatPercentage;
-  TextEditingController lastUnitCost = TextEditingController();
+  TextEditingController lastUnitCost = TextEditingController(text: "0");
   TextEditingController lastUnitPrice = TextEditingController();
   TextEditingController barcode1 = TextEditingController();
   TextEditingController remark1 = TextEditingController();
@@ -79,7 +79,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: const Text("Create Product"),
+        title: Text(widget.product == null ? "Create Product" : "Edit Product"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -87,6 +87,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: Column(
             children: [
               CustomTextField(
+                required: true,
                 labelText: "Name",
                 hintText: "Your Product Name",
                 controller: name,
@@ -155,6 +156,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   controller: lastUnitCost,
                 ),
                 secondComponent: CustomTextField(
+                  required: true,
                   labelText: "Selling Price",
                   hintText: "Your Selling Price",
                   controller: lastUnitPrice,
