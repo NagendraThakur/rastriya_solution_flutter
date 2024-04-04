@@ -19,6 +19,21 @@ part 'pos_state.dart';
 class PosCubit extends Cubit<PosState> {
   PosCubit() : super(PosState.initial());
 
+  void editQuantity({required String review}) {
+    ProductModel product = state.selectedProduct!;
+    List<ProductModel> orderList = state.orderList ?? [];
+
+    int index = orderList.indexWhere((item) => item == product);
+
+    if (index != -1) {
+      orderList[index] = state.selectedProduct!
+          .copyWith(quantity: state.quantity, review: review);
+
+      emit(state.copyWith(orderList: orderList, removeSelectedProduct: true));
+      calculateOrderSummary();
+    }
+  }
+
   void assignQuantity(double quantity) {
     emit(state.copyWith(quantity: quantity));
   }
