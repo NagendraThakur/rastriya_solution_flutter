@@ -73,8 +73,9 @@ class LedgerModel {
       shippingCity1: json['shipping_city1'],
       shippingStreetName1: json['shipping_street_name1'],
       creditLimitAmount: json['credit_limit_amount'].toString(),
-      trialGroupData: TrialGroupData.fromJson(
-          json['trial_group_data']), // Parse trialGroupData
+      trialGroupData: json['trial_group_data'] != null
+          ? TrialGroupData.fromJson(json['trial_group_data'])
+          : null, // Parse trialGroupData
     );
   }
 

@@ -49,6 +49,8 @@ import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/edit_vend
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/vendor_list.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/edit_loyalty_member.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/loyalty_meber_list.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/global/product/product_page.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/main/restro_main.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/edit_payment_mode.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/payment_mode_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/pos_setup_screen.dart';
@@ -267,6 +269,14 @@ class Routes {
           builder: (context) => EditTableSetup(
             table: table,
           ),
+        );
+      case "/restro_main":
+        return MaterialPageRoute(
+          builder: (context) => const RestroMainPage(),
+        );
+      case "/product":
+        return MaterialPageRoute(
+          builder: (context) => const ProductPage(),
         );
 
       case "/setting":

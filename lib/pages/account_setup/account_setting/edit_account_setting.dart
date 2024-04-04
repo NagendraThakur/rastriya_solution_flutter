@@ -28,7 +28,7 @@ class _EditAccountSettingState extends State<EditAccountSetting> {
   TextEditingController email = TextEditingController();
 
   // TextEditingController loyaltyMemberPrefix = TextEditingController();
-  // TextEditingController printName = TextEditingController();
+  TextEditingController printName = TextEditingController();
   // TextEditingController billNarration = TextEditingController();
 
   String? industyId;
@@ -44,6 +44,7 @@ class _EditAccountSettingState extends State<EditAccountSetting> {
     email.text = Config.companyInfo!.companyEmail;
     industyId = Config.companyInfo!.industryId;
     fisalYearId = Config.companyInfo!.fiscalYearId;
+    printName.text = Config.companyInfo?.printTitle ?? "";
   }
 
   @override
@@ -160,37 +161,32 @@ class _EditAccountSettingState extends State<EditAccountSetting> {
                               );
                             }).toList(),
                           ),
-                          // ExpansionTile(
-                          //   tilePadding: EdgeInsets.zero,
-                          //   title: const Text(
-                          //     'Additional Details',
-                          //     style: TextStyle(
-                          //       fontFamily: 'Manrope',
-                          //       color: Colors.blue,
-                          //       fontSize: 20,
-                          //     ),
-                          //     textAlign: TextAlign.left,
-                          //   ),
-                          //   children: [
-                          //     CustomTextField(
-                          //       labelText: "Loyalty Member Prefix",
-                          //       hintText: "Your Loyalty Member Prefix",
-                          //       controller: loyaltyMemberPrefix,
-                          //     ),
-                          //     CustomTextField(
-                          //       topPadding: 0,
-                          //       labelText: "Print Name",
-                          //       hintText: "Your Print Name",
-                          //       controller: printName,
-                          //     ),
-                          //     CustomTextField(
-                          //       topPadding: 0,
-                          //       labelText: "Bill Narration",
-                          //       hintText: "Your Bill Narration",
-                          //       controller: billNarration,
-                          //     ),
-                          //   ],
-                          // )
+                          ExpansionTile(
+                            tilePadding: EdgeInsets.zero,
+                            title: const Text(
+                              'Additional Details',
+                              style: TextStyle(
+                                fontFamily: 'Manrope',
+                                color: Colors.blue,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            children: [
+                              CustomTextField(
+                                topPadding: 0,
+                                labelText: "Print Name",
+                                hintText: "Your Print Name",
+                                controller: printName,
+                              ),
+                              // CustomTextField(
+                              //   topPadding: 0,
+                              //   labelText: "Bill Narration",
+                              //   hintText: "Your Bill Narration",
+                              //   controller: billNarration,
+                              // ),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -224,6 +220,7 @@ class _EditAccountSettingState extends State<EditAccountSetting> {
                       "fiscal_year_id": fisalYearId,
                       "state_id": 1,
                       "district_id": 1,
+                      "print_title": printName.text,
                     };
                     BlocProvider.of<AccountSettingCubit>(context)
                         .saveCompany(body: body, id: Config.companyInfo!.id);
