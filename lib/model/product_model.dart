@@ -42,12 +42,13 @@ class ProductModel {
   String? baseUnitName;
   String? color;
   BatchModel? batch;
-  String? batchLot;
   String? printStationId;
   bool? selected;
+  String? review;
+  String? batchLot;
 
   ProductModel({
-    required this.id,
+    this.id,
     required this.name,
     this.fired,
     this.quantity,
@@ -88,69 +89,70 @@ class ProductModel {
     this.baseUnitName,
     this.color,
     this.batch,
-    this.batchLot,
     this.printStationId,
     this.selected = true,
+    this.review,
+    this.batchLot,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'].toString(),
-      name: json['name'].toString(),
-      fired: json['fired'] ?? 0,
-      quantity: json['quantity'] != null
-          ? (double.parse(json['quantity'].toString()))
-          : 0,
-      productCode: json['product_code']?.toString(),
-      baseUnit: json['base_unit']?.toString(),
-      barcode1: json['barcode1']?.toString(),
-      barcode2: json['barcode2']?.toString(),
-      barcode3: json['barcode3']?.toString(),
-      barcode4: json['barcode4']?.toString(),
-      productGroup: json['product_group']?.toString(),
-      flatDiscountDateFrom: json['flat_discount_date_from']?.toString(),
-      flatDiscountDateTo: json['flat_discount_date_to']?.toString(),
-      remarks1: json['remarks1']?.toString(),
-      remarks2: json['remarks2']?.toString(),
-      blocked: json['blocked']?.toString(),
-      vatPercent: json['vat_percent'] != null
-          ? (double.parse(json['vat_percent'].toString()))
-          : 0,
-      discountable: json['discountable']?.toString(),
-      discountPercentage: json['discount_percent'] != null
-          ? (double.parse(json['discount_percent'].toString()))
-          : 0,
-      discountAmount: json['discount_amount'] != null
-          ? (double.parse(json['discount_amount'].toString()))
-          : 0,
-      flatDiscount: json['flat_discount']?.toString(),
-      lastUnitCost: json['last_unit_cost'] != null
-          ? (double.parse(json['last_unit_cost'].toString()))
-          : 0,
-      lastUnitPrice: json['last_unit_price'] != null
-          ? (double.parse(json['last_unit_price'].toString()))
-          : 0,
-      inventoryItem: json['inventory_item']?.toString(),
-      sellableItem: json['sellable_item']?.toString(),
-      isPos: json['is_pos']?.toString(),
-      lastVendorCode: json['last_vendor_code']?.toString(),
-      brandId: json['brand_id']?.toString(),
-      modelYearId: json['model_year_id']?.toString(),
-      mrp: json['mrp']?.toString(),
-      otherUnitId: json['other_unit_id']?.toString(),
-      otherUnitFactor: json['other_unit_factor']?.toString(),
-      profitPercent: json['profit_percent']?.toString(),
-      printName: json['print_name']?.toString(),
-      productDetail: json['product_detail']?.toString(),
-      createdAt: json['created_at']?.toString(),
-      updatedAt: json['updated_at']?.toString(),
-      categoryName: json['category_name']?.toString(),
-      baseUnitName: json['base_unit_name']?.toString(),
-      color: json['color']?.toString(),
-      batch: json['batch'] != null ? BatchModel.fromJson(json['batch']) : null,
-      batchLot: json['batch_lot'].toString(),
-      printStationId: json['print_station_id'].toString(),
-    );
+        id: json['id'].toString(),
+        name: json['name'].toString(),
+        fired: json['fired'] ?? 0,
+        quantity: json['quantity'] != null
+            ? (double.parse(json['quantity'].toString()))
+            : 0,
+        productCode: json['product_code']?.toString(),
+        baseUnit: json['base_unit']?.toString(),
+        barcode1: json['barcode1']?.toString(),
+        barcode2: json['barcode2']?.toString(),
+        barcode3: json['barcode3']?.toString(),
+        barcode4: json['barcode4']?.toString(),
+        productGroup: json['product_group']?.toString(),
+        flatDiscountDateFrom: json['flat_discount_date_from']?.toString(),
+        flatDiscountDateTo: json['flat_discount_date_to']?.toString(),
+        remarks1: json['remarks1']?.toString(),
+        remarks2: json['remarks2']?.toString(),
+        blocked: json['blocked']?.toString(),
+        vatPercent: json['vat_percent'] != null
+            ? (double.parse(json['vat_percent'].toString()))
+            : 0,
+        discountable: json['discountable']?.toString(),
+        discountPercentage: json['discount_percent'] != null
+            ? (double.parse(json['discount_percent'].toString()))
+            : 0,
+        discountAmount: json['discount_amount'] != null
+            ? (double.parse(json['discount_amount'].toString()))
+            : 0,
+        flatDiscount: json['flat_discount']?.toString(),
+        lastUnitCost: json['last_unit_cost'] != null
+            ? (double.parse(json['last_unit_cost'].toString()))
+            : 0,
+        lastUnitPrice: json['last_unit_price'] != null
+            ? (double.parse(json['last_unit_price'].toString()))
+            : 0,
+        inventoryItem: json['inventory_item']?.toString(),
+        sellableItem: json['sellable_item']?.toString(),
+        isPos: json['is_pos']?.toString(),
+        lastVendorCode: json['last_vendor_code']?.toString(),
+        brandId: json['brand_id']?.toString(),
+        modelYearId: json['model_year_id']?.toString(),
+        mrp: json['mrp']?.toString(),
+        otherUnitId: json['other_unit_id']?.toString(),
+        otherUnitFactor: json['other_unit_factor']?.toString(),
+        profitPercent: json['profit_percent']?.toString(),
+        printName: json['print_name']?.toString(),
+        productDetail: json['product_detail']?.toString(),
+        createdAt: json['created_at']?.toString(),
+        updatedAt: json['updated_at']?.toString(),
+        categoryName: json['category_name']?.toString(),
+        baseUnitName: json['base_unit_name']?.toString(),
+        color: json['color']?.toString(),
+        batch:
+            json['batch'] != null ? BatchModel.fromJson(json['batch']) : null,
+        printStationId: json['print_station_id'].toString(),
+        batchLot: json['batch_lot'].toString());
   }
   Map<String, dynamic> toJson() {
     // amount is the multiple of qunatity and lastUnitPrice i.e. rate in case of retail
@@ -207,6 +209,8 @@ class ProductModel {
       'color': color,
       'print_station_id': printStationId,
       'selected': selected,
+      'review': review ?? "",
+      'batch_lot': batchLot
     };
   }
 
@@ -227,6 +231,7 @@ class ProductModel {
     String? name,
     double? quantity,
     int? fired,
+    String? review,
     String? productCode,
     String? baseUnit,
     String? barcode1,
@@ -265,12 +270,15 @@ class ProductModel {
     String? color,
     BatchModel? batch,
     String? printStationId,
+    bool? selected,
+    String? batchLot,
   }) {
     return ProductModel(
       id: id ?? this.id,
       name: name ?? this.name,
       quantity: quantity ?? this.quantity,
       fired: fired ?? fired,
+      review: review ?? this.review,
       productCode: productCode ?? this.productCode,
       baseUnit: baseUnit ?? this.baseUnit,
       barcode1: barcode1 ?? this.barcode1,
@@ -309,6 +317,8 @@ class ProductModel {
       color: color ?? this.color,
       batch: batch ?? this.batch,
       printStationId: printStationId ?? this.printStationId,
+      selected: selected ?? this.selected,
+      batchLot: batchLot ?? this.batchLot,
     );
   }
 }

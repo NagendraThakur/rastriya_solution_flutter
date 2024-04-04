@@ -50,6 +50,8 @@ class _TablePortionState extends State<TablePortion> {
                         TableModel table = filteredTables[index];
                         return InkWell(
                           onTap: () {
+                            BlocProvider.of<PosCubit>(context)
+                                .assignTable(table: table);
                             Navigator.of(context).pushNamed("/product");
                           },
                           child: Container(

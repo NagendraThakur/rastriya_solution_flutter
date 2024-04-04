@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rastriya_solution_flutter/helper/toast.dart';
+import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/section_model.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
@@ -8,6 +10,7 @@ import 'package:rastriya_solution_flutter/pages/pos/portion/kot_table/kot_table_
 import 'package:rastriya_solution_flutter/pages/pos/portion/table/table_portion.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/widgets/mini_bottom_sheet.dart';
+import 'package:toastification/toastification.dart';
 
 class RestroMainPage extends StatefulWidget {
   const RestroMainPage({super.key});
@@ -31,7 +34,16 @@ class _RestroMainPageState extends State<RestroMainPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<PosCubit, PosState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state.message != null) {
+          showToastification(
+              context: context,
+              message: state.message!,
+              toastificationType: state.message!.contains("Failed")
+                  ? ToastificationType.error
+                  : ToastificationType.success);
+        } else if (state.toastMessage != null) {
+          showToast(message: state.toastMessage!);
+        }
       },
       builder: (context, state) {
         return DefaultTabController(

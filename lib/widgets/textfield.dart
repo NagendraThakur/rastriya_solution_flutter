@@ -25,6 +25,7 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final bool? filled;
   final bool? required;
+  final int? maxLine;
 
   const CustomTextField({
     Key? key,
@@ -51,6 +52,7 @@ class CustomTextField extends StatelessWidget {
     this.padding,
     this.filled = true,
     this.required = false,
+    this.maxLine,
   }) : super(key: key);
 
   @override
@@ -87,6 +89,7 @@ class CustomTextField extends StatelessWidget {
               ),
             TextFormField(
               autofocus: autofocus ?? false,
+              maxLines: maxLine,
               focusNode: focusNode,
               controller: controller,
               enabled: enabled ?? true,

@@ -11,36 +11,42 @@ class ProductPortion extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PosCubit, PosState>(
       builder: (context, state) {
-        return GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 150,
-              mainAxisExtent: 100,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 5,
-            ),
-            itemCount: state.productList.length,
-            itemBuilder: (BuildContext context, int index) {
-              ProductModel product = state.productList[index];
-              return InkWell(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: ListTile(
-                    title: Text(
-                      product.name,
-                      style: kSubtitleRegularTextStyle,
-                    ),
-                    subtitle: Text(
-                      "Rs ${product.lastUnitPrice!.toStringAsFixed(2)}",
-                      style: kSubtitleRegularTextStyle,
+        return Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 150,
+                mainAxisExtent: 100,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 5,
+              ),
+              itemCount: state.productList.length,
+              itemBuilder: (BuildContext context, int index) {
+                ProductModel product = state.productList[index];
+                return InkWell(
+                  onTap: () {
+                    BlocProvider.of<PosCubit>(context).addProductToOrder(
+                        product: product, quantity: state.quantity);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: ListTile(
+                      title: Text(
+                        product.name,
+                        style: kSubtitleRegularTextStyle,
+                      ),
+                      subtitle: Text(
+                        "Rs ${product.lastUnitPrice!.toStringAsFixed(2)}",
+                        style: kSubtitleRegularTextStyle,
+                      ),
                     ),
                   ),
-                ),
-              );
-            });
+                );
+              }),
+        );
       },
     );
   }
