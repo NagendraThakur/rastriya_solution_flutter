@@ -69,21 +69,17 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              TwoRowComponent(
-                horizontalPadding: 0,
-                middleSpace: true,
-                firstComponent: CustomTextField(
-                  required: true,
-                  labelText: "Email",
-                  hintText: "Your Staff Email",
-                  controller: email,
-                ),
-                secondComponent: CustomTextField(
-                  required: true,
-                  labelText: "Nick Name",
-                  hintText: "Your Staff Nick Name",
-                  controller: nickName,
-                ),
+              CustomTextField(
+                required: true,
+                labelText: "Email",
+                hintText: "Your Staff Email",
+                controller: email,
+              ),
+              CustomTextField(
+                required: true,
+                labelText: "Name",
+                hintText: "Your Staff Name",
+                controller: nickName,
               ),
               CustomDropDownButton(
                   avatarInitials: "A",
@@ -135,7 +131,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 items: widget.terminalList.map((terminal) {
                   return DropdownMenuItem<String>(
                     value: terminal.id,
-                    child: Text(terminal.name ?? ""),
+                    child: Text(terminal.terminalName ?? ""),
                   );
                 }).toList(),
               ),

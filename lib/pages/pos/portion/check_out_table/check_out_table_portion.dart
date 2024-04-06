@@ -6,9 +6,9 @@ import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 
-class TablePortion extends StatelessWidget {
+class CheckOutTablePortion extends StatelessWidget {
   final String? sectionId;
-  const TablePortion({
+  const CheckOutTablePortion({
     Key? key,
     this.sectionId,
   }) : super(key: key);
@@ -17,7 +17,16 @@ class TablePortion extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PosCubit, PosState>(
       builder: (context, state) {
-        List<TableModel> filteredTables = state.tableList;
+        List<TableModel> filteredTables = state.tableList
+            .where((table) => table.availability != "Available")
+            .toList();
+
+        // Filter tables by sectionId if provided
+        if (sectionId != null) {
+          filteredTables = filteredTables
+              .where((table) => table.sectionId == sectionId)
+              .toList();
+        }
 
         // Filter tables by sectionId if provided
         if (sectionId != null) {
@@ -44,11 +53,21 @@ class TablePortion extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         TableModel table = filteredTables[index];
                         return InkWell(
-                          onTap: () {
+                          onTap: () async {
                             final cubit = BlocProvider.of<PosCubit>(context);
                             cubit.clearOrder();
                             cubit.assignTable(table: table);
-                            Navigator.of(context).pushNamed("/product");
+                            final orderBill = await cubit.getSalesOrderByTable(
+                                tableId: table.id);
+
+                            if (orderBill != null) {
+                              await cubit.margeAndAssignOrderUsingBillLine(
+                                  billLineList: orderBill.orderBillLine);
+                              Future.delayed(
+                                  Duration.zero,
+                                  () => Navigator.of(context)
+                                      .pushNamed("/review_order"));
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(

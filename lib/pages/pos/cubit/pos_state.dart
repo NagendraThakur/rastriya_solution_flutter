@@ -30,6 +30,7 @@ class PosState {
   final List<SectionModel> sectionList;
   final List<ProductModel> productList;
   final List<ProductModel>? orderList;
+  final List<VoidReasonModel>? voidReasonList;
 
   PosState({
     this.billSavedSuccessfully,
@@ -60,6 +61,7 @@ class PosState {
     this.selectedTable,
     required this.noOfGuest,
     required this.sectionList,
+    this.voidReasonList,
   });
 
   factory PosState.initial() {
@@ -115,6 +117,7 @@ class PosState {
     bool? removeSelectedTable,
     bool? removeSalesOrderBill,
     int? noOfGuest,
+    List<VoidReasonModel>? voidReasonList,
   }) {
     return PosState(
       billSavedSuccessfully: billSavedSuccessfully,
@@ -155,6 +158,7 @@ class PosState {
           : selectedTable ?? this.selectedTable,
       noOfGuest: noOfGuest ?? this.noOfGuest,
       sectionList: sectionList ?? this.sectionList,
+      voidReasonList: voidReasonList ?? this.voidReasonList,
     );
   }
 }

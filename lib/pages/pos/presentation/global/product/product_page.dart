@@ -46,43 +46,46 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                     ),
                     horizontalSpaceTiny,
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(5)),
-                      alignment: Alignment.center,
-                      child: Stack(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (state.orderQuantity.toStringAsFixed(0) !=
-                                  "0") {
-                                Navigator.of(context).pushNamed("/cart");
-                              }
-                            },
-                            icon: const Icon(
-                              CupertinoIcons.bag,
-                              size: 25,
+                    GestureDetector(
+                      onTap: () {
+                        if (state.orderQuantity.toStringAsFixed(0) != "0") {
+                          Navigator.of(context).pushNamed("/cart");
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(5)),
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            const IconButton(
+                              onPressed: null,
+                              icon: Icon(
+                                CupertinoIcons.bag,
+                                size: 25,
+                              ),
                             ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            child: SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: state.orderQuantity.toStringAsFixed(0) ==
-                                      "0"
-                                  ? null
-                                  : CircleAvatar(
-                                      backgroundColor: Colors.red,
-                                      child: Text(
-                                        state.orderQuantity.toStringAsFixed(0),
-                                        style: kSmallBoldTextStyle,
+                            Positioned(
+                              right: 0,
+                              child: SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: state.orderQuantity.toStringAsFixed(0) ==
+                                        "0"
+                                    ? null
+                                    : CircleAvatar(
+                                        backgroundColor: Colors.red,
+                                        child: Text(
+                                          state.orderQuantity
+                                              .toStringAsFixed(0),
+                                          style: kSmallBoldTextStyle,
+                                        ),
                                       ),
-                                    ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],

@@ -5,7 +5,6 @@ import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/order/portion/bottom_sheet_widget.dart';
-import 'package:rastriya_solution_flutter/pages/pos/portion/order/portion/order_appbar_action_portion.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/order/portion/order_widget.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
@@ -13,24 +12,16 @@ import 'package:rastriya_solution_flutter/widgets/container.dart';
 
 class OrderPortion extends StatefulWidget {
   final bool enableEditProduct;
-  final bool enableEditProductNavigation;
   final bool enbaleButtons;
-  final bool enbalAppbarActions;
   final bool? leading;
-  final bool? enableOrderInfo;
   final Widget? bottomNavigationBar;
-  final bool? enableClear;
   final bool? enableCancelOrder;
   OrderPortion({
     super.key,
     required this.enableEditProduct,
-    required this.enableEditProductNavigation,
     required this.enbaleButtons,
-    required this.enbalAppbarActions,
     this.leading = false,
-    this.enableOrderInfo = true,
     this.bottomNavigationBar,
-    this.enableClear = true,
     this.enableCancelOrder = false,
   });
 
@@ -55,14 +46,6 @@ class _OrderPortionState extends State<OrderPortion> {
                   ? const CupertinoNavigationBarBackButton()
                   : null,
               automaticallyImplyLeading: widget.leading!,
-              actions: [
-                widget.enbalAppbarActions
-                    ? OrderAppBarActions(
-                        enableClear: widget.enableClear!,
-                        enableCancelOrder: widget.enableCancelOrder!,
-                      )
-                    : const SizedBox.shrink()
-              ],
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -76,15 +59,15 @@ class _OrderPortionState extends State<OrderPortion> {
 
                         return InkWell(
                             onTap: () {
+                              BlocProvider.of<PosCubit>(context)
+                                  .selectProduct(product: product);
                               if (widget.enableEditProduct) {
-                                BlocProvider.of<PosCubit>(context)
-                                    .selectProduct(product: product);
-                              }
-                              if (widget.enableEditProductNavigation) {
                                 editProductBottomSheet(
                                     context: context,
                                     product: product,
                                     width: width);
+                              } else if (widget.enableCancelOrder == true) {
+                                Navigator.of(context).pushNamed("/void_order");
                               }
                             },
                             child: orderWidget(
@@ -94,26 +77,24 @@ class _OrderPortionState extends State<OrderPortion> {
                       }),
                     ),
                   ),
-                  widget.enableOrderInfo!
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total",
-                              style: kBodyRegularTextStyle1,
-                            ),
-                            Text(
-                              "x  ${state.orderQuantity.toStringAsFixed(3)}",
-                              style: kBodyRegularTextStyle1,
-                            ),
-                            Text(
-                              "Rs ${state.subtotal.toStringAsFixed(2)}",
-                              style: kBodyRegularTextStyle1,
-                              textAlign: TextAlign.end,
-                            ),
-                          ],
-                        )
-                      : const SizedBox.shrink(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total",
+                        style: kBodyRegularTextStyle1,
+                      ),
+                      Text(
+                        "x  ${state.orderQuantity.toStringAsFixed(0)}",
+                        style: kBodyRegularTextStyle1,
+                      ),
+                      Text(
+                        "Rs ${state.subtotal.toStringAsFixed(2)}",
+                        style: kBodyRegularTextStyle1,
+                        textAlign: TextAlign.end,
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

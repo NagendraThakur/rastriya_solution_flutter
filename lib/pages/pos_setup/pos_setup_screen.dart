@@ -11,8 +11,8 @@ class PosSetupScreen extends StatelessWidget {
     List<ComponentButtonModel> menuList = [
       ComponentButtonModel(
           svgPath: "assets/svg/print_station.svg",
-          label: "Print Station",
-          description: "Print Station Description",
+          label: "Printers",
+          description: "Printers Description",
           pushNamed: "/print_station_list"),
       ComponentButtonModel(
           svgPath: "assets/svg/payment_mode.svg",

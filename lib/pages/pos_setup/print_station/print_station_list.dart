@@ -46,7 +46,7 @@ class _PrintStationListState extends State<PrintStationList> {
     }, builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Print Station"),
+          title: const Text("Printers"),
           leading: const CupertinoNavigationBarBackButton(),
         ),
         body: state.isFetching == true

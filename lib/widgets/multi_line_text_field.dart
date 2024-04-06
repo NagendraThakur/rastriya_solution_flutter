@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 
-class CustomTextField extends StatelessWidget {
+class MultiLineTextField extends StatelessWidget {
   final double? width;
   final double? height;
   final FocusNode? focusNode;
@@ -25,9 +25,9 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final bool? filled;
   final bool? required;
-  // final int? maxLine;
+  final int? maxLine;
 
-  const CustomTextField({
+  const MultiLineTextField({
     Key? key,
     this.focusNode,
     this.icon,
@@ -52,7 +52,7 @@ class CustomTextField extends StatelessWidget {
     this.padding,
     this.filled = true,
     this.required = false,
-    // this.maxLine,
+    this.maxLine,
   }) : super(key: key);
 
   @override
@@ -89,7 +89,7 @@ class CustomTextField extends StatelessWidget {
               ),
             TextFormField(
               autofocus: autofocus ?? false,
-              // maxLines: maxLine,
+              maxLines: maxLine,
               focusNode: focusNode,
               controller: controller,
               enabled: enabled ?? true,

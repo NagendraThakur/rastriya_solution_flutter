@@ -47,9 +47,8 @@ class _EditPrintStationState extends State<EditPrintStation> {
     return Scaffold(
       appBar: AppBar(
         leading: const CupertinoNavigationBarBackButton(),
-        title: Text(widget.printstation == null
-            ? "Create Payment Mode"
-            : "Edit Payment Mode"),
+        title: Text(
+            widget.printstation == null ? "Create Printer" : "Edit Printer"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -77,37 +76,37 @@ class _EditPrintStationState extends State<EditPrintStation> {
                 setState(() {});
               },
             ),
-            TwoRowComponent(
-              middleSpace: true,
-              horizontalPadding: 0,
-              firstComponent: CustomDropDownButton(
-                  avatarInitials: "S",
-                  hintText: "Select size",
-                  label: "Print Size",
-                  value: orderPrinterSize,
-                  padding: const EdgeInsets.only(top: 20),
-                  onChanged: (String value) {
-                    orderPrinterSize = value;
-                  },
-                  items: const [
-                    DropdownMenuItem(value: "2", child: Text("2 inch")),
-                    DropdownMenuItem(value: "3", child: Text("3 inch")),
-                  ]),
-              secondComponent: CustomDropDownButton(
-                  avatarInitials: "E",
-                  hintText: "Select End Gap",
-                  label: "End Gap Size",
-                  value: endGapSized,
-                  padding: const EdgeInsets.only(top: 20),
-                  onChanged: (String value) {
-                    endGapSized = value;
-                  },
-                  items: const [
-                    DropdownMenuItem(value: "1", child: Text("1 inch")),
-                    DropdownMenuItem(value: "2", child: Text("2 inch")),
-                    DropdownMenuItem(value: "3", child: Text("3 inch")),
-                  ]),
-            )
+            // TwoRowComponent(
+            //   middleSpace: true,
+            //   horizontalPadding: 0,
+            //   firstComponent: CustomDropDownButton(
+            //       avatarInitials: "S",
+            //       hintText: "Select size",
+            //       label: "Print Size",
+            //       value: orderPrinterSize,
+            //       padding: const EdgeInsets.only(top: 20),
+            //       onChanged: (String value) {
+            //         orderPrinterSize = value;
+            //       },
+            //       items: const [
+            //         DropdownMenuItem(value: "2", child: Text("2 inch")),
+            //         DropdownMenuItem(value: "3", child: Text("3 inch")),
+            //       ]),
+            //   secondComponent: CustomDropDownButton(
+            //       avatarInitials: "E",
+            //       hintText: "Select End Gap",
+            //       label: "End Gap Size",
+            //       value: endGapSized,
+            //       padding: const EdgeInsets.only(top: 20),
+            //       onChanged: (String value) {
+            //         endGapSized = value;
+            //       },
+            //       items: const [
+            //         DropdownMenuItem(value: "1", child: Text("1 inch")),
+            //         DropdownMenuItem(value: "2", child: Text("2 inch")),
+            //         DropdownMenuItem(value: "3", child: Text("3 inch")),
+            //       ]),
+            // )
           ],
         ),
       ),
@@ -120,8 +119,8 @@ class _EditPrintStationState extends State<EditPrintStation> {
               printerName: printerName.text,
               printTitle: printTitle.text,
               doubleCopy: doubleCopy ? "1" : "0",
-              orderPrintSizeInInch: orderPrinterSize,
-              endGapSizeInInch: endGapSized,
+              orderPrintSizeInInch: "3",
+              endGapSizeInInch: "1",
             );
             BlocProvider.of<PrintStationCubit>(context)
                 .savePrintStation(printStation: printStation);

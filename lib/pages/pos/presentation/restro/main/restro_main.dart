@@ -6,6 +6,7 @@ import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/section_model.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/pos/portion/check_out_table/check_out_table_portion.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/kot_table/kot_table_portion.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/table/table_portion.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
@@ -27,6 +28,7 @@ class _RestroMainPageState extends State<RestroMainPage> {
     BlocProvider.of<PosCubit>(context).fetchTables();
     BlocProvider.of<PosCubit>(context).fetchSection();
     BlocProvider.of<PosCubit>(context).fetchCategoryProduct();
+    BlocProvider.of<PosCubit>(context).fetchVoidReason();
   }
 
   String? sectionId;
@@ -47,7 +49,7 @@ class _RestroMainPageState extends State<RestroMainPage> {
       },
       builder: (context, state) {
         return DefaultTabController(
-          length: 2,
+          length: 3,
           child: Scaffold(
             appBar: AppBar(
               leading: const CupertinoNavigationBarBackButton(),
@@ -78,6 +80,9 @@ class _RestroMainPageState extends State<RestroMainPage> {
                     text: "Tables",
                   ),
                   Tab(
+                    text: "Check Out",
+                  ),
+                  Tab(
                     text: "KOT",
                   ),
                 ],
@@ -86,6 +91,9 @@ class _RestroMainPageState extends State<RestroMainPage> {
             body: TabBarView(
               children: [
                 TablePortion(
+                  sectionId: sectionId,
+                ),
+                CheckOutTablePortion(
                   sectionId: sectionId,
                 ),
                 KotTablePortion(

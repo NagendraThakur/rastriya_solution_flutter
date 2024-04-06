@@ -40,6 +40,7 @@ class GetRepository {
   static String salesBill = "/api/v2/pos/sales-bill";
   static String salesReturn = "/api/v2/pos/sales-return";
   static String salesBillHistory = "/api/v2/pos/sales-bill-history";
+  static String voidReason = "/api/v2/pos/void-reason";
 
   Future<dynamic> getRequest({
     required String path,

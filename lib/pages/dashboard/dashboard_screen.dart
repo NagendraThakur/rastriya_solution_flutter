@@ -77,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       DashboardMenuModel(
           permission: true,
           navigationPath: "/restro_main",
-          imagePath: "assets/svg/company_setup.svg",
+          imagePath: "assets/svg/pos.svg",
           label: "POS"),
       DashboardMenuModel(
           permission: true,

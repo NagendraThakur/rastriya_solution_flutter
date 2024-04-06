@@ -90,21 +90,21 @@ class _EditTableSetupState extends State<EditTableSetup> {
                       DropdownMenuItem(
                           value: "Reserved", child: Text("Reserved")),
                     ]),
-                CustomDropDownButton(
-                    avatarInitials: "C",
-                    hintText: "Select Capacity",
-                    label: "Capacity",
-                    value: capacity,
-                    padding: const EdgeInsets.only(top: 20),
-                    onChanged: (String value) {
-                      capacity = value;
-                    },
-                    items: List.generate(20, (index) {
-                      return DropdownMenuItem(
-                        value: (index + 1).toString(),
-                        child: Text((index + 1).toString()),
-                      );
-                    })),
+                // CustomDropDownButton(
+                //     avatarInitials: "C",
+                //     hintText: "Select Capacity",
+                //     label: "Capacity",
+                //     value: capacity,
+                //     padding: const EdgeInsets.only(top: 20),
+                //     onChanged: (String value) {
+                //       capacity = value;
+                //     },
+                //     items: List.generate(20, (index) {
+                //       return DropdownMenuItem(
+                //         value: (index + 1).toString(),
+                //         child: Text((index + 1).toString()),
+                //       );
+                //     })),
                 CustomDropDownButton(
                   avatarInitials: "S",
                   hintText: "Select Section",
@@ -142,7 +142,7 @@ class _EditTableSetupState extends State<EditTableSetup> {
                 tableName: name.text,
                 status: status ? 1 : 0,
                 availability: availability,
-                guestCapacity: int.parse(capacity),
+                guestCapacity: 1,
                 sectionId: sectionId!);
             BlocProvider.of<TableCubit>(context).saveTable(table: table);
           }),

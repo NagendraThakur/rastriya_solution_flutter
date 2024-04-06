@@ -28,7 +28,7 @@ class PaymentModeModel {
     return {
       'id': id,
       'store_id': storeId,
-      'pay_mode': name,
+      'pay_mode': name.toUpperCase(),
       'status': status ? "1" : "0",
       'ledger_code': ledgerCode,
       'type': type.toLowerCase(),

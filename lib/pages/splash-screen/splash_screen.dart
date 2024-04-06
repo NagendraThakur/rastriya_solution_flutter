@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
-import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/cubit/sign_in_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/shared_pre.dart';
-import 'package:toastification/toastification.dart';
+import 'package:rastriya_solution_flutter/shared/spacing.dart';
+import 'package:rastriya_solution_flutter/shared/text_style.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,8 +18,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     assignStaticValues();
-    // Future.delayed(const Duration(seconds: 2),
-    //     () => Navigator.of(context).pushReplacementNamed("/sign_in"));
   }
 
   assignStaticValues() async {
@@ -48,13 +46,45 @@ class _SplashScreenState extends State<SplashScreen> {
             Navigator.pushNamed(context, '/company_list');
           }
         } else if (state is SignInFailure) {
-          deleteAllSharedPreferences();
           Navigator.of(context).pushReplacementNamed("/sign_in");
         }
       },
-      child: const Scaffold(
-        body: Center(
+      child: Scaffold(
+        body: const Center(
           child: CircularProgressIndicator(),
+        ),
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            RichText(
+              text: TextSpan(
+                style: kSubtitleTextStyle,
+                children: [
+                  TextSpan(
+                    text: "Powered by ",
+                    style: TextStyle(
+                      fontFamily: 'Manrope',
+                      fontSize: 12,
+                      color: Colors.grey.shade900,
+                    ),
+                  ),
+                  TextSpan(
+                    text: "Rastirya Solution",
+                    style: TextStyle(
+                      fontFamily: 'Manrope',
+                      color: Colors.blue.shade800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              "Contact: RastriyaSolution@gmail.com",
+              style: kSmallRegularTextStyle,
+            ),
+            verticalSpaceRegular,
+          ],
         ),
       ),
     );

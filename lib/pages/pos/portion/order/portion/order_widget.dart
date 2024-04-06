@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
+import 'package:rastriya_solution_flutter/widgets/border_container.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 
 Widget orderWidget({
@@ -17,8 +18,8 @@ Widget orderWidget({
 
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Container(
-          decoration: BoxDecoration(border: Border.all()),
+        child: BorderContainer(
+          // decoration: BoxDecoration(border: Border.all()),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -32,7 +33,8 @@ Widget orderWidget({
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      (quantity * product.lastUnitPrice!).toStringAsFixed(2),
+                      (product.quantity! * product.lastUnitPrice!)
+                          .toStringAsFixed(2),
                       style: kSubtitleRegularTextStyle,
                     ),
                     if (!showNotePortion)

@@ -10,6 +10,7 @@ import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
 import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
+import 'package:rastriya_solution_flutter/model/sales_order_model.dart';
 import 'package:rastriya_solution_flutter/model/store_model.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/model/terminal_model.dart';
@@ -49,9 +50,13 @@ import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/edit_vend
 import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/vendor_list.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/edit_loyalty_member.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/loyalty_meber_list.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/global/pay/pay_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/global/product/product_page.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/global/review_order/review_order_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/cart/cart_page.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/kot/kot_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/main/restro_main.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/void_order/void_order_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/edit_payment_mode.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/payment_mode_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/pos_setup_screen.dart';
@@ -285,7 +290,26 @@ class Routes {
         );
       case "/cart":
         return MaterialPageRoute(
-          builder: (context) => const CartPage(),
+          builder: (context) => CartPage(),
+        );
+      case "/kot":
+        OrderBillModel orderBill = settings.arguments as OrderBillModel;
+        return MaterialPageRoute(
+          builder: (context) => KotPage(
+            orderBill: orderBill,
+          ),
+        );
+      case "/review_order":
+        return MaterialPageRoute(
+          builder: (context) => ReviewOrderPage(),
+        );
+      case "/void_order":
+        return MaterialPageRoute(
+          builder: (context) => VoidOrderPage(),
+        );
+      case "/pay":
+        return MaterialPageRoute(
+          builder: (context) => const PayPage(),
         );
 
       default:

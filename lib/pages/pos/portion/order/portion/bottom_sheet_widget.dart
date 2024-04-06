@@ -6,7 +6,7 @@ import 'package:rastriya_solution_flutter/pages/pos/portion/order/portion/order_
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
-import 'package:rastriya_solution_flutter/widgets/textfield.dart';
+import 'package:rastriya_solution_flutter/widgets/multi_line_text_field.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
 
 void editProductBottomSheet(
@@ -47,7 +47,7 @@ void editProductBottomSheet(
               verticalSpaceSmall,
               orderWidget(
                   product: product, width: width, showNotePortion: false),
-              CustomTextField(
+              MultiLineTextField(
                 controller: review,
                 maxLine: 4,
                 hintText:
