@@ -311,7 +311,6 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const PayPage(),
         );
-
       default:
         return MaterialPageRoute(
           builder: (context) => const InvalidScreen(),

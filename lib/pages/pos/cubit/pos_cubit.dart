@@ -22,6 +22,76 @@ class PosCubit extends Cubit<PosState> {
   PosCubit() : super(PosState.initial()) {
     fetchPaymentMode();
   }
+
+  void createSalesBill() async {
+    emit(state.copyWith(isLoading: true));
+    dynamic body = {
+      "bill_date":
+          "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
+      "order_no": state.salesOrderBill?.billNo,
+      "net_amount": state.totalAmount,
+      "bill_amount": state.totalAmount,
+      "no_of_guests": state.noOfGuest,
+      "table_no": state.selectedTable != null ? state.selectedTable!.id : 0,
+      "is_request_f_and_b": state.selectedTable != null ? 1 : 0,
+      "discount_amount": state.discountAmount,
+      "customer_code": state.customer?.code,
+      "customer_name": state.customer?.name,
+      "customer_address": state.customer?.billingAddress1,
+      "customer_phone": state.customer?.billingPhone1,
+      "customer_pan": state.customer?.panNo,
+      "customer_billing_address": state.customer?.billingAddress1,
+      "customer_billing_city": state.customer?.billingCity1,
+      "customer_billing_street_name": state.customer?.billingStreetName1,
+      "customer_billing_phone": state.customer?.billingPhone1,
+      "customer_shipping_address": state.customer?.shippingAddress1,
+      "customer_shipping_city": state.customer?.shippingCity1,
+      "customer_shipping_street_name": state.customer?.shippingStreetName1,
+      "customer_shipping_phone": state.customer?.shippingPhone1,
+      "shipment_delivery_date": null,
+      "shipment_vehicle_no": null,
+      "shipment_vehicle_name": null,
+      "shipment_vehicle_driver_name": null,
+      "shipment_vehicle_driver_number": null,
+      "shipment_vehicle_driver_license_no": null,
+      "export_sales": state.exportSales == true ? 1 : 0,
+      "tax_invoice": state.totalAmount > 10000
+          ? 1
+          : state.taxInvoice == true
+              ? 1
+              : 0,
+      "loyalty_member_no": state.loyaltyMember?.memberCode,
+      "sales_agent_id": null,
+      "payments": state.paidPaymentModeList
+          ?.map((PaymentModeModel paymentMode) => paymentMode.toJson())
+          .toList(),
+      "sales_lines": state.orderList
+          ?.map((ProductModel product) => product.toJson())
+          .toList()
+    };
+    log(body.toString());
+
+    dynamic response = await PostRepository()
+        .postRequest(path: PostRepository.saleBill, body: body);
+
+    if (response["status"] == "success") {
+      emit(state.copyWith(
+        message: response["message"],
+      ));
+
+      emit(state.copyWith(
+          billSavedSuccessfully:
+              BillModel.fromJson(response['data'] as Map<String, dynamic>)));
+      clearOrder();
+    } else {
+      emit(state.copyWith(message: 'Failed: ${response["message"]}'));
+    }
+  }
+
+  void clearpaidPaymentModeList() {
+    emit(state.copyWith(removepaidPaymentModeList: true, paidAmount: 0));
+  }
+
   Future<void> fetchPaymentMode() async {
     try {
       final response = await GetRepository().getRequest(

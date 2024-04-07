@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class PaymentModeModel {
   final String? id;
   final String? storeId;
@@ -53,5 +54,33 @@ class PaymentModeModel {
         imagePath: json['image_path'],
         amount: null,
         terminalId: json['terminal_id']);
+  }
+
+  PaymentModeModel copyWith({
+    String? id,
+    String? storeId,
+    String? name,
+    bool? status,
+    String? ledgerCode,
+    String? type,
+    String? ledgerName,
+    String? image,
+    String? imagePath,
+    double? amount,
+    String? terminalId,
+  }) {
+    return PaymentModeModel(
+      id: id ?? this.id,
+      storeId: storeId ?? this.storeId,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      ledgerCode: ledgerCode ?? this.ledgerCode,
+      type: type ?? this.type,
+      ledgerName: ledgerName ?? this.ledgerName,
+      image: image ?? this.image,
+      imagePath: imagePath ?? this.imagePath,
+      amount: amount ?? this.amount,
+      terminalId: terminalId ?? this.terminalId,
+    );
   }
 }

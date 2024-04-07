@@ -45,6 +45,9 @@ class _RestroMainPageState extends State<RestroMainPage> {
                   : ToastificationType.success);
         } else if (state.toastMessage != null) {
           showToast(message: state.toastMessage!);
+        } else if (state.billSavedSuccessfully != null) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
         }
       },
       builder: (context, state) {
