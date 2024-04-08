@@ -55,6 +55,8 @@ void editProductBottomSheet(
               ),
               verticalSpaceRegular,
               TwoRowComponent(
+                  horizontalPadding: 0,
+                  middleSpace: true,
                   firstComponent: CustomButton(
                       secondaryButton: true,
                       buttonText: "Delete",

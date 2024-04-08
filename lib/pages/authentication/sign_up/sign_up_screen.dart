@@ -93,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                verticalSpaceMassive,
+                verticalSpaceRegular,
                 Text(
                   "Let's start,",
                   style: kHeading2TextStyle,

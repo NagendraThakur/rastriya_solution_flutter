@@ -21,6 +21,11 @@ class PosSetupScreen extends StatelessWidget {
           pushNamed: "/payment_mode_list"),
       ComponentButtonModel(
           svgPath: "assets/svg/table.svg",
+          label: "Space",
+          description: "Space Description",
+          pushNamed: "/section_list"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/table.svg",
           label: "Table",
           description: "Table Description",
           pushNamed: "/table_list"),

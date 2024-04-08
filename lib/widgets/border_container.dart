@@ -7,24 +7,29 @@ class BorderContainer extends StatelessWidget {
   final Color? borderColor;
   final Widget child;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? outerPadding;
   const BorderContainer({
     Key? key,
     this.color,
     this.borderColor,
     required this.child,
     this.padding,
+    this.outerPadding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        color: color,
-        border: Border.all(color: borderColor ?? Colors.black),
-        borderRadius: BorderRadius.circular(5),
+    return Padding(
+      padding: outerPadding ?? EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: borderColor ?? Colors.black),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

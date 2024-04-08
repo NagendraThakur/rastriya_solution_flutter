@@ -11,6 +11,7 @@ import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/model/sales_order_model.dart';
+import 'package:rastriya_solution_flutter/model/section_model.dart';
 import 'package:rastriya_solution_flutter/model/store_model.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/model/terminal_model.dart';
@@ -62,6 +63,8 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/payment_m
 import 'package:rastriya_solution_flutter/pages/pos_setup/pos_setup_screen.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/edit_print_station.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/print_station_list.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/section/edit_section.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/section/section_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/edit_table_setup.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setup_list.dart';
 import 'package:rastriya_solution_flutter/pages/setting/setting_screen.dart';
@@ -262,6 +265,17 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => EditPaymentModeScreen(
             paymentModeInfo: paymentMode,
+          ),
+        );
+      case "/secton_list":
+        return MaterialPageRoute(
+          builder: (context) => SectionListScreen(),
+        );
+      case "/edit_secton":
+        final SectionModel? section = settings.arguments as SectionModel?;
+        return MaterialPageRoute(
+          builder: (context) => EditSectionScreen(
+            section: section,
           ),
         );
 

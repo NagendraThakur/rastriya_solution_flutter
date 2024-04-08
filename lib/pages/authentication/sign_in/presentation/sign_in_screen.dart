@@ -77,7 +77,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    verticalSpaceMassive,
+                    verticalSpaceRegular,
                     Text(
                       "Hey",
                       style: kHeading1TextStyle,

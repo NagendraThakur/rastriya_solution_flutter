@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/helper/dialog_utility.dart';
+import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/cubit/table_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
+import 'package:toastification/toastification.dart';
 
 class TableSetupList extends StatefulWidget {
   const TableSetupList({Key? key}) : super(key: key);
@@ -32,6 +34,13 @@ class _TableSetupListState extends State<TableSetupList> {
             Duration.zero, () => DialogUtils.showProcessingDialog(context));
       } else if (state.isLoading == false) {
         Navigator.of(context).pop();
+      } else if (state.message != null) {
+        showToastification(
+            context: context,
+            message: state.message!,
+            toastificationType: state.message!.contains("Failed")
+                ? ToastificationType.error
+                : ToastificationType.success);
       }
     }, builder: (context, state) {
       return Scaffold(

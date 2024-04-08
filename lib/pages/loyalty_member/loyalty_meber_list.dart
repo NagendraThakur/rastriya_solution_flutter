@@ -51,6 +51,12 @@ class _LoyaltyMemberListState extends State<LoyaltyMemberList> {
           appBar: AppBar(
             leading: const CupertinoNavigationBarBackButton(),
             title: const Text("Loyalty Member"),
+            actions: [
+              Text(
+                "Length: ${state.loyaltyMemberList?.length}   ",
+                style: kSubtitleTextStyle.copyWith(color: Colors.blue),
+              )
+            ],
           ),
           body: state.isFetching == true
               ? const CustomShimmer()

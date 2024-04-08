@@ -6,7 +6,6 @@ import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/category/cubit/category_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
-import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
@@ -49,7 +48,16 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         return Scaffold(
             appBar: AppBar(
               leading: const CupertinoNavigationBarBackButton(),
-              title: const Text("Categories"),
+              title: Text(
+                "Category",
+                style: kHeading3TextStyle,
+              ),
+              actions: [
+                Text(
+                  "Length: ${state.categoryList.length}   ",
+                  style: kSubtitleTextStyle.copyWith(color: Colors.blue),
+                )
+              ],
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()

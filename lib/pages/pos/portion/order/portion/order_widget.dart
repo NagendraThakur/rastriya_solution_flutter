@@ -16,107 +16,105 @@ Widget orderWidget({
     builder: (context, state) {
       double quantity = state.quantity;
 
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: BorderContainer(
-          // decoration: BoxDecoration(border: Border.all()),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text(product.name),
-                subtitle: Text(
-                  "${product.batch?.batchName ?? ""} @ ${product.lastUnitPrice!.toStringAsFixed(2)}",
-                  style: kBodyRegularTextStyle,
-                ),
-                trailing: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      (product.quantity! * product.lastUnitPrice!)
-                          .toStringAsFixed(2),
-                      style: kSubtitleRegularTextStyle,
-                    ),
-                    if (!showNotePortion)
-                      Container(
-                        alignment: Alignment.center,
-                        width: 120,
-                        height: 32,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  if (quantity > 1) {
-                                    BlocProvider.of<PosCubit>(context)
-                                        .assignQuantity(state.quantity - 1);
-                                  }
-                                },
-                                icon: const Icon(
-                                  CupertinoIcons.minus_circle_fill,
-                                  size: 35,
-                                  color: Colors.blue,
-                                )),
-                            Text(quantity.toStringAsFixed(0),
-                                style: kBodyRegularTextStyle1),
-                            IconButton(
-                                onPressed: () {
-                                  BlocProvider.of<PosCubit>(context)
-                                      .assignQuantity(state.quantity + 1);
-                                },
-                                icon: const Icon(
-                                  CupertinoIcons.add_circled_solid,
-                                  size: 35,
-                                  color: Colors.blue,
-                                )),
-                          ],
-                        ),
-                      )
-                  ],
-                ),
+      return BorderContainer(
+        outerPadding: EdgeInsets.only(),
+        // decoration: BoxDecoration(border: Border.all()),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(product.name),
+              subtitle: Text(
+                "${product.batch?.batchName ?? ""} @ ${product.lastUnitPrice!.toStringAsFixed(2)}",
+                style: kBodyRegularTextStyle,
               ),
-              showNotePortion
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                      ),
+              trailing: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    (product.quantity! * product.lastUnitPrice!)
+                        .toStringAsFixed(2),
+                    style: kSubtitleRegularTextStyle,
+                  ),
+                  if (!showNotePortion)
+                    Container(
+                      alignment: Alignment.center,
+                      width: 120,
+                      height: 32,
                       child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          CustomTextField(
-                            enabled: false,
-                            filled: false,
-                            width: width * 0.6,
-                            topPadding: 0,
-                            prefixIcon: const Icon(CupertinoIcons.doc_text),
-                            hintText: "Enter Remarks to Product",
-                            controller:
-                                TextEditingController(text: product.review),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.blue.shade800,
-                                borderRadius: BorderRadius.circular(5)),
-                            width: 50,
-                            height: 50,
-                            child: Text(
-                              product.quantity!.toStringAsFixed(0),
-                              style: kHeading3TextStyle.copyWith(
-                                  color: Colors.white),
-                            ),
-                          )
+                          IconButton(
+                              onPressed: () {
+                                if (quantity > 1) {
+                                  BlocProvider.of<PosCubit>(context)
+                                      .assignQuantity(state.quantity - 1);
+                                }
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.minus_circle_fill,
+                                size: 35,
+                                color: Colors.blue,
+                              )),
+                          Text(quantity.toStringAsFixed(0),
+                              style: kBodyRegularTextStyle1),
+                          IconButton(
+                              onPressed: () {
+                                BlocProvider.of<PosCubit>(context)
+                                    .assignQuantity(state.quantity + 1);
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.add_circled_solid,
+                                size: 35,
+                                color: Colors.blue,
+                              )),
                         ],
                       ),
                     )
-                  : const SizedBox.shrink(),
-              const SizedBox(
-                height: 15,
-              )
-            ],
-          ),
+                ],
+              ),
+            ),
+            showNotePortion
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomTextField(
+                          enabled: false,
+                          filled: false,
+                          width: width * 0.6,
+                          topPadding: 0,
+                          prefixIcon: const Icon(CupertinoIcons.doc_text),
+                          hintText: "Enter Remarks to Product",
+                          controller:
+                              TextEditingController(text: product.review),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: Colors.blue.shade800,
+                              borderRadius: BorderRadius.circular(5)),
+                          width: 50,
+                          height: 50,
+                          child: Text(
+                            product.quantity!.toStringAsFixed(0),
+                            style: kHeading3TextStyle.copyWith(
+                                color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            const SizedBox(
+              height: 15,
+            )
+          ],
         ),
       );
     },

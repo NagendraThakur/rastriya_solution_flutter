@@ -6,29 +6,12 @@ import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/cubit/product_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
-import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
-class ProductListScreen extends StatefulWidget {
+class ProductListScreen extends StatelessWidget {
   const ProductListScreen({super.key});
-
-  @override
-  State<ProductListScreen> createState() => _ProductListScreenState();
-}
-
-class _ProductListScreenState extends State<ProductListScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      BlocProvider.of<ProductCubit>(context).fetchProduct();
-      BlocProvider.of<ProductCubit>(context).fetchCategory();
-      BlocProvider.of<ProductCubit>(context).fetchUnit();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +35,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
         return Scaffold(
             appBar: AppBar(
               leading: const CupertinoNavigationBarBackButton(),
-              title: const Text("Products"),
+              title: Text(
+                "Products",
+                style: kHeading3TextStyle,
+              ),
+              actions: [
+                Text(
+                  "Length: ${state.productList.length}   ",
+                  style: kSubtitleTextStyle.copyWith(color: Colors.blue),
+                )
+              ],
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()
@@ -115,48 +107,4 @@ class _ProductListScreenState extends State<ProductListScreen> {
       },
     );
   }
-
-  // List<DataRow> createRow(List<ProductModel> data, ProductState state) {
-  //   return data.map((ProductModel item) {
-  //     return DataRow(
-  //       selected: false,
-  //       cells: [
-  //         DataCell(Text(
-  //           item.productCode ?? "-",
-  //           style: kBodyRegularTextStyle,
-  //         )),
-  //         DataCell(Text(
-  //           item.name,
-  //           style: kBodyRegularTextStyle,
-  //         )),
-  //         DataCell(Text(
-  //           item.baseUnitName ?? "-",
-  //           style: kBodyRegularTextStyle,
-  //         )),
-  //         DataCell(Text(
-  //           item.lastUnitCost!.toStringAsFixed(2),
-  //           style: kBodyRegularTextStyle,
-  //         )),
-  //         DataCell(Text(
-  //           item.lastUnitPrice!.toStringAsFixed(2),
-  //           style: kBodyRegularTextStyle,
-  //         )),
-  //         DataCell(Text(
-  //           item.categoryName ?? "-",
-  //           style: kBodyRegularTextStyle,
-  //         )),
-  //       ],
-  //       onSelectChanged: (value) async {
-  //         Navigator.of(context).pushNamed(
-  //           "/edit_product",
-  //           arguments: {
-  //             "product": item,
-  //             "categoryList": state.categoryList,
-  //             "unitList": state.unitList
-  //           },
-  //         );
-  //       },
-  //     );
-  //   }).toList();
-  // }
 }

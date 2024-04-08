@@ -6,7 +6,6 @@ import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/unit_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/unit/cubit/unit_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
-import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
@@ -29,7 +28,6 @@ class _UnitListScreenState extends State<UnitListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return BlocConsumer<UnitCubit, UnitState>(
       listener: (context, state) {
         if (state.isLoading == true) {
