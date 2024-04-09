@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/model/batch_model.dart';
+import 'package:rastriya_solution_flutter/model/bill_model.dart';
 import 'package:rastriya_solution_flutter/model/brand_model.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
 import 'package:rastriya_solution_flutter/model/company_model.dart';
@@ -70,14 +71,43 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/section/section_list.d
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/edit_table_setup.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setup_list.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page.dart';
-import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/cubit/top_selling_products_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_module_main.dart';
+import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/edit_sales_return.dart';
+import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/edit_sales_bill.dart';
+import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/sales_bill_list.dart';
+import 'package:rastriya_solution_flutter/pages/sales_module/sales_module_main.dart';
 import 'package:rastriya_solution_flutter/pages/setting/setting_screen.dart';
 import 'package:rastriya_solution_flutter/pages/splash-screen/splash_screen.dart';
 
 class Routes {
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case "/sales_module_main":
+        return MaterialPageRoute(
+            builder: (context) => const SalesModuleMainPage());
+      case "/sales_bill_list":
+        return MaterialPageRoute(
+            builder: (context) => const SalesBillListScreen());
+      case "/edit_sales_bill":
+        final BillModel bill = settings.arguments as BillModel;
+        return MaterialPageRoute(
+            builder: (context) => EditSalesBill(
+                  bill: bill,
+                ));
+      case "/sales_return_list":
+        return MaterialPageRoute(
+            builder: (context) => const SalesBillListScreen());
+      case "/edit_sales_return":
+        final BillModel bill = settings.arguments as BillModel;
+        return MaterialPageRoute(
+            builder: (context) => EditSalesReturn(
+                  bill: bill,
+                ));
+      case "/purchase_module_main":
+        return MaterialPageRoute(
+            builder: (context) => const PurchaseModuleMainPage());
+
       case "/dashboard":
         final CompanyModel companyInfo = settings.arguments as CompanyModel;
         return MaterialPageRoute(

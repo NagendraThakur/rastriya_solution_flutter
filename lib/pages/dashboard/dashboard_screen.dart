@@ -106,7 +106,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           label: "Pos Setup"),
       DashboardMenuModel(
           permission: true,
-          navigationPath: "/pos_setup",
+          navigationPath: "/sales_module_main",
+          imagePath: "assets/svg/purchase.svg",
+          label: "Sales Module"),
+      DashboardMenuModel(
+          permission: true,
+          navigationPath: "/purchase_module_main",
           imagePath: "assets/svg/purchase.svg",
           label: "Purchase Module"),
       DashboardMenuModel(
@@ -124,6 +129,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           navigationPath: "/setting",
           imagePath: "assets/svg/setting.svg",
           label: "Setting"),
+      DashboardMenuModel(
+          permission: false,
+          navigationPath: "/",
+          imagePath: "assets/svg/help_desk.svg",
+          label: "Help"),
     ];
     final loginData =
         (BlocProvider.of<SignInCubit>(context).state as SignInSuccess)
@@ -184,44 +194,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              border: const Border(
-                bottom: BorderSide(
-                  color: Colors.blue,
-                  width: 2.0,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                border: const Border(
+                  bottom: BorderSide(
+                    color: Colors.blue,
+                    width: 2.0,
+                  ),
                 ),
               ),
+              child: null,
             ),
-            child: null,
-          ),
-          const CustomTextField(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            prefixIcon: Icon(CupertinoIcons.search),
-            hintText: "Search For Everything",
-            filled: false,
-            enabled: false,
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 100.0,
-              mainAxisExtent: 90,
-              mainAxisSpacing: 2,
-              crossAxisSpacing: 10,
+            const CustomTextField(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+              prefixIcon: Icon(CupertinoIcons.search),
+              hintText: "Search For Everything",
+              filled: false,
+              enabled: false,
             ),
-            itemCount: menuList.length,
-            itemBuilder: (BuildContext context, int index) {
-              final menuItem = menuList[index];
-              return MenuCard(menuItem: menuItem);
-            },
-          ),
-        ],
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 100.0,
+                mainAxisExtent: 90,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 10,
+              ),
+              itemCount: menuList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final menuItem = menuList[index];
+                return MenuCard(menuItem: menuItem);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

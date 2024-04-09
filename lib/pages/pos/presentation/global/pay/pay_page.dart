@@ -69,7 +69,7 @@ class _PayPageState extends State<PayPage> {
                                       width: 25,
                                     ),
                                     Text(
-                                      " Item Total",
+                                      " Item Total (${state.orderQuantity})",
                                       style: kSubtitleRegularTextStyle,
                                     ),
                                   ],
