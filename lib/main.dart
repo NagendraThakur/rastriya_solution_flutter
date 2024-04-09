@@ -15,6 +15,7 @@ import 'package:rastriya_solution_flutter/pages/loyalty_member/cubit/loyalty_mem
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/cubit/payment_mode_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/cubit/print_station_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/pos_setup/section/cubit/section_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/cubit/table_cubit.dart';
 import 'package:rastriya_solution_flutter/routes/routes.dart';
 
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PaymentModeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => SectionCubit(),
         ),
         BlocProvider(
           create: (context) => TableCubit(),

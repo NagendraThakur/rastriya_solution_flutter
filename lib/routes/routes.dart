@@ -67,6 +67,7 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/section/edit_section.d
 import 'package:rastriya_solution_flutter/pages/pos_setup/section/section_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/edit_table_setup.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setup_list.dart';
+import 'package:rastriya_solution_flutter/pages/reports/reports_screen.dart';
 import 'package:rastriya_solution_flutter/pages/setting/setting_screen.dart';
 import 'package:rastriya_solution_flutter/pages/splash-screen/splash_screen.dart';
 
@@ -267,11 +268,11 @@ class Routes {
             paymentModeInfo: paymentMode,
           ),
         );
-      case "/secton_list":
+      case "/section_list":
         return MaterialPageRoute(
-          builder: (context) => SectionListScreen(),
+          builder: (context) => const SectionListScreen(),
         );
-      case "/edit_secton":
+      case "/edit_section":
         final SectionModel? section = settings.arguments as SectionModel?;
         return MaterialPageRoute(
           builder: (context) => EditSectionScreen(
@@ -292,6 +293,10 @@ class Routes {
         );
       case "/setting":
         return MaterialPageRoute(builder: (context) => const SettingScreen());
+
+      //Reports Modules
+      case "/reports":
+        return MaterialPageRoute(builder: (context) => const ReportScreen());
 
       //POS Routes
       case "/restro_main":

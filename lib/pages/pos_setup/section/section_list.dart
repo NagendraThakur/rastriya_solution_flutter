@@ -56,7 +56,7 @@ class _SectionListScreenState extends State<SectionListScreen> {
                   child: ListTile(
                 onTap: () {
                   Navigator.of(context).pushNamed(
-                    "/section_one",
+                    "/edit_section",
                     arguments: section,
                   );
                 },
@@ -72,7 +72,7 @@ class _SectionListScreenState extends State<SectionListScreen> {
               "Add Space",
               style: kSubtitleRegularTextStyle,
             ),
-            onPressed: () => Navigator.of(context).pushNamed("/section_one")),
+            onPressed: () => Navigator.of(context).pushNamed("/edit_section")),
       );
     });
   }

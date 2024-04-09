@@ -53,7 +53,7 @@ class SectionCubit extends Cubit<SectionState> {
   }
 
   Future<void> fetchSection() async {
-    emit(state.copyWith(isLoading: true, message: ''));
+    emit(state.copyWith(isLoading: true));
 
     try {
       final response = await GetRepository().getRequest(

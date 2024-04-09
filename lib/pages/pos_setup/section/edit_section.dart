@@ -42,35 +42,38 @@ class _EditSectionScreenState extends State<EditSectionScreen> {
         ),
         body: BlocBuilder<SectionCubit, SectionState>(
           builder: (context, state) {
-            return Column(
-              children: [
-                CustomTextField(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  labelText: "Name",
-                  hintText: "Your Section Name",
-                  controller: name,
-                ),
-                CustomDropDownButton(
-                  avatarInitials: "S",
-                  hintText: "Select Store",
-                  label: "store",
-                  value: storeId,
-                  padding: const EdgeInsets.only(top: 20),
-                  onChanged: (String value) {
-                    storeId = value;
-                  },
-                  items: state.storeList.map((StoreModel store) {
-                    return DropdownMenuItem<String>(
-                      value: store.id.toString(),
-                      child: Text(store.name ?? ""),
-                    );
-                  }).toList(),
-                ),
-              ],
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  CustomTextField(
+                    labelText: "Space Name",
+                    hintText: "Your Space Name",
+                    controller: name,
+                  ),
+                  CustomDropDownButton(
+                    avatarInitials: "S",
+                    hintText: "Select Store",
+                    label: "store",
+                    value: storeId,
+                    padding: const EdgeInsets.only(top: 20),
+                    onChanged: (String value) {
+                      storeId = value;
+                    },
+                    items: state.storeList.map((StoreModel store) {
+                      return DropdownMenuItem<String>(
+                        value: store.id.toString(),
+                        child: Text(store.name ?? ""),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
             );
           },
         ),
         bottomNavigationBar: CustomButton(
+            horizontalPadding: 10,
             buttonText: "Save",
             onPressed: () {
               SectionModel section = SectionModel(

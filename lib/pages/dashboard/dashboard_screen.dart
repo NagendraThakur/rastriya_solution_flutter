@@ -106,6 +106,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           label: "Pos Setup"),
       DashboardMenuModel(
           permission: true,
+          navigationPath: "/reports",
+          imagePath: "assets/svg/report.svg",
+          label: "Reports"),
+      DashboardMenuModel(
+          permission: true,
           navigationPath: "/setting",
           imagePath: "assets/svg/setting.svg",
           label: "Setting"),
