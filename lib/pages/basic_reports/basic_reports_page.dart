@@ -16,9 +16,14 @@ class _BasicReportPageState extends State<BasicReportPage> {
     List<ComponentButtonModel> reportList = [
       ComponentButtonModel(
           svgPath: "assets/svg/top_selling_product.svg",
-          label: "Top Selling Products",
-          description: "Top Selling Products Report",
+          label: "Today Top Selling Products",
+          description: "Today Top Selling Products Report",
           pushNamed: "/top_selling_products_report"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/cancel_product.svg",
+          label: "Today Cancel Products",
+          description: "Today Cancel Products Report",
+          pushNamed: "/void_product_report"),
     ];
     return Scaffold(
       appBar: AppBar(

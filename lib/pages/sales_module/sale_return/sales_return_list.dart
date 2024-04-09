@@ -1,20 +1,28 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 import 'package:nepali_date_picker/nepali_date_picker.dart';
+
 import 'package:rastriya_solution_flutter/helper/nepali_calender_widget.dart';
 import 'package:rastriya_solution_flutter/model/bill_model.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/cubit/sales_return_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/cubit/sales_bill_cubit.dart';
-import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
+import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/border_container.dart';
 import 'package:rastriya_solution_flutter/widgets/box_widget.dart';
+import 'package:rastriya_solution_flutter/widgets/summary_widget.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 
 class SalesReturnListScreen extends StatefulWidget {
-  const SalesReturnListScreen({super.key});
+  final bool? showSummary;
+  const SalesReturnListScreen({
+    Key? key,
+    this.showSummary = false,
+  }) : super(key: key);
 
   @override
   State<SalesReturnListScreen> createState() => _SalesReturnListScreenState();
@@ -97,6 +105,37 @@ class _SalesReturnListScreenState extends State<SalesReturnListScreen> {
                   }
                 },
               ),
+              widget.showSummary == true
+                  ? BorderContainer(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Summary",
+                            style: kHeading3TextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              summaryWidth(
+                                  value: state.salesBillSearchResult?.length
+                                          .toString() ??
+                                      "0",
+                                  label: "Return Bills"),
+                              summaryWidth(
+                                  value: state.totalDiscountAmount
+                                      .toStringAsFixed(2),
+                                  label: "Discounts Amt"),
+                              summaryWidth(
+                                  value:
+                                      state.totalBillsAmount.toStringAsFixed(2),
+                                  label: "Bills Amt"),
+                            ],
+                          )
+                        ],
+                      ))
+                  : const SizedBox.shrink(),
               state.salesBillSearchResult == null
                   ? const Center(child: CircularProgressIndicator())
                   : Expanded(

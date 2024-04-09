@@ -30,6 +30,7 @@ import 'package:rastriya_solution_flutter/pages/advance_reports/advance_report_p
 import 'package:rastriya_solution_flutter/pages/advance_reports/top_selling_products/advance_top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/presentation/sign_in_screen.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_up/sign_up_screen.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/void_product/void_product_list.dart';
 import 'package:rastriya_solution_flutter/pages/company/company_list_screen.dart';
 import 'package:rastriya_solution_flutter/pages/company/edit_company_screen.dart';
 import 'package:rastriya_solution_flutter/pages/dashboard/dashboard_screen.dart';
@@ -88,8 +89,11 @@ class Routes {
         return MaterialPageRoute(
             builder: (context) => const SalesModuleMainPage());
       case "/sales_bill_list":
+        final bool? showSummary = settings.arguments as bool?;
         return MaterialPageRoute(
-            builder: (context) => const SalesBillListScreen());
+            builder: (context) => SalesBillListScreen(
+                  showSummary: showSummary,
+                ));
       case "/edit_sales_bill":
         final BillModel bill = settings.arguments as BillModel;
         return MaterialPageRoute(
@@ -97,8 +101,11 @@ class Routes {
                   bill: bill,
                 ));
       case "/sales_return_list":
+        final bool? showSummary = settings.arguments as bool?;
         return MaterialPageRoute(
-            builder: (context) => const SalesReturnListScreen());
+            builder: (context) => SalesReturnListScreen(
+                  showSummary: showSummary,
+                ));
       case "/edit_sales_return":
         final BillModel bill = settings.arguments as BillModel;
         return MaterialPageRoute(
@@ -335,6 +342,12 @@ class Routes {
       case "/top_selling_products_report":
         return MaterialPageRoute(
             builder: (context) => const TopSellingProductsListPage());
+      case "/void_product_report":
+        bool? showDateFilter = settings.arguments as bool?;
+        return MaterialPageRoute(
+            builder: (context) => VoidProductListPage(
+                  showDateFilter: showDateFilter,
+                ));
       case "/advance_report":
         return MaterialPageRoute(
             builder: (context) => const AdvanceReportPage());

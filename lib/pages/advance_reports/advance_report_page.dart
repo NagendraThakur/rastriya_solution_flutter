@@ -15,10 +15,25 @@ class _AdvanceReportPageState extends State<AdvanceReportPage> {
   Widget build(BuildContext context) {
     List<ComponentButtonModel> reportList = [
       ComponentButtonModel(
+          svgPath: "assets/svg/sales_bill.svg",
+          label: "Sales Bill",
+          description: "Sales Bill Report",
+          pushNamed: "/sales_bill_list"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/sales_return.svg",
+          label: "Sales Return",
+          description: "Sales Return Report",
+          pushNamed: "/sales_return_list"),
+      ComponentButtonModel(
           svgPath: "assets/svg/top_selling_product.svg",
           label: "Top Selling Products",
           description: "Top Selling Products Report",
           pushNamed: "/advance_top_selling_products_report"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/cancel_product.svg",
+          label: "Cancel Products",
+          description: "Cancel Products Report",
+          pushNamed: "/void_product_report"),
     ];
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +45,8 @@ class _AdvanceReportPageState extends State<AdvanceReportPage> {
           itemBuilder: (BuildContext context, int index) {
             ComponentButtonModel item = reportList[index];
             return ListTile(
-              onTap: () => Navigator.of(context).pushNamed(item.pushNamed),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(item.pushNamed, arguments: true),
               leading: SvgPicture.asset(
                 item.svgPath,
                 width: 50,

@@ -32,10 +32,12 @@ class SalesBillCubit extends Cubit<SalesBillState> {
 
       if (response["status"] == "success") {
         double totalBillsAmount = 0.0;
+        double totalDiscountAmount = 0.0;
         List<dynamic> data = response["data"];
         List<BillModel> salesBillList = data.map((json) {
           BillModel bill = BillModel.fromJson(json);
           totalBillsAmount += bill.billAmount!;
+          totalDiscountAmount += bill.discountAmount!;
           return bill;
         }).toList();
 
@@ -43,6 +45,7 @@ class SalesBillCubit extends Cubit<SalesBillState> {
           salesBillList: salesBillList,
           salesBillSearchResult: salesBillList,
           totalBillsAmount: totalBillsAmount,
+          totalDiscountAmount: totalDiscountAmount,
           isLoading: false,
         ));
       } else {
@@ -61,6 +64,7 @@ class SalesBillCubit extends Cubit<SalesBillState> {
     if (salesBillList != null && salesBillList.isNotEmpty) {
       final searchValueLowerCase = value.toLowerCase();
       double totalBillsAmount = 0.0;
+      double totalDiscountAmount = 0.0;
       for (BillModel bill in salesBillList) {
         if (bill.billNo.toLowerCase().contains(searchValueLowerCase) ||
             (bill.orderNo != null &&
@@ -86,11 +90,13 @@ class SalesBillCubit extends Cubit<SalesBillState> {
           salesBillSearchResult.add(bill);
 
           totalBillsAmount += (bill.billAmount!);
+          totalDiscountAmount += (bill.discountAmount!);
         }
       }
       emit(state.copyWith(
         salesBillSearchResult: salesBillSearchResult,
         totalBillsAmount: totalBillsAmount,
+        totalDiscountAmount: totalDiscountAmount,
       ));
     }
   }

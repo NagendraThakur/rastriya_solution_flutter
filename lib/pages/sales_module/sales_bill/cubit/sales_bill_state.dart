@@ -7,6 +7,7 @@ class SalesBillState {
   final String? message;
   final BillModel? salesReturnSuccess;
   final double totalBillsAmount;
+  final double totalDiscountAmount;
 
   SalesBillState({
     this.isLoading,
@@ -15,12 +16,14 @@ class SalesBillState {
     this.message,
     this.salesReturnSuccess,
     required this.totalBillsAmount,
+    required this.totalDiscountAmount,
   });
 
   factory SalesBillState.initial() {
     return SalesBillState(
       salesBillList: [],
       totalBillsAmount: 0.0,
+      totalDiscountAmount: 0.0,
     );
   }
 
@@ -31,6 +34,7 @@ class SalesBillState {
     String? message,
     BillModel? salesReturnSuccess,
     double? totalBillsAmount,
+    double? totalDiscountAmount,
   }) {
     return SalesBillState(
       isLoading: isLoading,
@@ -40,6 +44,7 @@ class SalesBillState {
       message: message ?? this.message,
       salesReturnSuccess: salesReturnSuccess,
       totalBillsAmount: totalBillsAmount ?? this.totalBillsAmount,
+      totalDiscountAmount: totalDiscountAmount ?? this.totalDiscountAmount,
     );
   }
 }

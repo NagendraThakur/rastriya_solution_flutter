@@ -31,7 +31,7 @@ class _AdvanceTopSellingProductsListPageState
         return Scaffold(
           appBar: AppBar(
             leading: const CupertinoNavigationBarBackButton(),
-            title: const Text("Advance Top Selling Products"),
+            title: const Text("Top Selling Products"),
           ),
           body: state.isLoading == true
               ? const Center(child: CircularProgressIndicator())
@@ -81,22 +81,24 @@ class _AdvanceTopSellingProductsListPageState
                       ],
                     ),
                     verticalSpaceSmall,
-                    SingleChildScrollView(
-                      child: CustomDataTable(
-                          columnNames: const [
-                            "Particulars",
-                            "Sales Qty",
-                            "Sales Return Qty",
-                            "Net Sales Qty",
-                            // "Gross Amount",
-                            // "Discount Amount",
-                            "Amount",
-                            // "Vat Amount",
-                            // "Net Amount",
-                          ],
-                          createRow: createRow(
-                              context: context,
-                              data: state.topSellingProductsList)),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: CustomDataTable(
+                            columnNames: const [
+                              "Particulars",
+                              "Sales Qty",
+                              "Sales Return Qty",
+                              "Net Sales Qty",
+                              // "Gross Amount",
+                              // "Discount Amount",
+                              "Amount",
+                              // "Vat Amount",
+                              // "Net Amount",
+                            ],
+                            createRow: createRow(
+                                context: context,
+                                data: state.topSellingProductsList)),
+                      ),
                     ),
                   ],
                 ),

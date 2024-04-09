@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
-import 'package:rastriya_solution_flutter/data/repository/post_repository.dart';
 import 'package:rastriya_solution_flutter/model/bill_model.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 part 'sales_return_state.dart';
@@ -32,10 +28,13 @@ class SalesReturnCubit extends Cubit<SalesReturnState> {
 
       if (response["status"] == "success") {
         double totalBillsAmount = 0.0;
+        double totalDiscountAmount = 0.0;
         List<dynamic> data = response["data"];
         List<BillModel> salesBillList = data.map((json) {
           BillModel bill = BillModel.fromJson(json);
           totalBillsAmount += bill.billAmount!;
+          totalDiscountAmount += bill.discountAmount!;
+
           return bill;
         }).toList();
 
@@ -43,6 +42,7 @@ class SalesReturnCubit extends Cubit<SalesReturnState> {
           salesBillList: salesBillList,
           salesBillSearchResult: salesBillList,
           totalBillsAmount: totalBillsAmount,
+          totalDiscountAmount: totalDiscountAmount,
           isLoading: false,
         ));
       } else {
