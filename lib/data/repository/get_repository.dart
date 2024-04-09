@@ -42,6 +42,10 @@ class GetRepository {
   static String salesBillHistory = "/api/v2/pos/sales-bill-history";
   static String voidReason = "/api/v2/pos/void-reason";
 
+  //Reports
+  static String dailyProductReport = "/api/v2/reports/sales/product";
+  static String voidOrderReport = "/api/v2/reports/sales/void";
+
   Future<dynamic> getRequest({
     required String path,
     Map<String, dynamic>? additionalHeader,

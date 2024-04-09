@@ -4,6 +4,7 @@ import 'package:rastriya_solution_flutter/pages/account_setup/employee/cubit/emp
 import 'package:rastriya_solution_flutter/pages/account_setup/store_setup/cubit/store_setup_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/terminal/cubit/terminal_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/cubit/sign_in_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/cubit/top_selling_products_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/company/cubit/company_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/batch/cubit/batch_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/brand/cubit/brand_cubit.dart';
@@ -80,6 +81,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PosCubit(),
+        ),
+        BlocProvider(
+          create: (context) => TopSellingProductsCubit(),
         ),
       ],
       child: MaterialApp(

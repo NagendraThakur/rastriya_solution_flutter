@@ -25,12 +25,14 @@ import 'package:rastriya_solution_flutter/pages/account_setup/store_setup/edit_s
 import 'package:rastriya_solution_flutter/pages/account_setup/store_setup/store_setup_list.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/terminal/terminal_edit.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/terminal/terminal_list.dart';
+import 'package:rastriya_solution_flutter/pages/advance_reports/advance_report_page.dart';
+import 'package:rastriya_solution_flutter/pages/advance_reports/top_selling_products/advance_top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/presentation/sign_in_screen.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_up/sign_up_screen.dart';
 import 'package:rastriya_solution_flutter/pages/company/company_list_screen.dart';
 import 'package:rastriya_solution_flutter/pages/company/edit_company_screen.dart';
 import 'package:rastriya_solution_flutter/pages/dashboard/dashboard_screen.dart';
-import 'package:rastriya_solution_flutter/pages/invalid/invalid-screen.dart';
+import 'package:rastriya_solution_flutter/pages/invalid/invalid_page.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/Inventory_screen.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/batch/batch_list.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/batch/edit_batch.dart';
@@ -67,7 +69,9 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/section/edit_section.d
 import 'package:rastriya_solution_flutter/pages/pos_setup/section/section_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/edit_table_setup.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setup_list.dart';
-import 'package:rastriya_solution_flutter/pages/reports/reports_screen.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/cubit/top_selling_products_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/setting/setting_screen.dart';
 import 'package:rastriya_solution_flutter/pages/splash-screen/splash_screen.dart';
 
@@ -292,11 +296,20 @@ class Routes {
           ),
         );
       case "/setting":
-        return MaterialPageRoute(builder: (context) => const SettingScreen());
+        return MaterialPageRoute(builder: (context) => const SettingPage());
 
       //Reports Modules
-      case "/reports":
-        return MaterialPageRoute(builder: (context) => const ReportScreen());
+      case "/basic_reports":
+        return MaterialPageRoute(builder: (context) => const BasicReportPage());
+      case "/top_selling_products_report":
+        return MaterialPageRoute(
+            builder: (context) => const TopSellingProductsListPage());
+      case "/advance_report":
+        return MaterialPageRoute(
+            builder: (context) => const AdvanceReportPage());
+      case "/advance_top_selling_products_report":
+        return MaterialPageRoute(
+            builder: (context) => const AdvanceTopSellingProductsListPage());
 
       //POS Routes
       case "/restro_main":
@@ -332,7 +345,7 @@ class Routes {
         );
       default:
         return MaterialPageRoute(
-          builder: (context) => const InvalidScreen(),
+          builder: (context) => const InvalidPage(),
         );
     }
   }

@@ -5,8 +5,8 @@ import 'package:rastriya_solution_flutter/model/component_button_model.dart';
 import 'package:rastriya_solution_flutter/pages/setting/logout/logout.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {

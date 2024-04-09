@@ -16,8 +16,15 @@ class CustomDataTable extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         showCheckboxColumn: false,
-        headingRowColor:
-            MaterialStateProperty.resolveWith((states) => Colors.grey.shade400),
+        headingRowHeight: 40,
+        headingRowColor: MaterialStateProperty.resolveWith(
+            (states) => Colors.blueGrey.shade200),
+        headingTextStyle: kSubtitleRegularTextStyle,
+        dataRowHeight: 40,
+        dataTextStyle: kSubtitleRegularTextStyle,
+        border: TableBorder.symmetric(
+          outside: const BorderSide(),
+        ),
         columns: _buildColumns(columnNames),
         rows: createRow ?? emptyRow(columnNames: columnNames),
       ),

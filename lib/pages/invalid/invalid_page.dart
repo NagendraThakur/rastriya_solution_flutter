@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InvalidScreen extends StatelessWidget {
-  const InvalidScreen({super.key});
+class InvalidPage extends StatelessWidget {
+  const InvalidPage({super.key});
 
   @override
   Widget build(BuildContext context) {
