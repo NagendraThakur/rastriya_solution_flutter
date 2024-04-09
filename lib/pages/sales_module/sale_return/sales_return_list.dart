@@ -40,7 +40,7 @@ class _SalesReturnListScreenState extends State<SalesReturnListScreen> {
         return Scaffold(
           appBar: AppBar(
             leading: const CupertinoNavigationBarBackButton(),
-            title: const Text("Sales Bill"),
+            title: const Text("Sales Return"),
           ),
           body: Column(
             children: [

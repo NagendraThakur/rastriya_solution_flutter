@@ -74,6 +74,7 @@ import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_module_main.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/edit_sales_return.dart';
+import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/sales_return_list.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/edit_sales_bill.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/sales_bill_list.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_module_main.dart';
@@ -97,7 +98,7 @@ class Routes {
                 ));
       case "/sales_return_list":
         return MaterialPageRoute(
-            builder: (context) => const SalesBillListScreen());
+            builder: (context) => const SalesReturnListScreen());
       case "/edit_sales_return":
         final BillModel bill = settings.arguments as BillModel;
         return MaterialPageRoute(

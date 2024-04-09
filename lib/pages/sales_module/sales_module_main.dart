@@ -10,10 +10,15 @@ class SalesModuleMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<ComponentButtonModel> salesModules = [
       ComponentButtonModel(
-          svgPath: "assets/svg/top_selling_product.svg",
+          svgPath: "assets/svg/sales_bill.svg",
           label: "Sales Bill",
           description: "Sales Bill Description",
           pushNamed: "/sales_bill_list"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/sales_return.svg",
+          label: "Sales Return",
+          description: "Sales Return Description",
+          pushNamed: "/sales_return_list"),
     ];
     return Scaffold(
       appBar: AppBar(
