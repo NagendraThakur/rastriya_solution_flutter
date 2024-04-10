@@ -16,25 +16,28 @@ class VoidReportModel {
   String? tableName;
   String? reason;
   UserInfo? userInfo;
+  String? createAt;
 
-  VoidReportModel(
-      {this.id,
-      this.billNo,
-      this.productId,
-      this.userId,
-      this.qty,
-      this.amount,
-      this.rate,
-      this.storeId,
-      this.terminalId,
-      this.tableId,
-      this.voidReasonId,
-      this.productName,
-      this.storeName,
-      this.terminalName,
-      this.tableName,
-      this.reason,
-      this.userInfo});
+  VoidReportModel({
+    this.id,
+    this.billNo,
+    this.productId,
+    this.userId,
+    this.qty,
+    this.amount,
+    this.rate,
+    this.storeId,
+    this.terminalId,
+    this.tableId,
+    this.voidReasonId,
+    this.productName,
+    this.storeName,
+    this.terminalName,
+    this.tableName,
+    this.reason,
+    this.userInfo,
+    this.createAt,
+  });
 
   factory VoidReportModel.fromJson(Map<String, dynamic> json) {
     return VoidReportModel(
@@ -55,6 +58,7 @@ class VoidReportModel {
       tableName: json['table_name'],
       reason: json['reason'],
       userInfo: UserInfo.fromJson(json['user_info']),
+      createAt: json['created_at'].toString(),
     );
   }
 }

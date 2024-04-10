@@ -101,6 +101,7 @@ class _VoidProductListPageState extends State<VoidProductListPage> {
                       child: SingleChildScrollView(
                         child: CustomDataTable(
                             columnNames: const [
+                              "Date",
                               "Particulars",
                               "Qty",
                               "Amount",
@@ -141,6 +142,7 @@ class _VoidProductListPageState extends State<VoidProductListPage> {
       return DataRow(
         selected: false,
         cells: [
+          DataCell(Text(productInfo.createAt ?? "")),
           DataCell(Text(productInfo.productName ?? "")),
           DataCell(Text(productInfo.qty.toString())),
           DataCell(Text(productInfo.amount!.toStringAsFixed(2))),
@@ -156,6 +158,10 @@ class _VoidProductListPageState extends State<VoidProductListPage> {
         color:
             MaterialStateProperty.resolveWith((states) => Colors.blue.shade100),
         cells: [
+          DataCell(Text(
+            '',
+            style: kSubtitleTextStyle,
+          )),
           DataCell(Text(
             '',
             style: kSubtitleTextStyle,

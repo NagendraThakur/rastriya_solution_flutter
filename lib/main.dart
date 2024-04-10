@@ -19,6 +19,7 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/cubit/pay
 import 'package:rastriya_solution_flutter/pages/pos_setup/print_station/cubit/print_station_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/section/cubit/section_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/cubit/table_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/cubit/purchase_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/cubit/sales_return_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/cubit/sales_bill_cubit.dart';
 import 'package:rastriya_solution_flutter/routes/routes.dart';
@@ -96,6 +97,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SalesReturnCubit(),
+        ),
+        BlocProvider(
+          create: (context) => PurchaseCubit(),
         ),
       ],
       child: MaterialApp(

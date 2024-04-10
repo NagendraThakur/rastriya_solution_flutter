@@ -74,6 +74,7 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setu
 import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_module_main.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/purchase_order_list.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/edit_sales_return.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/sales_return_list.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/edit_sales_bill.dart';
@@ -85,6 +86,7 @@ import 'package:rastriya_solution_flutter/pages/splash-screen/splash_screen.dart
 class Routes {
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      //Sales Module
       case "/sales_module_main":
         return MaterialPageRoute(
             builder: (context) => const SalesModuleMainPage());
@@ -112,10 +114,16 @@ class Routes {
             builder: (context) => EditSalesReturn(
                   bill: bill,
                 ));
+      //Purchase Module
       case "/purchase_module_main":
         return MaterialPageRoute(
             builder: (context) => const PurchaseModuleMainPage());
-
+      case "/purchase_order_list":
+        final bool? showSummary = settings.arguments as bool?;
+        return MaterialPageRoute(
+            builder: (context) => PurchaseOrderListPage(
+                  showSummary: showSummary,
+                ));
       case "/dashboard":
         final CompanyModel companyInfo = settings.arguments as CompanyModel;
         return MaterialPageRoute(
