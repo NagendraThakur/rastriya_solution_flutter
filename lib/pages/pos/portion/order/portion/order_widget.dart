@@ -17,7 +17,7 @@ Widget orderWidget({
       double quantity = state.quantity;
 
       return BorderContainer(
-        outerPadding: EdgeInsets.only(),
+        outerPadding: const EdgeInsets.only(top: 5),
         // decoration: BoxDecoration(border: Border.all()),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:rastriya_solution_flutter/helper/numerical_range_formatter.dart';
 import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/global/pay/portion/discount_bottom_sheet.dart';
@@ -93,7 +95,10 @@ class _PayPageState extends State<PayPage> {
                                   ),
                                   InkWell(
                                     onTap: () => discountBottomSheet(
-                                        context: context, width: width),
+                                        discountPercentage:
+                                            state.discountPercentage,
+                                        context: context,
+                                        width: width),
                                     child: CustomContainer(
                                         innerHorizontalPadding: 2,
                                         innerVerticalPadding: 2,
@@ -356,7 +361,7 @@ class _PayPageState extends State<PayPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "- Total Amount",
+                                  "- Total Paid",
                                   style: kSubtitleRegularTextStyle,
                                 ),
                                 Text(
@@ -400,6 +405,7 @@ class _PayPageState extends State<PayPage> {
                 },
               ),
               secondComponent: CustomButton(
+                enable: state.totalAmount == state.paidAmount,
                 buttonText: "Pay",
                 onPressed: () {
                   BlocProvider.of<PosCubit>(context).createSalesBill();

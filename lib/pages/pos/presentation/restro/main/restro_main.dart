@@ -25,7 +25,6 @@ class _RestroMainPageState extends State<RestroMainPage> {
   void initState() {
     super.initState();
     BlocProvider.of<PosCubit>(context).fetchTables();
-    BlocProvider.of<PosCubit>(context).fetchSection();
     BlocProvider.of<PosCubit>(context).fetchCategoryProduct();
     BlocProvider.of<PosCubit>(context).fetchVoidReason();
   }

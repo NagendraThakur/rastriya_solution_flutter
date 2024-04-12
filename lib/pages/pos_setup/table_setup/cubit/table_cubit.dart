@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/post_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/put_repository.dart';
 import 'package:rastriya_solution_flutter/model/section_model.dart';
+import 'package:rastriya_solution_flutter/model/store_model.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 
 part 'table_state.dart';
@@ -31,6 +33,27 @@ class TableCubit extends Cubit<TableState> {
       fetchTables();
     } else {
       emit(state.copyWith(message: 'Failed: ${response["message"]}'));
+    }
+  }
+
+  Future<void> fetchStore() async {
+    emit(state.copyWith(isLoading: true));
+
+    try {
+      final response = await GetRepository().getRequest(
+          path: GetRepository.store,
+          additionalHeader: {"company-id": Config.companyInfo!.id});
+      emit(state.copyWith(isLoading: false));
+      if (response["status"] == "success") {
+        List<dynamic> data = response["store_lists"];
+        emit(state.copyWith(
+          storeList: data.map((json) => StoreModel.fromJson(json)).toList(),
+        ));
+      } else {
+        emit(state.copyWith(message: 'Failed to fetch data'));
+      }
+    } catch (e) {
+      emit(state.copyWith(message: 'Failed: $e'));
     }
   }
 

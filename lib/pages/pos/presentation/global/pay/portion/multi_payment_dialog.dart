@@ -46,6 +46,7 @@ payDialogWithPaymentMode({
                   controller: textController,
                   textAlign: TextAlign.end,
                   textInputType: TextInputType.number,
+                  selectAll: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter a amount';

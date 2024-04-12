@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rastriya_solution_flutter/constants/config.dart';
+import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/table_model.dart';
 
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
+import 'package:toastification/toastification.dart';
 
 class CheckOutTablePortion extends StatelessWidget {
   final String? sectionId;
@@ -54,6 +57,16 @@ class CheckOutTablePortion extends StatelessWidget {
                         TableModel table = filteredTables[index];
                         return InkWell(
                           onTap: () async {
+                            if (Config.permissionInfo!.documentPostingLevel
+                                    .toLowerCase() !=
+                                "posting") {
+                              return showToastification(
+                                  context: context,
+                                  message:
+                                      "Access Denied: Insufficient Authority",
+                                  toastificationType:
+                                      ToastificationType.warning);
+                            }
                             final cubit = BlocProvider.of<PosCubit>(context);
                             cubit.clearOrder();
                             cubit.assignTable(table: table);

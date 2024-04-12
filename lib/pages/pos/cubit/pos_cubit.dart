@@ -567,6 +567,8 @@ class PosCubit extends Cubit<PosState> {
 
   Future<void> fetchTables() async {
     emit(state.copyWith(tableList: []));
+    List<SectionModel> sectionList = [];
+    List<TableModel> tableList = [];
 
     try {
       final response = await GetRepository().getRequest(
@@ -574,38 +576,50 @@ class PosCubit extends Cubit<PosState> {
           additionalHeader: {"company-id": Config.companyInfo!.id});
 
       if (response["status"] == "success") {
-        List<dynamic> tableList = response["data"];
+        List<dynamic> data = response["data"];
+        List<String> sectionIds = [];
+        for (var json in data) {
+          TableModel table = TableModel.fromJson(json);
+          if (table.section?.storeId != Config.storeInfo!.id) {
+            return;
+          }
+          if (!sectionIds.contains(table.sectionId)) {
+            sectionIds.add(table.sectionId);
+            sectionList.add(table.section!);
+          }
+        }
+
         emit(state.copyWith(
-          tableList:
-              tableList.map((json) => TableModel.fromJson(json)).toList(),
+          tableList: tableList,
+          sectionList: sectionList,
         ));
       } else {
         emit(state.copyWith(message: 'Failed to fetch Table'));
       }
     } catch (e) {
-      emit(state.copyWith(message: 'Failed: $e'));
+      emit(state.copyWith(message: 'Failed: $e store not assigned'));
     }
   }
 
-  Future<void> fetchSection() async {
-    try {
-      final response = await GetRepository().getRequest(
-          path: GetRepository.section,
-          additionalHeader: {"company-id": Config.companyInfo!.id});
+  // Future<void> fetchSection() async {
+  //   try {
+  //     final response = await GetRepository().getRequest(
+  //         path: GetRepository.section,
+  //         additionalHeader: {"company-id": Config.companyInfo!.id});
 
-      if (response["status"] == "success") {
-        List<dynamic> sectionList = response["data"];
-        emit(state.copyWith(
-          sectionList:
-              sectionList.map((json) => SectionModel.fromJson(json)).toList(),
-        ));
-      } else {
-        emit(state.copyWith(message: 'Failed to fetch data'));
-      }
-    } catch (e) {
-      emit(state.copyWith(message: 'Error: $e'));
-    }
-  }
+  //     if (response["status"] == "success") {
+  //       List<dynamic> sectionList = response["data"];
+  //       emit(state.copyWith(
+  //         sectionList:
+  //             sectionList.map((json) => SectionModel.fromJson(json)).toList(),
+  //       ));
+  //     } else {
+  //       emit(state.copyWith(message: 'Failed to fetch data'));
+  //     }
+  //   } catch (e) {
+  //     emit(state.copyWith(message: 'Error: $e'));
+  //   }
+  // }
 
   void clearOrder() {
     emit(state.copyWith(

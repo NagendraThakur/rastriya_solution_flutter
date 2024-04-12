@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -25,6 +26,8 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final bool? filled;
   final bool? required;
+  final bool? selectAll;
+  final List<TextInputFormatter>? inputFormatters;
   // final int? maxLine;
 
   const CustomTextField({
@@ -52,9 +55,10 @@ class CustomTextField extends StatelessWidget {
     this.padding,
     this.filled = true,
     this.required = false,
+    this.selectAll = false,
+    this.inputFormatters,
     // this.maxLine,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -88,6 +92,7 @@ class CustomTextField extends StatelessWidget {
                 ),
               ),
             TextFormField(
+              inputFormatters: inputFormatters,
               autofocus: autofocus ?? false,
               // maxLines: maxLine,
               focusNode: focusNode,
@@ -104,6 +109,15 @@ class CustomTextField extends StatelessWidget {
                   ),
               validator: validator,
               onChanged: onChanged,
+              onTap: () {
+                // Select all text when the TextField is tapped
+                if (controller != null && selectAll == true) {
+                  controller!.selection = TextSelection(
+                    baseOffset: 0,
+                    extentOffset: controller!.text.length,
+                  );
+                }
+              },
               onFieldSubmitted: onFieldSubmitted,
               textAlign: textAlign ?? TextAlign.left,
               decoration: decoration ?? _buildInputDecoration(),

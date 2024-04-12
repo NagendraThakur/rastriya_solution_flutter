@@ -6,6 +6,7 @@ import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/model/company_model.dart';
 import 'package:rastriya_solution_flutter/model/grid_item_model.dart';
 import 'package:rastriya_solution_flutter/model/permission_model.dart';
+import 'package:rastriya_solution_flutter/model/store_model.dart';
 import 'package:rastriya_solution_flutter/model/terminal_response_model.dart';
 import 'package:rastriya_solution_flutter/model/user_model.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/cubit/sign_in_cubit.dart';
@@ -42,10 +43,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final PermissionModel permissionResponse =
         PermissionModel.fromJson(response);
     Config.permissionInfo = permissionResponse;
-    fetchTerminal(terminalId: permissionResponse.terminalId);
+    fetchTerminal(
+        terminalId: permissionResponse.terminalId,
+        storeId: permissionResponse.storeId);
   }
 
-  void fetchTerminal({required String? terminalId}) async {
+  void fetchTerminal(
+      {required String? terminalId, required String? storeId}) async {
     if (terminalId!.isNotEmpty && terminalId != "0") {
       final response = await GetRepository().getRequest(
           path: "${GetRepository.posTerminal}/$terminalId/edit",
@@ -55,11 +59,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           TerminalResponse.fromJson(response);
       if (terminalResponse.terminal != null) {
         Config.terminalInfo = terminalResponse.terminal;
-        if (terminalResponse.storeLists != null) {
-          for (var element in terminalResponse.storeLists!) {
-            if (element.id == Config.terminalInfo!.storeId) {
-              Config.storeInfo = element;
-            }
+      }
+      if (terminalResponse.storeLists != null) {
+        for (var store in terminalResponse.storeLists!) {
+          if (store.id == storeId) {
+            Config.storeInfo = store;
           }
         }
       }

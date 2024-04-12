@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rastriya_solution_flutter/helper/numerical_range_formatter.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
@@ -10,7 +12,9 @@ import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
 
 void discountBottomSheet(
-    {required BuildContext context, required double width}) {
+    {required BuildContext context,
+    required double discountPercentage,
+    required double width}) {
   showModalBottomSheet(
       context: context,
       scrollControlDisabledMaxHeightRatio: 0.9,
@@ -21,7 +25,8 @@ void discountBottomSheet(
         ),
       ),
       builder: (BuildContext context) {
-        TextEditingController review = TextEditingController();
+        TextEditingController discountPercentageController =
+            TextEditingController(text: discountPercentage.toStringAsFixed(1));
         return BlocBuilder<PosCubit, PosState>(
           builder: (context, state) {
             return Padding(
@@ -63,7 +68,14 @@ void discountBottomSheet(
                     children: [
                       CustomTextField(
                         labelText: "Percentage",
+                        selectAll: true,
+                        controller: discountPercentageController,
+                        textInputType: const TextInputType.numberWithOptions(),
                         width: width * 0.4,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(3),
+                          NumericalRangeFormatter(min: 1, max: 100),
+                        ],
                         onChanged: (String? discountPercentage) {
                           if (discountPercentage != null) {
                             BlocProvider.of<PosCubit>(context)
