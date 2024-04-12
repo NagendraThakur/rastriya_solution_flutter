@@ -10,8 +10,6 @@ class ReviewOrderPage extends StatefulWidget {
 }
 
 class _ReviewOrderPageState extends State<ReviewOrderPage> {
-  bool enable = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

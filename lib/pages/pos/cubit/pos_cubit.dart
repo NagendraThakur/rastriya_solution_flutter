@@ -250,8 +250,6 @@ class PosCubit extends Cubit<PosState> {
           .toList(),
       "no_of_guests": state.noOfGuest,
     };
-    print(body);
-    log(body.toString());
     dynamic response;
     if (requestType == "post") {
       response = await PostRepository()
@@ -266,10 +264,7 @@ class PosCubit extends Cubit<PosState> {
     if (response["status"] == "success") {
       OrderBillModel salesOrderBill =
           OrderBillModel.fromJson(response['data'] as Map<String, dynamic>);
-      // emit(state.copyWith(message: response["message"]));
-      // emit(state.copyWith(
-      //     salesOrderBill: salesOrderBill, noOfGuest: salesOrderBill.noOfGuest));
-
+      fetchTables();
       return salesOrderBill;
     } else {
       emit(state.copyWith(message: 'Failed: ${response["message"]}'));
@@ -515,6 +510,29 @@ class PosCubit extends Cubit<PosState> {
     calculateOrderSummary();
   }
 
+  void fetchProductForRetail() async {
+    try {
+      final response = await GetRepository().getRequest(
+          path: GetRepository.product,
+          additionalHeader: {"company-id": Config.companyInfo!.id},
+          queryParameters: {"blocked": 0, "sellable_item": 1, "limit": 10});
+      if (response["status"] == "success") {
+        List<dynamic> productList = response["data"];
+        emit(state.copyWith(
+          productList:
+              productList.map((json) => ProductModel.fromJson(json)).toList(),
+          taxInvoice:
+              Config.companyInfo?.taxInvoiceOnlyInPos == "1" ? true : false,
+        ));
+      } else {
+        emit(state.copyWith(message: 'Failed to fetch data'));
+      }
+    } catch (e) {
+      log(e.toString());
+      emit(state.copyWith(message: 'message: $e'));
+    }
+  }
+
   void fetchCategoryProduct() async {
     try {
       final response = await GetRepository().getRequest(
@@ -562,7 +580,7 @@ class PosCubit extends Cubit<PosState> {
               tableList.map((json) => TableModel.fromJson(json)).toList(),
         ));
       } else {
-        emit(state.copyWith(message: 'Failed to fetch data'));
+        emit(state.copyWith(message: 'Failed to fetch Table'));
       }
     } catch (e) {
       emit(state.copyWith(message: 'Failed: $e'));

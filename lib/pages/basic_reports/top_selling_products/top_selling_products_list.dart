@@ -5,9 +5,27 @@ import 'package:rastriya_solution_flutter/model/top_selling_products_model.dart'
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/cubit/top_selling_products_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
+import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 
-class TopSellingProductsListPage extends StatelessWidget {
+class TopSellingProductsListPage extends StatefulWidget {
   const TopSellingProductsListPage({super.key});
+
+  @override
+  State<TopSellingProductsListPage> createState() =>
+      _TopSellingProductsListPageState();
+}
+
+class _TopSellingProductsListPageState
+    extends State<TopSellingProductsListPage> {
+  picker.NepaliDateTime fromDate = picker.NepaliDateTime.now();
+  picker.NepaliDateTime toDate = picker.NepaliDateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TopSellingProductsCubit>(context)
+        .fetchTopSellingProducts(fromDate: fromDate, toDate: toDate);
+  }
 
   @override
   Widget build(BuildContext context) {

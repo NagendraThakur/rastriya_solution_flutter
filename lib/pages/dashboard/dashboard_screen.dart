@@ -25,6 +25,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   void fetchAccountPermission() async {
+    Config.terminalInfo = null;
+    Config.storeInfo = null;
     final response = await GetRepository().getRequest(
         path: GetRepository.accountPermission,
         additionalHeader: {"company-id": Config.companyInfo!.id});
@@ -44,7 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void fetchTerminal({required String? terminalId}) async {
-    if (terminalId!.isNotEmpty) {
+    if (terminalId!.isNotEmpty && terminalId != "0") {
       final response = await GetRepository().getRequest(
           path: "${GetRepository.posTerminal}/$terminalId/edit",
           additionalHeader: {"company-id": Config.companyInfo!.id});
@@ -61,8 +63,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           }
         }
       }
-      setState(() {});
     }
+    setState(() {});
   }
 
   @override
@@ -75,52 +77,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     List<DashboardMenuModel> menuList = [
       DashboardMenuModel(
-          permission: true,
-          navigationPath: "/restro_main",
+          permission: Config.permissionInfo?.posUser == "1" ? true : false,
+          navigationPath: Config.companyInfo?.industryId == "1"
+              ? "/restro_main"
+              : "/retail_main",
           imagePath: "assets/svg/pos.svg",
           label: "POS"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/account_setup",
           imagePath: "assets/svg/company_setup.svg",
           label: "Company Setup"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/inventory",
           imagePath: "assets/svg/inventory.svg",
           label: "Inventory"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/loyalty_member_list",
           imagePath: "assets/svg/loyalty_member.svg",
           label: "Loyalty Member"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/ledger_accounts",
           imagePath: "assets/svg/ledger_account.svg",
           label: "Ledger Account"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/pos_setup",
           imagePath: "assets/svg/pos_setup.svg",
           label: "Pos Setup"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/sales_module_main",
           imagePath: "assets/svg/purchase.svg",
           label: "Sales Module"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/purchase_module_main",
           imagePath: "assets/svg/purchase.svg",
           label: "Purchase Module"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/basic_reports",
           imagePath: "assets/svg/advance_report.svg",
           label: "Basic Reports"),
       DashboardMenuModel(
-          permission: true,
+          permission: Config.permissionInfo?.isAdmin == "1" ? true : false,
           navigationPath: "/advance_report",
           imagePath: "assets/svg/report.svg",
           label: "Advance Report"),

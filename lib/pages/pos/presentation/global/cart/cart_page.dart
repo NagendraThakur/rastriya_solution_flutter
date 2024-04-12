@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/helper/dialog_utility.dart';
@@ -11,7 +9,8 @@ import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
 import 'package:toastification/toastification.dart';
 
 class CartPage extends StatefulWidget {
-  CartPage({super.key});
+  final bool? payButton;
+  CartPage({super.key, this.payButton});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -37,9 +36,14 @@ class _CartPageState extends State<CartPage> {
                 Navigator.of(context).pop();
               }),
           secondComponent: CustomButton(
-              buttonText: "Save",
+              buttonText: widget.payButton == true ? "Pay" : "Save",
               enable: enable,
               onPressed: () async {
+                if (widget.payButton == true) {
+                  Navigator.of(context).popAndPushNamed("/pay");
+                  return;
+                }
+
                 enable = false;
                 setState(() {});
 

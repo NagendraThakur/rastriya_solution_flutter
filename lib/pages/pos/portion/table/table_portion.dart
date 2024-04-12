@@ -48,7 +48,8 @@ class TablePortion extends StatelessWidget {
                             final cubit = BlocProvider.of<PosCubit>(context);
                             cubit.clearOrder();
                             cubit.assignTable(table: table);
-                            Navigator.of(context).pushNamed("/product");
+                            Navigator.of(context)
+                                .pushNamed("/category_product");
                           },
                           child: Container(
                             decoration: BoxDecoration(

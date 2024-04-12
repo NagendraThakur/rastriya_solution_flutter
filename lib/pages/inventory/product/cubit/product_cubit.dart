@@ -11,13 +11,7 @@ import 'package:rastriya_solution_flutter/model/unit_model.dart';
 part 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-  ProductCubit() : super(ProductState.initial()) {
-    Future.delayed(Duration.zero, () {
-      fetchProduct();
-      fetchCategory();
-      fetchUnit();
-    });
-  }
+  ProductCubit() : super(ProductState.initial());
 
   Future<void> saveProduct({required ProductModel product}) async {
     emit(state.copyWith(isLoading: true));

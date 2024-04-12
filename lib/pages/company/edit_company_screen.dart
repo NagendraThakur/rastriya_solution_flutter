@@ -177,12 +177,14 @@ class _EditCompanyScreenState extends State<EditCompanyScreen> {
                         value: industyId,
                         padding: const EdgeInsets.only(top: 20),
                         onChanged: (String value) {
-                          industyId = value;
+                          setState(() {
+                            industyId = value;
+                          });
                         },
                         items: const [
-                          DropdownMenuItem(value: "1", child: Text("Retail")),
                           DropdownMenuItem(
-                              value: "2", child: Text("Restaurant")),
+                              value: "1", child: Text("Restaurant")),
+                          DropdownMenuItem(value: "2", child: Text("Retail")),
                         ]),
                     CustomDropDownButton(
                       avatarInitials: "F",

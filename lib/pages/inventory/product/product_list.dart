@@ -10,8 +10,24 @@ import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
+
+  @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      BlocProvider.of<ProductCubit>(context).fetchProduct();
+      BlocProvider.of<ProductCubit>(context).fetchCategory();
+      BlocProvider.of<ProductCubit>(context).fetchUnit();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

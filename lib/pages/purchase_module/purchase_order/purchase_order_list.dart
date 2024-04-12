@@ -23,8 +23,10 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration.zero,
-        () => BlocProvider.of<PurchaseCubit>(context).fetchPurchaseOrder());
+    Future.delayed(Duration.zero, () {
+      BlocProvider.of<PurchaseCubit>(context).fetchPurchaseOrder();
+      BlocProvider.of<PurchaseCubit>(context).fetchLedger();
+    });
   }
 
   @override
@@ -39,23 +41,34 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
             title: const Text("Purchase Order"),
             leading: const CupertinoNavigationBarBackButton(),
           ),
-          body: ListView.builder(
-              itemCount: state.filteredPurchaseList.length,
-              itemBuilder: (BuildContext context, int index) {
-                PurchaseModel purchaseInfo = state.filteredPurchaseList[index];
-                return BorderContainer(
-                  outerPadding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: ListTile(
-                    leading: const CircleAvatar(child: Text("PO")),
-                    title: Text(purchaseInfo.billNo ?? ""),
-                    subtitle: Text(
-                        "${purchaseInfo.vendorName}(${purchaseInfo.vendorCode})"),
-                    trailing: Text(
-                        "Rs ${purchaseInfo.amount!.toStringAsFixed(2)}\n${purchaseInfo.createdUserData?.username}"),
-                  ),
-                );
-              }),
+          body: state.isFetching == true
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  itemCount: state.filteredPurchaseList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    PurchaseModel purchaseInfo =
+                        state.filteredPurchaseList[index];
+                    return BorderContainer(
+                      outerPadding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      child: ListTile(
+                        leading: const CircleAvatar(child: Text("PO")),
+                        title: Text(purchaseInfo.billNo ?? ""),
+                        subtitle: Text(
+                            "${purchaseInfo.vendorName}(${purchaseInfo.vendorCode})"),
+                        trailing: Text(
+                            "Rs ${purchaseInfo.amount!.toStringAsFixed(2)}\n${purchaseInfo.createdUserData?.username}"),
+                      ),
+                    );
+                  }),
+          floatingActionButton: FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.of(context).pushNamed("/edit_purchase_order");
+              },
+              icon: const Icon(CupertinoIcons.add),
+              label: const Text("Add Purchase Order")),
         );
       },
     );

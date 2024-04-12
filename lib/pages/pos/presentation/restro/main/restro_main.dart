@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/helper/toast.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/section_model.dart';
-import 'package:rastriya_solution_flutter/model/table_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/check_out_table/check_out_table_portion.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/kot_table/kot_table_portion.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/table/table_portion.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
+import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/mini_bottom_sheet.dart';
 import 'package:toastification/toastification.dart';
 
@@ -23,7 +23,6 @@ class RestroMainPage extends StatefulWidget {
 class _RestroMainPageState extends State<RestroMainPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<PosCubit>(context).fetchTables();
     BlocProvider.of<PosCubit>(context).fetchSection();
@@ -46,6 +45,8 @@ class _RestroMainPageState extends State<RestroMainPage> {
         } else if (state.toastMessage != null) {
           showToast(message: state.toastMessage!);
         } else if (state.billSavedSuccessfully != null) {
+          Future.delayed(Duration.zero,
+              () => BlocProvider.of<PosCubit>(context).fetchTables());
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         }
@@ -62,7 +63,6 @@ class _RestroMainPageState extends State<RestroMainPage> {
                   hintText: "",
                   label: "Section",
                   value: sectionId,
-                  // padding: const EdgeInsets.only(top: 20),
                   onChanged: (String value) {
                     setState(() {
                       sectionId = value;
@@ -104,6 +104,15 @@ class _RestroMainPageState extends State<RestroMainPage> {
                 )
               ],
             ),
+            floatingActionButton: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed("/category_product", arguments: true);
+                },
+                label: Text(
+                  "Take Out",
+                  style: kSubtitleRegularTextStyle,
+                )),
           ),
         );
       },

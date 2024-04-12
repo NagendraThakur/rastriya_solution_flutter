@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/global/pay/portion/discount_bottom_sheet.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/global/pay/portion/multi_payment_dialog.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
@@ -91,6 +92,8 @@ class _PayPageState extends State<PayPage> {
                                     style: kSubtitleRegularTextStyle,
                                   ),
                                   InkWell(
+                                    onTap: () => discountBottomSheet(
+                                        context: context, width: width),
                                     child: CustomContainer(
                                         innerHorizontalPadding: 2,
                                         innerVerticalPadding: 2,

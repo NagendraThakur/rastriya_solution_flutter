@@ -8,7 +8,6 @@ import 'package:rastriya_solution_flutter/model/unit_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/cubit/product_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
-import 'package:rastriya_solution_flutter/widgets/container.dart';
 import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/switch.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
@@ -51,7 +50,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.product != null) {
       name.text = widget.product!.name;

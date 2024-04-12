@@ -6,7 +6,6 @@ import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/employee_model.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/employee/cubit/employee_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
-import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
@@ -21,7 +20,6 @@ class EmployeeListScreen extends StatefulWidget {
 class _EmployeeListScreenState extends State<EmployeeListScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Future.delayed(Duration.zero,
@@ -40,6 +38,15 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
         } else if (state.isLoading == false) {
           Navigator.of(context).pop();
         } else if (state.message != null) {
+          if (state.message!.contains("Admin Employee Cannot Be Deleted")) {
+            showToastification(
+                context: context,
+                message: "Insufficient Authority",
+                toastificationType: state.message!.contains("Failed")
+                    ? ToastificationType.warning
+                    : ToastificationType.success);
+            return;
+          }
           showToastification(
               context: context,
               message: state.message!,

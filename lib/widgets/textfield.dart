@@ -96,11 +96,11 @@ class CustomTextField extends StatelessWidget {
               obscureText: obscureText ?? false,
               keyboardType: textInputType ?? TextInputType.text,
               style: textStyle ??
-                  const TextStyle(
-                    fontWeight: FontWeight.w500,
+                  TextStyle(
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'Manrope',
                     fontSize: 13,
-                    color: Colors.grey,
+                    color: Colors.grey.shade900,
                   ),
               validator: validator,
               onChanged: onChanged,

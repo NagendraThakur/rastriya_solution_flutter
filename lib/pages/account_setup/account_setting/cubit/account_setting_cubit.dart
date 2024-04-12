@@ -21,7 +21,7 @@ class AccountSettingCubit extends Cubit<AccountSettingState> {
       path: PostRepository.companySetup,
       body: body,
     );
-    emit(state.copyWith(isLoading: false));
+    emit(state.copyWith(isFetching: false));
     if (response["status"] == "success") {
       emit(state.copyWith(message: response["message"]));
       Config.companyInfo = CompanyModel.fromJson(response["company_details"]);

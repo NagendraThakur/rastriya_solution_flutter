@@ -6,11 +6,8 @@ import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 part 'top_selling_products_state.dart';
 
 class TopSellingProductsCubit extends Cubit<TopSellingProductsState> {
-  TopSellingProductsCubit() : super(TopSellingProductsState.initial()) {
-    fetchTopSellingProducts(fromDate: fromDate, toDate: toDate);
-  }
-  picker.NepaliDateTime fromDate = picker.NepaliDateTime.now();
-  picker.NepaliDateTime toDate = picker.NepaliDateTime.now();
+  TopSellingProductsCubit() : super(TopSellingProductsState.initial());
+
   Future<void> fetchTopSellingProducts(
       {required picker.NepaliDateTime fromDate,
       required picker.NepaliDateTime toDate}) async {

@@ -48,8 +48,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       email.text = widget.employee?.email ?? "";
       nickName.text = widget.employee?.nickName ?? "";
       posting = widget.employee?.documentPostingLevel;
-      storeId = widget.employee?.storeId;
-      terminalId = widget.employee?.terminalId;
+      storeId =
+          widget.employee?.storeId == "0" ? null : widget.employee?.storeId;
+      terminalId = widget.employee?.terminalId == "0"
+          ? null
+          : widget.employee?.terminalId;
       admin = widget.employee?.isAdmin ?? false;
       posUser = widget.employee?.posUser ?? false;
       creditSales = widget.employee?.creditSales ?? false;

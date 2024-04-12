@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
-import 'package:rastriya_solution_flutter/pages/pos/portion/category/category_portion.dart';
-import 'package:rastriya_solution_flutter/pages/pos/portion/product/product_portion.dart';
+import 'package:rastriya_solution_flutter/pages/pos/portion/restro_product/restro_product_portion.dart';
 import 'package:rastriya_solution_flutter/pages/pos/portion/quantity/quantity_portion.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
-import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({super.key});
+  const ProductPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -27,7 +27,7 @@ class _ProductPageState extends State<ProductPage> {
         return Scaffold(
           appBar: AppBar(
             leading: const CupertinoNavigationBarBackButton(),
-            title: Text(state.selectedTable?.tableName ?? ""),
+            title: const Text("POS"),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(45),
               child: Padding(
@@ -49,7 +49,8 @@ class _ProductPageState extends State<ProductPage> {
                     GestureDetector(
                       onTap: () {
                         if (state.orderQuantity.toStringAsFixed(0) != "0") {
-                          Navigator.of(context).pushNamed("/cart");
+                          Navigator.of(context)
+                              .pushNamed("/cart", arguments: true);
                         }
                       },
                       child: Container(
@@ -98,15 +99,7 @@ class _ProductPageState extends State<ProductPage> {
               verticalSpaceSmall,
               QuantityPortion(),
               verticalSpaceSmall,
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(flex: 2, child: CategoryPortion()),
-                    Expanded(flex: 4, child: ProductPortion())
-                  ],
-                ),
-              ),
+              Expanded(child: RestroProductPage()),
             ],
           ),
         );

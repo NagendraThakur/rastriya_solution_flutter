@@ -11,6 +11,7 @@ import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
 import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
+import 'package:rastriya_solution_flutter/model/purchase_model.dart';
 import 'package:rastriya_solution_flutter/model/sales_order_model.dart';
 import 'package:rastriya_solution_flutter/model/section_model.dart';
 import 'package:rastriya_solution_flutter/model/store_model.dart';
@@ -56,12 +57,14 @@ import 'package:rastriya_solution_flutter/pages/ledger_accounts/vendor/vendor_li
 import 'package:rastriya_solution_flutter/pages/loyalty_member/edit_loyalty_member.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/loyalty_meber_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/global/pay/pay_page.dart';
-import 'package:rastriya_solution_flutter/pages/pos/presentation/global/product/product_page.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/category_product/category_product_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/global/review_order/review_order_page.dart';
-import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/cart/cart_page.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/global/cart/cart_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/kot/kot_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/main/restro_main.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/restro/void_order/void_order_page.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/retail/main/retail_main.dart';
+import 'package:rastriya_solution_flutter/pages/pos/presentation/retail/product/product_page.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/edit_payment_mode.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/payment_mode/payment_mode_list.dart';
 import 'package:rastriya_solution_flutter/pages/pos_setup/pos_setup_screen.dart';
@@ -74,6 +77,7 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setu
 import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_module_main.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/edit_purchase_order.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/purchase_order_list.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/edit_sales_return.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/sales_return_list.dart';
@@ -123,6 +127,12 @@ class Routes {
         return MaterialPageRoute(
             builder: (context) => PurchaseOrderListPage(
                   showSummary: showSummary,
+                ));
+      case "/edit_purchase_order":
+        PurchaseModel? purchaseInfo = settings.arguments as PurchaseModel?;
+        return MaterialPageRoute(
+            builder: (context) => EditPurchaseOrder(
+                  purchaseInfo: purchaseInfo,
                 ));
       case "/dashboard":
         final CompanyModel companyInfo = settings.arguments as CompanyModel;
@@ -368,13 +378,27 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) => const RestroMainPage(),
         );
+      case "/retail_main":
+        return MaterialPageRoute(
+          builder: (context) => const RetailMainPage(),
+        );
+      case "/category_product":
+        bool? payCart = settings.arguments as bool?;
+        return MaterialPageRoute(
+          builder: (context) => CategoryProductPage(
+            payCart: payCart,
+          ),
+        );
       case "/product":
         return MaterialPageRoute(
           builder: (context) => const ProductPage(),
         );
       case "/cart":
+        bool? payButton = settings.arguments as bool?;
         return MaterialPageRoute(
-          builder: (context) => CartPage(),
+          builder: (context) => CartPage(
+            payButton: payButton,
+          ),
         );
       case "/kot":
         OrderBillModel orderBill = settings.arguments as OrderBillModel;

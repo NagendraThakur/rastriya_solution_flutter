@@ -54,6 +54,7 @@ class EmployeeCubit extends Cubit<EmployeeState> {
           "terminal_id": employee.terminalId
         }
       };
+      print(body);
       if (employee.id == null) {
         response = await PostRepository()
             .postRequest(path: GetRepository.employee, body: body);

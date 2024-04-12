@@ -60,7 +60,10 @@ void editProductBottomSheet(
                   firstComponent: CustomButton(
                       secondaryButton: true,
                       buttonText: "Delete",
-                      onPressed: () {}),
+                      onPressed: () {
+                        BlocProvider.of<PosCubit>(context).removeOrderProduct();
+                        Navigator.of(context).pop();
+                      }),
                   secondComponent: CustomButton(
                       buttonText: "Save",
                       onPressed: () {

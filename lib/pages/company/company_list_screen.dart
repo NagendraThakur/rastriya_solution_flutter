@@ -34,6 +34,18 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
       appBar: AppBar(
         title: const Text("Companies"),
         leading: const CupertinoNavigationBarBackButton(),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed("/edit_company").then((value) {
+                  Future.delayed(
+                      Duration.zero,
+                      () => BlocProvider.of<CompanyCubit>(context)
+                          .fetchCompany());
+                });
+              },
+              child: const Text("Create"))
+        ],
       ),
       body: BlocConsumer<CompanyCubit, CompanyState>(
         listener: (context, state) {
@@ -107,6 +119,8 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
                                 savePreference(
                                     key: "company", value: companyJson);
                                 Config.companyInfo = company;
+                                // BlocProvider.of<DashboardCubit>(context)
+                                //     .fetchAccountPermission();
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, '/dashboard', (route) => false,
                                     arguments: Config.companyInfo);
@@ -121,19 +135,19 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          icon: const Icon(CupertinoIcons.add),
-          label: Text(
-            "Add Company",
-            style: kSubtitleRegularTextStyle,
-          ),
-          onPressed: () =>
-              Navigator.of(context).pushNamed("/edit_company").then((value) {
-                Future.delayed(
-                    Duration.zero,
-                    () =>
-                        BlocProvider.of<CompanyCubit>(context).fetchCompany());
-              })),
+      // floatingActionButton: FloatingActionButton.extended(
+      //     icon: const Icon(CupertinoIcons.add),
+      //     label: Text(
+      //       "Add Company",
+      //       style: kSubtitleRegularTextStyle,
+      //     ),
+      //     onPressed: () =>
+      //         Navigator.of(context).pushNamed("/edit_company").then((value) {
+      //           Future.delayed(
+      //               Duration.zero,
+      //               () =>
+      //                   BlocProvider.of<CompanyCubit>(context).fetchCompany());
+      //         })),
     );
   }
 }

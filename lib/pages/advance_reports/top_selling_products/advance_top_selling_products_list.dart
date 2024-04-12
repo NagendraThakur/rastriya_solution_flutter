@@ -23,6 +23,14 @@ class _AdvanceTopSellingProductsListPageState
     extends State<AdvanceTopSellingProductsListPage> {
   picker.NepaliDateTime fromDate = picker.NepaliDateTime.now();
   picker.NepaliDateTime toDate = picker.NepaliDateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TopSellingProductsCubit>(context)
+        .fetchTopSellingProducts(fromDate: fromDate, toDate: toDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

@@ -58,6 +58,8 @@ class _EditAccountSettingState extends State<EditAccountSetting> {
               toastificationType: state.message!.contains("Failed")
                   ? ToastificationType.error
                   : ToastificationType.success);
+        } else if (state.isFetching == false) {
+          Navigator.of(context).pop();
         }
       },
       builder: (context, state) {
