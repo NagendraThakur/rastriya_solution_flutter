@@ -76,6 +76,7 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/edit_table
 import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setup_list.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/product/purchase_production_search.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_module_main.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/edit_purchase_order.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/purchase_order_list.dart';
@@ -122,6 +123,11 @@ class Routes {
       case "/purchase_module_main":
         return MaterialPageRoute(
             builder: (context) => const PurchaseModuleMainPage());
+
+      case "/purchase_product_Search":
+        return MaterialPageRoute(
+            builder: (context) => const PurchaseProductSearchPage());
+
       case "/purchase_order_list":
         final bool? showSummary = settings.arguments as bool?;
         return MaterialPageRoute(

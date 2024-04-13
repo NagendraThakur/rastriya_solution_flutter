@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/helper/numerical_range_formatter.dart';
-import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';

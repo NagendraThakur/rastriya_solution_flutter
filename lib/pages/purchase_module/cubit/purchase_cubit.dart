@@ -3,11 +3,56 @@ import 'package:meta/meta.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/model/ledger_model.dart';
+import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/model/purchase_model.dart';
 part 'purchase_state.dart';
 
 class PurchaseCubit extends Cubit<PurchaseState> {
   PurchaseCubit() : super(PurchaseState.initial());
+
+  assignProductToPurchaseLine({required ProductModel product}) {
+    double netAmount = (product.quantity! * product.lastUnitCost!) -
+        (product.discountAmount ?? 0.0);
+    PurchaseLine purchaseLine = PurchaseLine(
+      productCode: product.productCode,
+      unitCode: product.baseUnit,
+      quantity: product.quantity,
+      rate: product.lastUnitCost,
+      discountPercent: product.discountPercentage,
+      discountAmount: product.discountAmount,
+      netAmount: netAmount,
+      productType: "product",
+      vatPercent: product.vatPercent,
+      vatAmount: (netAmount * (product.vatPercent ?? 0)) / 100,
+      batchNo: product.batch?.id,
+      lineNetAmount: netAmount,
+    );
+    List<PurchaseLine> productList = state.productList;
+    productList.add(purchaseLine);
+    emit(state.copyWith(productList: productList));
+  }
+
+  Future<void> fetchProduct() async {
+    emit(state.copyWith(isFetching: true));
+
+    try {
+      final response = await GetRepository().getRequest(
+          path: GetRepository.product,
+          additionalHeader: {"company-id": Config.companyInfo!.id});
+      emit(state.copyWith(isFetching: false));
+      if (response["status"] == "success") {
+        List<dynamic> data = response["data"];
+        emit(state.copyWith(
+          searchProductList:
+              data.map((json) => ProductModel.fromJson(json)).toList(),
+        ));
+      } else {
+        emit(state.copyWith(message: 'Failed to fetch data'));
+      }
+    } catch (e) {
+      emit(state.copyWith(message: 'Failed: $e'));
+    }
+  }
 
   Future<void> fetchLedger() async {
     dynamic response = await GetRepository().getRequest(

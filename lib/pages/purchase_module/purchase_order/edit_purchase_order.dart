@@ -8,6 +8,7 @@ import 'package:rastriya_solution_flutter/model/purchase_model.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/cubit/purchase_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/widgets/box_widget.dart';
+import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
@@ -93,7 +94,13 @@ class _EditPurchaseOrderState extends State<EditPurchaseOrder> {
                         value: expiryDate.toString().split(" ").first,
                         label: "PO Expire"),
                   ),
-                )
+                ),
+                CustomButton(
+                    buttonText: "Add Product",
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushNamed("/purchase_product_Search");
+                    })
               ],
             ),
           ),

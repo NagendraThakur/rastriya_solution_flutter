@@ -26,6 +26,7 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
     Future.delayed(Duration.zero, () {
       BlocProvider.of<PurchaseCubit>(context).fetchPurchaseOrder();
       BlocProvider.of<PurchaseCubit>(context).fetchLedger();
+      BlocProvider.of<PurchaseCubit>(context).fetchProduct();
     });
   }
 
