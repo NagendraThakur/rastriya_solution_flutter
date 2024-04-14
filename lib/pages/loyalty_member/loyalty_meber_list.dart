@@ -6,7 +6,6 @@ import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/cubit/loyalty_member_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
-import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
@@ -21,7 +20,6 @@ class LoyaltyMemberList extends StatefulWidget {
 class _LoyaltyMemberListState extends State<LoyaltyMemberList> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Future.delayed(Duration.zero,

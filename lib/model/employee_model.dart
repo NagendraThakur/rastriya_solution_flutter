@@ -7,7 +7,7 @@ class EmployeeModel {
   final String? documentPostingLevel;
   final String? flag; // Converted to String?
   final String? nickName;
-  final String? exportReport; // Converted to String?
+  final bool? exportReport; // Converted to String?
   final String? printReport; // Converted to String?
   final bool? posUser; // Converted to String?
   final bool? creditSales; // Converted to String?
@@ -102,8 +102,7 @@ class EmployeeModel {
       documentPostingLevel: json['document_posting_level'],
       flag: json['flag']?.toString(), // Convert int? to String?
       nickName: json['nick_name'],
-      exportReport:
-          json['export_report']?.toString(), // Convert int? to String?
+      exportReport: json['export_report']?.toString() == "1" ? true : false,
       printReport: json['print_report']?.toString(), // Convert int? to String?
       posUser: json['pos_user']?.toString() == "1"
           ? true
@@ -158,7 +157,7 @@ class EmployeeModel {
       'document_posting_level': documentPostingLevel,
       'flag': flag,
       'nick_name': nickName,
-      'export_report': exportReport,
+      'export_report': exportReport == true ? "1" : "0",
       'print_report': printReport,
       'pos_user': posUser == true ? "1" : "0",
       'credit_sales': creditSales == true ? "1" : "0",

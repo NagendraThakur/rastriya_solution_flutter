@@ -2,9 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rastriya_solution_flutter/helper/toast.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
-
 import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
 import 'package:rastriya_solution_flutter/pages/loyalty_member/cubit/loyalty_member_cubit.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';

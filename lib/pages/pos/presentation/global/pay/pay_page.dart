@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/helper/numerical_range_formatter.dart';
+import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/pos/presentation/global/pay/portion/discount_bottom_sheet.dart';
@@ -14,6 +18,7 @@ import 'package:rastriya_solution_flutter/widgets/border_container.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/container.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
+import 'package:toastification/toastification.dart';
 
 class PayPage extends StatefulWidget {
   const PayPage({super.key});
@@ -54,9 +59,18 @@ class _PayPageState extends State<PayPage> {
                                 "Bill Summary",
                                 style: kHeading3TextStyle,
                               ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(CupertinoIcons.eye))
+                              state.loyaltyMember == null
+                                  ? InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                            "/loyalty_member_search");
+                                      },
+                                      child: SvgPicture.asset(
+                                        "assets/svg/member.svg",
+                                        width: 40,
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
                             ],
                           ),
                           Row(
@@ -94,11 +108,23 @@ class _PayPageState extends State<PayPage> {
                                     style: kSubtitleRegularTextStyle,
                                   ),
                                   InkWell(
-                                    onTap: () => discountBottomSheet(
-                                        discountPercentage:
-                                            state.discountPercentage,
-                                        context: context,
-                                        width: width),
+                                    onTap: () {
+                                      if (Config.permissionInfo?.exportReport ==
+                                          "1") {
+                                        discountBottomSheet(
+                                            discountPercentage:
+                                                state.discountPercentage,
+                                            context: context,
+                                            width: width);
+                                      } else {
+                                        showToastification(
+                                            context: context,
+                                            message:
+                                                "Insufficient Authority: Cannot Assign Discount",
+                                            toastificationType:
+                                                ToastificationType.warning);
+                                      }
+                                    },
                                     child: CustomContainer(
                                         innerHorizontalPadding: 2,
                                         innerVerticalPadding: 2,
@@ -131,45 +157,6 @@ class _PayPageState extends State<PayPage> {
                             ],
                           ),
                           verticalSpaceSmall,
-                          // TwoRowComponent(
-                          //   horizontalPadding: 0,
-                          //   middleSpace: true,
-                          //   firstComponent: BorderContainer(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(vertical: 10),
-                          //       child: Row(
-                          //         mainAxisAlignment: MainAxisAlignment.center,
-                          //         children: [
-                          //           const Icon(
-                          //             Icons.add_box_outlined,
-                          //             size: 20,
-                          //           ),
-                          //           Text(
-                          //             "Add Customer",
-                          //             style: kBodyRegularTextStyle.copyWith(
-                          //                 fontSize: 14),
-                          //           ),
-                          //         ],
-                          //       )),
-                          //   secondComponent: BorderContainer(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(vertical: 10),
-                          //       child: Row(
-                          //         mainAxisAlignment: MainAxisAlignment.center,
-                          //         children: [
-                          //           const Icon(
-                          //             Icons.add_box_outlined,
-                          //             size: 20,
-                          //           ),
-                          //           Text(
-                          //             "Add Loyalty Member",
-                          //             style: kBodyRegularTextStyle.copyWith(
-                          //                 fontSize: 14),
-                          //           ),
-                          //         ],
-                          //       )),
-                          // ),
-                          // verticalSpaceSmall,
                         ],
                       ),
                     ),
@@ -405,10 +392,15 @@ class _PayPageState extends State<PayPage> {
                 },
               ),
               secondComponent: CustomButton(
-                enable: state.totalAmount == state.paidAmount,
+                enable: state.isLoading != true &&
+                    state.totalAmount == state.paidAmount,
                 buttonText: "Pay",
                 onPressed: () {
-                  BlocProvider.of<PosCubit>(context).createSalesBill();
+                  BlocProvider.of<PosCubit>(context).assignDiscountForOrder();
+                  state.orderList!.forEach((element) {
+                    log(element.toJson().toString());
+                  });
+                  // BlocProvider.of<PosCubit>(context).createSalesBill();
                 },
               ),
             ));

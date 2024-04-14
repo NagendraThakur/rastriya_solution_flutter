@@ -39,6 +39,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   bool posUser = false;
   bool creditSales = false;
   bool rateChange = false;
+  bool exportReport = false;
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       posUser = widget.employee?.posUser ?? false;
       creditSales = widget.employee?.creditSales ?? false;
       rateChange = widget.employee?.rateChange ?? false;
+      exportReport = widget.employee?.exportReport ?? false;
     }
   }
 
@@ -194,18 +196,26 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                     ),
                   ),
                   TwoRowComponent(
-                      verticalPadding: 10,
-                      horizontalPadding: 0,
-                      middleSpace: true,
-                      firstComponent: CustomSwitch(
-                        values: rateChange,
-                        label: "Rate Change",
-                        onChanged: (value) {
-                          rateChange = value;
-                          setState(() {});
-                        },
-                      ),
-                      secondComponent: const SizedBox()),
+                    verticalPadding: 10,
+                    horizontalPadding: 0,
+                    middleSpace: true,
+                    firstComponent: CustomSwitch(
+                      values: rateChange,
+                      label: "Rate Change",
+                      onChanged: (value) {
+                        rateChange = value;
+                        setState(() {});
+                      },
+                    ),
+                    secondComponent: CustomSwitch(
+                      values: exportReport,
+                      label: "Discount",
+                      onChanged: (value) {
+                        exportReport = value;
+                        setState(() {});
+                      },
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -228,7 +238,7 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
                 posUser: posUser,
                 creditSales: creditSales,
                 rateChange: rateChange,
-                exportReport: "0",
+                exportReport: exportReport,
                 printReport: "0");
             BlocProvider.of<EmployeeCubit>(context)
                 .saveEmployee(employee: employee);

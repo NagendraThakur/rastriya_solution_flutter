@@ -85,6 +85,7 @@ import 'package:rastriya_solution_flutter/pages/sales_module/sale_return/sales_r
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/edit_sales_bill.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_bill/sales_bill_list.dart';
 import 'package:rastriya_solution_flutter/pages/sales_module/sales_module_main.dart';
+import 'package:rastriya_solution_flutter/pages/search_return/loyalty_member/loyalty_member_search.dart';
 import 'package:rastriya_solution_flutter/pages/setting/setting_screen.dart';
 import 'package:rastriya_solution_flutter/pages/splash-screen/splash_screen.dart';
 
@@ -275,6 +276,10 @@ class Routes {
       case "/loyalty_member_list":
         return MaterialPageRoute(
             builder: (context) => const LoyaltyMemberList());
+
+      case "/loyalty_member_search":
+        return MaterialPageRoute(
+            builder: (context) => const LoyaltyMemberSearch());
 
       case "/ledger_accounts":
         return MaterialPageRoute(
