@@ -215,10 +215,14 @@ class Routes {
       case "/inventory":
         return MaterialPageRoute(builder: (context) => const InventoryScreen());
       case "/edit_category":
-        final CategoryModel? category = settings.arguments as CategoryModel?;
+        final Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        final CategoryModel? category = arguments['category'];
+        final List<PrintStationModel> printerList = arguments['printerList'];
         return MaterialPageRoute(
             builder: (context) => EditCategoryScreen(
                   category: category,
+                  printerList: printerList,
                 ));
       case "/category_list":
         return MaterialPageRoute(
@@ -229,11 +233,13 @@ class Routes {
         final ProductModel? product = arguments['product'];
         final List<CategoryModel> categoryList = arguments['categoryList'];
         final List<UnitModel> unitList = arguments['unitList'];
+
         return MaterialPageRoute(
             builder: (context) => EditProductScreen(
-                product: product,
-                categoryList: categoryList,
-                unitList: unitList));
+                  product: product,
+                  categoryList: categoryList,
+                  unitList: unitList,
+                ));
       case "/product_list":
         return MaterialPageRoute(
             builder: (context) => const ProductListScreen());

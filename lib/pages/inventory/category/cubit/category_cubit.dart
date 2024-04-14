@@ -4,11 +4,35 @@ import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/post_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/put_repository.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
+import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 
 part 'category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit() : super(CategoryState.initial());
+
+  Future<void> fetchPrintStations() async {
+    emit(state.copyWith(isFetching: true));
+    try {
+      final response = await GetRepository().getRequest(
+          path: GetRepository.printStation,
+          additionalHeader: {"company-id": Config.companyInfo!.id});
+      emit(state.copyWith(isFetching: false));
+
+      if (response["status"] == "success") {
+        List<dynamic> printStationData = response["print_station_lists"];
+        emit(state.copyWith(
+          printStationList: printStationData
+              .map((json) => PrintStationModel.fromJson(json))
+              .toList(),
+        ));
+      } else {
+        emit(state.copyWith(message: 'Failed to fetch data'));
+      }
+    } catch (e) {
+      emit(state.copyWith(message: 'Error: $e'));
+    }
+  }
 
   Future<void> saveCategory({required CategoryModel category}) async {
     emit(state.copyWith(isLoading: true));
@@ -21,7 +45,9 @@ class CategoryCubit extends Cubit<CategoryState> {
       "show_pos": category.showPos == true ? 1 : 0,
       "no_series_prefix": category.noSeriesPrefix,
       "prefix_format": category.prefixFormat,
+      "print_station_id": category.orderPrintStationId,
     };
+    print(body);
 
     try {
       dynamic response;

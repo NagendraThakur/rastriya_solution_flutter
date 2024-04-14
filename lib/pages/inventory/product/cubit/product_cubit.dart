@@ -7,6 +7,7 @@ import 'package:rastriya_solution_flutter/data/repository/put_repository.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/model/unit_model.dart';
+import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 
 part 'product_state.dart';
 

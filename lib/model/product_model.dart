@@ -151,7 +151,9 @@ class ProductModel {
         color: json['color']?.toString(),
         batch:
             json['batch'] != null ? BatchModel.fromJson(json['batch']) : null,
-        printStationId: json['print_station_id'].toString(),
+        printStationId: json['print_station_id'] != null
+            ? json['print_station_id'].toString()
+            : null,
         batchLot: json['batch_lot'].toString());
   }
   Map<String, dynamic> toJson() {

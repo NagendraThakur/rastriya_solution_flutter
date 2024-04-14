@@ -5,7 +5,6 @@ import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/post_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/put_repository.dart';
 import 'package:rastriya_solution_flutter/model/print_station_model.dart';
-
 part 'print_station_state.dart';
 
 class PrintStationCubit extends Cubit<PrintStationState> {

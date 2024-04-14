@@ -35,7 +35,7 @@ class TableState {
       storeList: storeList ?? this.storeList,
       isLoading: isLoading,
       isFetching: isFetching,
-      message: message ?? this.message,
+      message: message,
     );
   }
 }

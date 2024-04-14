@@ -22,8 +22,10 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration.zero,
-        () => BlocProvider.of<CategoryCubit>(context).fetchCategory());
+    Future.delayed(Duration.zero, () {
+      BlocProvider.of<CategoryCubit>(context).fetchCategory();
+      BlocProvider.of<CategoryCubit>(context).fetchPrintStations();
+    });
   }
 
   @override
@@ -70,7 +72,10 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             "/edit_category",
-                            arguments: category,
+                            arguments: {
+                              "category": category,
+                              "printerList": state.printStationList
+                            },
                           );
                         },
                         leading: CircleAvatar(
@@ -99,6 +104,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(
                     "/edit_category",
+                    arguments: {"printerList": state.printStationList},
                   );
                 }));
       },

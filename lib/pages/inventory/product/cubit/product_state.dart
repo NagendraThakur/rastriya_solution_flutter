@@ -4,6 +4,7 @@ class ProductState {
   final List<CategoryModel> categoryList;
   final List<ProductModel> productList;
   final List<UnitModel> unitList;
+
   final bool? isLoading;
   final bool? isFetching;
   final String? message;

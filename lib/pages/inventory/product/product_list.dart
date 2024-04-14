@@ -76,7 +76,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                             arguments: {
                               "product": product,
                               "categoryList": state.categoryList,
-                              "unitList": state.unitList
+                              "unitList": state.unitList,
                             },
                           );
                         },
@@ -116,7 +116,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     "/edit_product",
                     arguments: {
                       "categoryList": state.categoryList,
-                      "unitList": state.unitList
+                      "unitList": state.unitList,
                     },
                   );
                 }));

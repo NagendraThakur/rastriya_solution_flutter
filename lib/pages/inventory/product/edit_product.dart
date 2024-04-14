@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/model/category_model.dart';
+import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/model/unit_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/cubit/product_cubit.dart';
@@ -33,6 +34,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextEditingController name = TextEditingController();
   String? categoryId;
   String? unitId;
+
   String? vatPercentage;
   TextEditingController lastUnitCost = TextEditingController(text: "0");
   TextEditingController lastUnitPrice = TextEditingController();
@@ -54,6 +56,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (widget.product != null) {
       name.text = widget.product!.name;
       unitId = widget.product?.baseUnit;
+
       categoryId = widget.product?.productGroup;
       vatPercentage = widget.product?.vatPercent?.toStringAsFixed(0);
       lastUnitCost.text = widget.product!.lastUnitCost!.toStringAsFixed(2);
@@ -152,12 +155,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   labelText: "Purchase Cost",
                   hintText: "Your Purchase Cost",
                   controller: lastUnitCost,
+                  textInputType: const TextInputType.numberWithOptions(),
                 ),
                 secondComponent: CustomTextField(
                   required: true,
                   labelText: "Selling Price",
                   hintText: "Your Selling Price",
                   controller: lastUnitPrice,
+                  textInputType: const TextInputType.numberWithOptions(),
                 ),
               ),
               verticalSpaceSmall,

@@ -4,18 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:rastriya_solution_flutter/model/category_model.dart';
+import 'package:rastriya_solution_flutter/model/print_station_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/category/cubit/category_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
+import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/switch.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
 
 class EditCategoryScreen extends StatefulWidget {
   final CategoryModel? category;
+  final List<PrintStationModel> printerList;
   const EditCategoryScreen({
     Key? key,
     this.category,
+    required this.printerList,
   }) : super(key: key);
 
   @override
@@ -30,6 +34,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
   TextEditingController seriesPrefix = TextEditingController();
   TextEditingController prefixFormat = TextEditingController();
   bool showInPos = true;
+  String? printStationId;
 
   @override
   void initState() {
@@ -43,6 +48,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
       seriesPrefix.text = widget.category!.noSeriesPrefix!;
       prefixFormat.text = widget.category!.prefixFormat!;
       showInPos = widget.category?.showPos ?? false;
+      printStationId = widget.category?.orderPrintStationId;
     }
   }
 
@@ -108,6 +114,24 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   textInputType: TextInputType.number,
                 ),
               ),
+              CustomDropDownButton(
+                avatarInitials: "P",
+                hintText: "Choose Printer",
+                label: "Printer",
+                value: printStationId,
+                padding: const EdgeInsets.only(top: 20),
+                onChanged: (String value) {
+                  setState(() {
+                    printStationId = value;
+                  });
+                },
+                items: widget.printerList.map((printer) {
+                  return DropdownMenuItem<String>(
+                    value: printer.id,
+                    child: Text(printer.printTitle ?? ""),
+                  );
+                }).toList(),
+              ),
               verticalSpaceRegular,
               CustomSwitch(
                 values: showInPos,
@@ -133,17 +157,16 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                 silver.text.isNotEmpty ? double.parse(silver.text) : 0.0;
 
             CategoryModel category = CategoryModel(
-              id: widget.category?.id,
-              name: name.text,
-              noSeriesPrefix: seriesPrefix.text,
-              prefixFormat: prefixFormat.text,
-              platinumDiscount: platinumDiscount,
-              goldDiscount: goldDiscount,
-              silverDiscount: silverDiscount,
-              bronzeDiscount:
-                  0, // Assuming bronze discount is not provided in the UI
-              showPos: showInPos,
-            );
+                id: widget.category?.id,
+                name: name.text,
+                noSeriesPrefix: seriesPrefix.text,
+                prefixFormat: prefixFormat.text,
+                platinumDiscount: platinumDiscount,
+                goldDiscount: goldDiscount,
+                silverDiscount: silverDiscount,
+                bronzeDiscount: 0,
+                showPos: showInPos,
+                orderPrintStationId: printStationId);
             BlocProvider.of<CategoryCubit>(context)
                 .saveCategory(category: category);
           }),
