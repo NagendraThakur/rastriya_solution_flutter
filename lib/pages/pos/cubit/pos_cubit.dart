@@ -372,6 +372,7 @@ class PosCubit extends Cubit<PosState> {
 
   void assignLoyaltyMember({required LoyaltyMemberModel loyaltyMember}) {
     emit(state.copyWith(loyaltyMember: loyaltyMember));
+    fetchLoyaltyMemberDiscount();
   }
 
   void assignDiscountPercentage({required double discountPercentage}) {
@@ -494,6 +495,7 @@ class PosCubit extends Cubit<PosState> {
   }
 
   void assignDiscountForOrder() {
+    emit(state.copyWith(isLoading: true));
     List<ProductModel> orderList = state.orderList ?? [];
     List<ProductModel> finalizedOrderList = [];
     for (ProductModel item in orderList) {

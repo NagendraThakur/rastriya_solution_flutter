@@ -1,12 +1,9 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
-import 'package:rastriya_solution_flutter/helper/numerical_range_formatter.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/payment_mode_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
@@ -51,6 +48,7 @@ class _PayPageState extends State<PayPage> {
                         horizontal: 8,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,6 +71,12 @@ class _PayPageState extends State<PayPage> {
                                   : const SizedBox.shrink(),
                             ],
                           ),
+                          state.loyaltyMember != null
+                              ? Text(
+                                  "${state.loyaltyMember?.memberName}",
+                                  style: kSubtitleRegularTextStyle,
+                                )
+                              : const SizedBox.shrink(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -104,36 +108,40 @@ class _PayPageState extends State<PayPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "- Discount (${state.discountPercentage.toStringAsFixed(1) == "0.0" ? "0" : state.discountPercentage.toStringAsFixed(1)} %)",
+                                    state.loyaltyMember == null
+                                        ? "- Discount (${state.discountPercentage.toStringAsFixed(1) == "0.0" ? "0" : state.discountPercentage.toStringAsFixed(1)} %)"
+                                        : "- Discount ",
                                     style: kSubtitleRegularTextStyle,
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      if (Config.permissionInfo?.exportReport ==
-                                          "1") {
-                                        discountBottomSheet(
-                                            discountPercentage:
-                                                state.discountPercentage,
-                                            context: context,
-                                            width: width);
-                                      } else {
-                                        showToastification(
-                                            context: context,
-                                            message:
-                                                "Insufficient Authority: Cannot Assign Discount",
-                                            toastificationType:
-                                                ToastificationType.warning);
-                                      }
-                                    },
-                                    child: CustomContainer(
-                                        innerHorizontalPadding: 2,
-                                        innerVerticalPadding: 2,
-                                        color: Colors.grey.shade200,
-                                        child: Text(
-                                          "Edit",
-                                          style: kSmallRegularTextStyle,
-                                        )),
-                                  )
+                                  if (state.loyaltyMember == null)
+                                    InkWell(
+                                      onTap: () {
+                                        if (Config
+                                                .permissionInfo?.exportReport ==
+                                            "1") {
+                                          discountBottomSheet(
+                                              discountPercentage:
+                                                  state.discountPercentage,
+                                              context: context,
+                                              width: width);
+                                        } else {
+                                          showToastification(
+                                              context: context,
+                                              message:
+                                                  "Insufficient Authority: Cannot Assign Discount",
+                                              toastificationType:
+                                                  ToastificationType.warning);
+                                        }
+                                      },
+                                      child: CustomContainer(
+                                          innerHorizontalPadding: 2,
+                                          innerVerticalPadding: 2,
+                                          color: Colors.grey.shade200,
+                                          child: Text(
+                                            "Edit",
+                                            style: kSmallRegularTextStyle,
+                                          )),
+                                    )
                                 ],
                               ),
                               Text(
@@ -396,11 +404,14 @@ class _PayPageState extends State<PayPage> {
                     state.totalAmount == state.paidAmount,
                 buttonText: "Pay",
                 onPressed: () {
-                  BlocProvider.of<PosCubit>(context).assignDiscountForOrder();
-                  state.orderList!.forEach((element) {
-                    log(element.toJson().toString());
-                  });
-                  // BlocProvider.of<PosCubit>(context).createSalesBill();
+                  if (state.loyaltyMember == null &&
+                      state.discountAmount.toStringAsFixed(2) != "0.00") {
+                    BlocProvider.of<PosCubit>(context).assignDiscountForOrder();
+                  }
+                  // state.orderList!.forEach((element) {
+                  //   log(element.toJson().toString());
+                  // });
+                  BlocProvider.of<PosCubit>(context).createSalesBill();
                 },
               ),
             ));

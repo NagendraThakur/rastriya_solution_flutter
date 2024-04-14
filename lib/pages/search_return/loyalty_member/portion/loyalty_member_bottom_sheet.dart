@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/model/loyalty_member_model.dart';
-import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
-import 'package:rastriya_solution_flutter/pages/pos/portion/order/portion/order_widget.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/button.dart';
-import 'package:rastriya_solution_flutter/widgets/multi_line_text_field.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
 
@@ -79,7 +76,6 @@ void loyaltyMemberBottomSheet({
                       onPressed: () {
                         BlocProvider.of<PosCubit>(context)
                             .assignLoyaltyMember(loyaltyMember: loyaltyMember);
-                        Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       }))
             ],
