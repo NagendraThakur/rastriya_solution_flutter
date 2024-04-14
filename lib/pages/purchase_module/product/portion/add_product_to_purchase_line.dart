@@ -36,7 +36,9 @@ void addProuductToPurchaseLine({
           double calculateNetAmount() {
             double quantityValue = double.tryParse(quantity.text) ?? 0;
             double lastUnitCostValue = double.tryParse(lastUnitCost.text) ?? 0;
-            return quantityValue * lastUnitCostValue;
+            double total = quantityValue * lastUnitCostValue;
+            double discountValue = double.tryParse(discountAmount.text) ?? 0;
+            return total - discountValue;
           }
 
           double netAmount = calculateNetAmount();
@@ -154,7 +156,15 @@ void addProuductToPurchaseLine({
                     buttonText: "Save",
                     onPressed: () {
                       BlocProvider.of<PurchaseCubit>(context)
-                          .assignProductToPurchaseLine(product: product);
+                          .assignProductToPurchaseLine(
+                              product: product.copyWith(
+                        quantity: double.tryParse(quantity.text) ?? 0,
+                        lastUnitCost: double.tryParse(lastUnitCost.text) ?? 0,
+                        discountPercentage:
+                            double.tryParse(discountPercentage.text) ?? 0,
+                        discountAmount:
+                            double.tryParse(discountAmount.text) ?? 0,
+                      ));
                       Navigator.of(context).pop();
                     },
                   ),

@@ -5,6 +5,7 @@ import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/cubit/purchase_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/product/portion/add_product_to_purchase_line.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
+import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 
@@ -26,6 +27,42 @@ class _PurchaseProductSearchPageState extends State<PurchaseProductSearchPage> {
           appBar: AppBar(
             title: const Text("Products"),
             leading: const CupertinoNavigationBarBackButton(),
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(5)),
+                alignment: Alignment.center,
+                child: Stack(
+                  children: [
+                    const IconButton(
+                      onPressed: null,
+                      icon: Icon(
+                        CupertinoIcons.bag,
+                        size: 25,
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: state.productList.isEmpty
+                            ? null
+                            : CircleAvatar(
+                                backgroundColor: Colors.red,
+                                child: Text(
+                                  state.productList.length.toString(),
+                                  style: kSmallBoldTextStyle,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              horizontalSpaceSmall,
+            ],
           ),
           body: Column(
             children: [

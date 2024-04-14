@@ -11,8 +11,16 @@ class PurchaseCubit extends Cubit<PurchaseState> {
   PurchaseCubit() : super(PurchaseState.initial());
 
   assignProductToPurchaseLine({required ProductModel product}) {
-    double netAmount = (product.quantity! * product.lastUnitCost!) -
-        (product.discountAmount ?? 0.0);
+    double calculateNetAmount() {
+      double quantityValue = product.quantity!;
+      double lastUnitCostValue = product.lastUnitCost!;
+      double total = quantityValue * lastUnitCostValue;
+      double discountValue = product.discountAmount!;
+      return total - discountValue;
+    }
+
+    double netAmount = calculateNetAmount();
+
     PurchaseLine purchaseLine = PurchaseLine(
       productCode: product.productCode,
       unitCode: product.baseUnit,
@@ -26,6 +34,7 @@ class PurchaseCubit extends Cubit<PurchaseState> {
       vatAmount: (netAmount * (product.vatPercent ?? 0)) / 100,
       batchNo: product.batch?.id,
       lineNetAmount: netAmount,
+      productInfo: product,
     );
     List<PurchaseLine> productList = state.productList;
     productList.add(purchaseLine);

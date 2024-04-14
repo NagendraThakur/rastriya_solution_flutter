@@ -583,6 +583,7 @@ class PosCubit extends Cubit<PosState> {
           if (table.section?.storeId != Config.storeInfo!.id) {
             return;
           }
+          tableList.add(table);
           if (!sectionIds.contains(table.sectionId)) {
             sectionIds.add(table.sectionId);
             sectionList.add(table.section!);
