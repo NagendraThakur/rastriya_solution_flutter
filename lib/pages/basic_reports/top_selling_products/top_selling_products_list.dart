@@ -1,14 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rastriya_solution_flutter/helper/nepali_calender_widget.dart';
 import 'package:rastriya_solution_flutter/model/top_selling_products_model.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/cubit/top_selling_products_cubit.dart';
+import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
+import 'package:rastriya_solution_flutter/widgets/box_widget.dart';
 import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 
 class TopSellingProductsListPage extends StatefulWidget {
-  const TopSellingProductsListPage({super.key});
+  final bool? showDateFilter;
+  const TopSellingProductsListPage({
+    super.key,
+    this.showDateFilter = false,
+  });
 
   @override
   State<TopSellingProductsListPage> createState() =>
@@ -29,6 +37,7 @@ class _TopSellingProductsListPageState
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return BlocBuilder<TopSellingProductsCubit, TopSellingProductsState>(
       builder: (context, state) {
         return Scaffold(
@@ -38,22 +47,73 @@ class _TopSellingProductsListPageState
           ),
           body: state.isLoading == true
               ? const Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                  child: CustomDataTable(
-                      columnNames: const [
-                        "Particulars",
-                        "Sales Qty",
-                        "Sales Return Qty",
-                        "Net Sales Qty",
-                        // "Gross Amount",
-                        // "Discount Amount",
-                        "Amount",
-                        // "Vat Amount",
-                        // "Net Amount",
-                      ],
-                      createRow: createRow(
-                          context: context,
-                          data: state.topSellingProductsList)),
+              : Column(
+                  children: [
+                    verticalSpaceSmall,
+                    if (widget.showDateFilter == true)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          horizontalSpaceTiny,
+                          InkWell(
+                            onTap: () async {
+                              fromDate = await nepaliCalender(
+                                  context: context, initalDate: fromDate);
+                              setState(() {});
+                            },
+                            child: BoxWidget(
+                                width: width * 0.4,
+                                value: fromDate.toString().split(" ").first,
+                                label: "Start"),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              toDate = await nepaliCalender(
+                                  context: context, initalDate: toDate);
+                              setState(() {});
+                            },
+                            child: BoxWidget(
+                                width: width * 0.4,
+                                value: toDate.toString().split(" ").first,
+                                label: "End"),
+                          ),
+                          InkWell(
+                            onTap: () => Future.delayed(
+                                Duration.zero,
+                                () => BlocProvider.of<TopSellingProductsCubit>(
+                                        context)
+                                    .fetchTopSellingProducts(
+                                        fromDate: fromDate, toDate: toDate)),
+                            child: SvgPicture.asset(
+                              "assets/svg/search.svg",
+                              width: 45,
+                              height: 45,
+                            ),
+                          ),
+                          horizontalSpaceTiny,
+                        ],
+                      ),
+                    verticalSpaceSmall,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: CustomDataTable(
+                            columnNames: const [
+                              "Particulars",
+                              "Sales Qty",
+                              "Sales Return Qty",
+                              "Net Sales Qty",
+                              // "Gross Amount",
+                              // "Discount Amount",
+                              "Amount",
+                              // "Vat Amount",
+                              // "Net Amount",
+                            ],
+                            createRow: createRow(
+                                context: context,
+                                data: state.topSellingProductsList)),
+                      ),
+                    ),
+                  ],
                 ),
         );
       },

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/model/void_report_model.dart';

@@ -28,12 +28,22 @@ class _AdvanceReportPageState extends State<AdvanceReportPage> {
           svgPath: "assets/svg/top_selling_product.svg",
           label: "Top Selling Products",
           description: "Top Selling Products Report",
-          pushNamed: "/advance_top_selling_products_report"),
+          pushNamed: "/top_selling_products_report"),
       ComponentButtonModel(
           svgPath: "assets/svg/cancel_product.svg",
           label: "Cancel Products",
           description: "Cancel Products Report",
           pushNamed: "/void_product_report"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/collection.svg",
+          label: "Advance Collection Report",
+          description: "Collection Report Description",
+          pushNamed: "/collection_report"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/order_report.svg",
+          label: "Advance Order Report",
+          description: "Order Report Description",
+          pushNamed: "/order_report"),
     ];
     return Scaffold(
       appBar: AppBar(

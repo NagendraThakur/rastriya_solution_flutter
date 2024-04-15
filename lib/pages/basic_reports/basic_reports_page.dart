@@ -24,6 +24,11 @@ class _BasicReportPageState extends State<BasicReportPage> {
           label: "Today Cancel Products",
           description: "Today Cancel Products Report",
           pushNamed: "/void_product_report"),
+      ComponentButtonModel(
+          svgPath: "assets/svg/collection.svg",
+          label: "Today Collection",
+          description: "Today Collection Report",
+          pushNamed: "/collection_report"),
     ];
     return Scaffold(
       appBar: AppBar(

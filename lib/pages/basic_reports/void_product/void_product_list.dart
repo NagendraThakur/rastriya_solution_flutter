@@ -51,65 +51,59 @@ class _VoidProductListPageState extends State<VoidProductListPage> {
               : Column(
                   children: [
                     verticalSpaceSmall,
-                    widget.showDateFilter == true
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              horizontalSpaceTiny,
-                              InkWell(
-                                onTap: () async {
-                                  fromDate = await nepaliCalender(
-                                      context: context, initalDate: fromDate);
-                                  setState(() {});
-                                },
-                                child: BoxWidget(
-                                    width: width * 0.4,
-                                    value: fromDate.toString().split(" ").first,
-                                    label: "Start"),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  toDate = await nepaliCalender(
-                                      context: context, initalDate: toDate);
-                                  setState(() {});
-                                },
-                                child: BoxWidget(
-                                    width: width * 0.4,
-                                    value: toDate.toString().split(" ").first,
-                                    label: "End"),
-                              ),
-                              InkWell(
-                                onTap: () => Future.delayed(
-                                    Duration.zero,
-                                    () => BlocProvider.of<VoidProductCubit>(
-                                            context)
-                                        .fetchVoidReport(
-                                            fromDate: fromDate,
-                                            toDate: toDate)),
-                                child: SvgPicture.asset(
-                                  "assets/svg/search.svg",
-                                  width: 45,
-                                  height: 45,
-                                ),
-                              ),
-                              horizontalSpaceTiny,
-                            ],
-                          )
-                        : const SizedBox.shrink(),
+                    if (widget.showDateFilter == true)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          horizontalSpaceTiny,
+                          InkWell(
+                            onTap: () async {
+                              fromDate = await nepaliCalender(
+                                  context: context, initalDate: fromDate);
+                              setState(() {});
+                            },
+                            child: BoxWidget(
+                                width: width * 0.4,
+                                value: fromDate.toString().split(" ").first,
+                                label: "Start"),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              toDate = await nepaliCalender(
+                                  context: context, initalDate: toDate);
+                              setState(() {});
+                            },
+                            child: BoxWidget(
+                                width: width * 0.4,
+                                value: toDate.toString().split(" ").first,
+                                label: "End"),
+                          ),
+                          InkWell(
+                            onTap: () => Future.delayed(
+                                Duration.zero,
+                                () => BlocProvider.of<VoidProductCubit>(context)
+                                    .fetchVoidReport(
+                                        fromDate: fromDate, toDate: toDate)),
+                            child: SvgPicture.asset(
+                              "assets/svg/search.svg",
+                              width: 45,
+                              height: 45,
+                            ),
+                          ),
+                          horizontalSpaceTiny,
+                        ],
+                      ),
                     verticalSpaceSmall,
                     Expanded(
                       child: SingleChildScrollView(
-                        child: CustomDataTable(
-                            columnNames: const [
-                              "Date",
-                              "Particulars",
-                              "Qty",
-                              "Amount",
-                              "Cancel Reason",
-                              "Authorized By"
-                            ],
-                            createRow: createRow(
-                                context: context, data: state.voidReportList)),
+                        child: CustomDataTable(columnNames: const [
+                          "Date",
+                          "Particulars",
+                          "Qty",
+                          "Amount",
+                          "Cancel Reason",
+                          "Authorized By"
+                        ], createRow: createRow(data: state.voidReportList)),
                       ),
                     ),
                   ],
@@ -120,7 +114,6 @@ class _VoidProductListPageState extends State<VoidProductListPage> {
   }
 
   List<DataRow>? createRow({
-    required BuildContext context,
     required List<VoidReportModel>? data,
   }) {
     if (data!.isEmpty) {

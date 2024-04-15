@@ -48,6 +48,8 @@ class GetRepository {
   //Reports
   static String dailyProductReport = "/api/v2/reports/sales/product";
   static String voidOrderReport = "/api/v2/reports/sales/void";
+  static String fAndBOrderReport = "/api/v2/reports/sales/order";
+  static String collectionReport = "/api/v2/reports/sales/collection";
 
   Future<dynamic> getRequest({
     required String path,

@@ -28,9 +28,14 @@ import 'package:rastriya_solution_flutter/pages/account_setup/store_setup/store_
 import 'package:rastriya_solution_flutter/pages/account_setup/terminal/terminal_edit.dart';
 import 'package:rastriya_solution_flutter/pages/account_setup/terminal/terminal_list.dart';
 import 'package:rastriya_solution_flutter/pages/advance_reports/advance_report_page.dart';
-import 'package:rastriya_solution_flutter/pages/advance_reports/top_selling_products/advance_top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_in/presentation/sign_in_screen.dart';
 import 'package:rastriya_solution_flutter/pages/authentication/sign_up/sign_up_screen.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/collection/collection_list.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/collection/cubit/collection_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/order/cubit/order_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/order/order_list.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/cubit/top_selling_products_cubit.dart';
+import 'package:rastriya_solution_flutter/pages/basic_reports/void_product/cubit/void_product_cubit.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/void_product/void_product_list.dart';
 import 'package:rastriya_solution_flutter/pages/company/company_list_screen.dart';
 import 'package:rastriya_solution_flutter/pages/company/edit_company_screen.dart';
@@ -375,20 +380,45 @@ class Routes {
       case "/basic_reports":
         return MaterialPageRoute(builder: (context) => const BasicReportPage());
       case "/top_selling_products_report":
+        bool? showDateFilter = settings.arguments as bool?;
         return MaterialPageRoute(
-            builder: (context) => const TopSellingProductsListPage());
+            builder: (context) => BlocProvider(
+                  create: (context) => TopSellingProductsCubit(),
+                  child: TopSellingProductsListPage(
+                    showDateFilter: showDateFilter,
+                  ),
+                ));
       case "/void_product_report":
         bool? showDateFilter = settings.arguments as bool?;
         return MaterialPageRoute(
-            builder: (context) => VoidProductListPage(
-                  showDateFilter: showDateFilter,
+            builder: (context) => BlocProvider(
+                  create: (context) => VoidProductCubit(),
+                  child: VoidProductListPage(
+                    showDateFilter: showDateFilter,
+                  ),
+                ));
+
+      case "/collection_report":
+        bool? showDateFilter = settings.arguments as bool?;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                  create: (context) => CollectionCubit(),
+                  child: CollectionListPage(
+                    showDateFilter: showDateFilter,
+                  ),
+                ));
+      case "/order_report":
+        bool? showDateFilter = settings.arguments as bool?;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+                  create: (context) => OrderCubit(),
+                  child: OrderReportPage(
+                    showDateFilter: showDateFilter,
+                  ),
                 ));
       case "/advance_report":
         return MaterialPageRoute(
             builder: (context) => const AdvanceReportPage());
-      case "/advance_top_selling_products_report":
-        return MaterialPageRoute(
-            builder: (context) => const AdvanceTopSellingProductsListPage());
 
       //POS Routes
       case "/restro_main":
