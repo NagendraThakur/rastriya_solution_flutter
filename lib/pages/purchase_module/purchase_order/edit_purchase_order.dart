@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 import 'package:rastriya_solution_flutter/helper/nepali_calender_widget.dart';
+import 'package:rastriya_solution_flutter/helper/toastification.dart';
+import 'package:rastriya_solution_flutter/model/ledger_model.dart';
 import 'package:rastriya_solution_flutter/model/purchase_model.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/cubit/purchase_cubit.dart';
 import 'package:rastriya_solution_flutter/shared/spacing.dart';
@@ -14,6 +16,7 @@ import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
+import 'package:toastification/toastification.dart';
 
 class EditPurchaseOrder extends StatefulWidget {
   final PurchaseModel? purchaseInfo;
@@ -28,9 +31,25 @@ class EditPurchaseOrder extends StatefulWidget {
 
 class _EditPurchaseOrderState extends State<EditPurchaseOrder> {
   String? vendorId;
+  LedgerModel? vendor;
   TextEditingController vendorBillController = TextEditingController();
   picker.NepaliDateTime vendorBillDate = picker.NepaliDateTime.now();
   picker.NepaliDateTime expiryDate = picker.NepaliDateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.purchaseInfo != null) {
+      vendor = widget.purchaseInfo?.vendorInfo;
+      vendorId = widget.purchaseInfo?.vendorInfo?.id;
+      vendorBillController.text = widget.purchaseInfo?.vendorBillNo ?? "";
+      vendorBillDate = widget.purchaseInfo!.vendorBillDate!.toNepaliDateTime();
+      expiryDate = widget.purchaseInfo!.poExpiryDate!.toNepaliDateTime();
+    }
+    BlocProvider.of<PurchaseCubit>(context)
+        .assignPurchaseLine(line: widget.purchaseInfo?.lines);
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -63,6 +82,9 @@ class _EditPurchaseOrderState extends State<EditPurchaseOrder> {
                     onChanged: (String value) {
                       setState(() {
                         vendorId = value;
+                        vendor = state.venderList
+                            .where((element) => element.id == value)
+                            .firstOrNull;
                       });
                     },
                     items: state.venderList.map((vendor) {
@@ -104,50 +126,140 @@ class _EditPurchaseOrderState extends State<EditPurchaseOrder> {
                           label: "PO Expire"),
                     ),
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.productList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        PurchaseLine line = state.productList[index];
-                        return BorderContainer(
-                            outerPadding: const EdgeInsets.only(top: 5),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                      "${line.productInfo?.name}(${line.productCode})"),
-                                  subtitle: Text(
-                                    "${line.productInfo?.batch?.batchName ?? ""}@${line.rate}",
-                                    style: kBodyRegularTextStyle,
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "X ${line.quantity!.toStringAsFixed(2)}",
-                                        style: kSubtitleRegularTextStyle,
-                                      ),
-                                      horizontalSpaceMedium,
-                                      SizedBox(
-                                        width: width * 0.2,
-                                        child: Text(
-                                          line.netAmount!.toStringAsFixed(2),
+                  Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.productList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          PurchaseLine line = state.productList[index];
+                          return BorderContainer(
+                              outerPadding: const EdgeInsets.only(top: 5),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                        "${line.productInfo?.name}(${line.productCode})"),
+                                    subtitle: Text(
+                                      "${line.productInfo?.batch?.batchName ?? ""}@${line.rate}",
+                                      style: kBodyRegularTextStyle,
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "X ${line.quantity!.toStringAsFixed(2)}",
                                           style: kSubtitleRegularTextStyle,
-                                          textAlign: TextAlign.right,
                                         ),
-                                      ),
-                                    ],
+                                        horizontalSpaceMedium,
+                                        SizedBox(
+                                          width: width * 0.2,
+                                          child: Text(
+                                            line.netAmount!.toStringAsFixed(2),
+                                            style: kSubtitleRegularTextStyle,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ));
-                      }),
+                                ],
+                              ));
+                        }),
+                  ),
                 ],
               ),
             ),
-            bottomNavigationBar: CustomButton(
-                horizontalPadding: 10, buttonText: "Save", onPressed: () {}));
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                BorderContainer(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Gross Total"),
+                            Text("X ${state.quantity.toStringAsFixed(2)}"),
+                            Text(state.totalAmount.toStringAsFixed(2))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Discount Amount"),
+                            Text(state.totalDiscountAmount.toStringAsFixed(2))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Net Amount"),
+                            Text(state.totalNetAmount.toStringAsFixed(2))
+                          ],
+                        ),
+                      ],
+                    )),
+                CustomButton(
+                    verticalPadding: 10,
+                    horizontalPadding: 10,
+                    buttonText: "Save",
+                    onPressed: () {
+                      if (vendor == null) {
+                        showToastification(
+                            context: context,
+                            message: "Vendor Require",
+                            toastificationType: ToastificationType.warning);
+                        return;
+                      }
+                      Future.delayed(
+                          Duration.zero,
+                          () => BlocProvider.of<PurchaseCubit>(context)
+                              .createPurchaseOrder(
+                                  vendor: vendor!,
+                                  vendorBillNo: vendorBillController.text,
+                                  vendorBillDate: vendorBillDate,
+                                  poExpiryDate: expiryDate,
+                                  purchaseInfo: widget.purchaseInfo));
+                    }),
+                if (widget.purchaseInfo != null)
+                  TwoRowComponent(
+                    verticalPadding: 5,
+                    middleSpace: true,
+                    firstComponent: CustomButton(
+                      verticalPadding: 0,
+                      secondaryButton: true,
+                      buttonText: "Forced Close",
+                      onPressed: () {},
+                    ),
+                    secondComponent: CustomButton(
+                      verticalPadding: 0,
+                      buttonText: "Purchase Bill",
+                      onPressed: () {
+                        if (vendor == null) {
+                          showToastification(
+                              context: context,
+                              message: "Vendor Require",
+                              toastificationType: ToastificationType.warning);
+                          return;
+                        }
+                        Future.delayed(
+                            Duration.zero,
+                            () => BlocProvider.of<PurchaseCubit>(context)
+                                .createPurchaseBill(
+                                    vendor: vendor!,
+                                    vendorBillNo: vendorBillController.text,
+                                    vendorBillDate: vendorBillDate,
+                                    poExpiryDate: expiryDate,
+                                    purchaseInfo: widget.purchaseInfo!));
+                      },
+                    ),
+                  )
+              ],
+            ));
       },
     );
   }

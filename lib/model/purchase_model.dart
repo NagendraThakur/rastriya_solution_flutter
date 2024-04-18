@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:rastriya_solution_flutter/model/ledger_model.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 
@@ -5,9 +6,9 @@ class PurchaseModel {
   final String? id;
   final String? billNo;
   final String? refBillNo;
-  final String? orderDate;
+  final DateTime? orderDate;
   final String? vendorBillNo;
-  final String? vendorBillDate;
+  final DateTime? vendorBillDate;
   final String? vendorCode;
   final double? amount;
   final double? vatAmount;
@@ -29,7 +30,7 @@ class PurchaseModel {
   final String? vendorShippingCity;
   final String? vendorShippingPhone;
   final String? vendorShippingStreetName;
-  final String? poExpiryDate;
+  final DateTime? poExpiryDate;
   final String? purchaseOrderType;
   final String? taxInvoice;
   final double? taxableAmount;
@@ -101,9 +102,13 @@ class PurchaseModel {
       id: json['id'].toString(),
       billNo: json['bill_no'],
       refBillNo: json['ref_bill_no'],
-      orderDate: json['order_date'],
+      orderDate: json['order_date'] != null
+          ? DateFormat('yyyy-MM-dd').parse(json['order_date'])
+          : null,
       vendorBillNo: json['vendor_bill_no'],
-      vendorBillDate: json['vendor_bill_date'],
+      vendorBillDate: json['vendor_bill_date'] != null
+          ? DateFormat('yyyy-MM-dd').parse(json['vendor_bill_date'])
+          : null,
       vendorCode: json['vendor_code'],
       amount: json['amount'] != null
           ? double.parse(json['amount'].toString())
@@ -133,7 +138,9 @@ class PurchaseModel {
       vendorShippingCity: json['vendor_shipping_city'],
       vendorShippingPhone: json['vendor_shipping_phone'],
       vendorShippingStreetName: json['vendor_shipping_street_name'],
-      poExpiryDate: json['PO_expiry_date'],
+      poExpiryDate: json['PO_expiry_date'] != null
+          ? DateFormat('yyyy-MM-dd').parse(json['PO_expiry_date'])
+          : null,
       purchaseOrderType: json['purchase_order_type'],
       taxInvoice: json['tax_invoice'],
       taxableAmount: json['taxable_amount'] != null
@@ -271,206 +278,33 @@ class PurchaseLine {
       batchInfo: json['batch_info'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'bill_no': billNo,
+      'product_code': productCode,
+      'unit_code': unitCode,
+      'quantity': quantity,
+      'rate': rate,
+      'amount': amount,
+      'discount_percent': discountPercent,
+      'discount_amount': discountAmount,
+      'net_amount': netAmount,
+      'sequence': sequence,
+      'product_type': productType,
+      'vat_percent': vatPercent,
+      'vat_amount': vatAmount,
+      'batch_no': batchNo,
+      'line_net_amount': lineNetAmount,
+      'received_quantity': receivedQuantity,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'product_info': productInfo != null ? productInfo!.toJson() : null,
+      'unit_name': unitName,
+      'batch_info': batchInfo,
+    };
+  }
 }
-
-// class ProductInfo {
-//   final int? id;
-//   final String? name;
-//   final String? baseUnit;
-//   final String? barcode1;
-//   final String? barcode2;
-//   final String? barcode3;
-//   final String? barcode4;
-//   final String? productGroup;
-//   final String? flatDiscountDateFrom;
-//   final String? flatDiscountDateTo;
-//   final String? remarks1;
-//   final String? remarks2;
-//   final int? blocked;
-//   final String? vatPercent;
-//   final int? discountable;
-//   final String? flatDiscount;
-//   final String? lastUnitCost;
-//   final String? lastUnitPrice;
-//   final int? inventoryItem;
-//   final int? sellableItem;
-//   final int? isPos;
-//   final dynamic lastVendorCode;
-//   final dynamic brandId;
-//   final dynamic modelYearId;
-//   final String? mrp;
-//   final dynamic otherUnitId;
-//   final dynamic otherUnitFactor;
-//   final String? profitPercent;
-//   final dynamic printName;
-//   final String? batchLot;
-//   final dynamic productDetail;
-//   final String? productCode;
-//   final dynamic image;
-//   final String? createdAt;
-//   final String? updatedAt;
-
-//   ProductInfo({
-//     this.id,
-//     this.name,
-//     this.baseUnit,
-//     this.barcode1,
-//     this.barcode2,
-//     this.barcode3,
-//     this.barcode4,
-//     this.productGroup,
-//     this.flatDiscountDateFrom,
-//     this.flatDiscountDateTo,
-//     this.remarks1,
-//     this.remarks2,
-//     this.blocked,
-//     this.vatPercent,
-//     this.discountable,
-//     this.flatDiscount,
-//     this.lastUnitCost,
-//     this.lastUnitPrice,
-//     this.inventoryItem,
-//     this.sellableItem,
-//     this.isPos,
-//     this.lastVendorCode,
-//     this.brandId,
-//     this.modelYearId,
-//     this.mrp,
-//     this.otherUnitId,
-//     this.otherUnitFactor,
-//     this.profitPercent,
-//     this.printName,
-//     this.batchLot,
-//     this.productDetail,
-//     this.productCode,
-//     this.image,
-//     this.createdAt,
-//     this.updatedAt,
-//   });
-
-//   factory ProductInfo.fromJson(Map<String, dynamic> json) {
-//     return ProductInfo(
-//       id: json['id'],
-//       name: json['name'],
-//       baseUnit: json['base_unit'],
-//       barcode1: json['barcode1'],
-//       barcode2: json['barcode2'],
-//       barcode3: json['barcode3'],
-//       barcode4: json['barcode4'],
-//       productGroup: json['product_group'],
-//       flatDiscountDateFrom: json['flat_discount_date_from'],
-//       flatDiscountDateTo: json['flat_discount_date_to'],
-//       remarks1: json['remarks1'],
-//       remarks2: json['remarks2'],
-//       blocked: json['blocked'],
-//       vatPercent: json['vat_percent'],
-//       discountable: json['discountable'],
-//       flatDiscount: json['flat_discount'],
-//       lastUnitCost: json['last_unit_cost'],
-//       lastUnitPrice: json['last_unit_price'],
-//       inventoryItem: json['inventory_item'],
-//       sellableItem: json['sellable_item'],
-//       isPos: json['is_pos'],
-//       lastVendorCode: json['last_vendor_code'],
-//       brandId: json['brand_id'],
-//       modelYearId: json['model_year_id'],
-//       mrp: json['mrp'],
-//       otherUnitId: json['other_unit_id'],
-//       otherUnitFactor: json['other_unit_factor'],
-//       profitPercent: json['profit_percent'],
-//       printName: json['print_name'],
-//       batchLot: json['batch_lot'],
-//       productDetail: json['product_detail'],
-//       productCode: json['product_code'],
-//       image: json['image'],
-//       createdAt: json['created_at'],
-//       updatedAt: json['updated_at'],
-//     );
-//   }
-// }
-
-// class VendorInfo {
-//   final int? id;
-//   final String? code;
-//   final String? name;
-//   final String? ledgerType;
-//   final int? bank;
-//   final int? cash;
-//   final String? panNo;
-//   final String? billingAddress1;
-//   final String? billingPhone1;
-//   final String? billingEmail;
-//   final String? contactDescription;
-//   final String? contactPersonPhone;
-//   final int? trialGroupId;
-//   final String? shortName;
-//   final String? billingCity1;
-//   final String? billingStreetName1;
-//   final dynamic logoImage;
-//   final String? shippingAddress1;
-//   final String? shippingPhone1;
-//   final String? shippingCity1;
-//   final String? shippingStreetName1;
-//   final dynamic creditLimitAmount;
-//   final String? createdAt;
-//   final String? updatedAt;
-
-//   VendorInfo({
-//     this.id,
-//     this.code,
-//     this.name,
-//     this.ledgerType,
-//     this.bank,
-//     this.cash,
-//     this.panNo,
-//     this.billingAddress1,
-//     this.billingPhone1,
-//     this.billingEmail,
-//     this.contactDescription,
-//     this.contactPersonPhone,
-//     this.trialGroupId,
-//     this.shortName,
-//     this.billingCity1,
-//     this.billingStreetName1,
-//     this.logoImage,
-//     this.shippingAddress1,
-//     this.shippingPhone1,
-//     this.shippingCity1,
-//     this.shippingStreetName1,
-//     this.creditLimitAmount,
-//     this.createdAt,
-//     this.updatedAt,
-//   });
-
-//   factory VendorInfo.fromJson(Map<String, dynamic> json) {
-//     return VendorInfo(
-//       id: json['id'],
-//       code: json['code'],
-//       name: json['name'],
-//       ledgerType: json['ledger_type'],
-//       bank: json['bank'],
-//       cash: json['cash'],
-//       panNo: json['pan_no'],
-//       billingAddress1: json['billing_address1'],
-//       billingPhone1: json['billing_phone1'],
-//       billingEmail: json['billing_email'],
-//       contactDescription: json['contact_description'],
-//       contactPersonPhone: json['contact_person_phone'],
-//       trialGroupId: json['trial_group_id'],
-//       shortName: json['short_name'],
-//       billingCity1: json['billing_city1'],
-//       billingStreetName1: json['billing_street_name1'],
-//       logoImage: json['logo_image'],
-//       shippingAddress1: json['shipping_address1'],
-//       shippingPhone1: json['shipping_phone1'],
-//       shippingCity1: json['shipping_city1'],
-//       shippingStreetName1: json['shipping_street_name1'],
-//       creditLimitAmount: json['credit_limit_amount'],
-//       createdAt: json['created_at'],
-//       updatedAt: json['updated_at'],
-//     );
-//   }
-// }
 
 class PostedUserData {
   final String? fullName;

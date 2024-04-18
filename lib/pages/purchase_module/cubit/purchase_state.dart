@@ -10,6 +10,10 @@ class PurchaseState {
   final List<LedgerModel> venderList;
   final List<PurchaseLine> productList;
   final List<ProductModel> searchProductList;
+  final double quantity;
+  final double totalAmount;
+  final double totalDiscountAmount;
+  final double totalNetAmount;
 
   PurchaseState({
     this.isLoading,
@@ -20,6 +24,10 @@ class PurchaseState {
     required this.venderList,
     required this.productList,
     required this.searchProductList,
+    required this.quantity,
+    required this.totalAmount,
+    required this.totalDiscountAmount,
+    required this.totalNetAmount,
   });
 
   factory PurchaseState.initial() {
@@ -28,7 +36,11 @@ class PurchaseState {
         filteredPurchaseList: [],
         venderList: [],
         productList: [],
-        searchProductList: []);
+        searchProductList: [],
+        quantity: 0.0,
+        totalAmount: 0.0,
+        totalDiscountAmount: 0.0,
+        totalNetAmount: 0.0);
   }
 
   PurchaseState copyWith({
@@ -40,6 +52,10 @@ class PurchaseState {
     List<LedgerModel>? venderList,
     List<PurchaseLine>? productList,
     List<ProductModel>? searchProductList,
+    double? quantity,
+    double? totalAmount,
+    double? totalDiscountAmount,
+    double? totalNetAmount,
   }) {
     return PurchaseState(
       isLoading: isLoading,
@@ -50,6 +66,10 @@ class PurchaseState {
       venderList: venderList ?? this.venderList,
       productList: productList ?? this.productList,
       searchProductList: searchProductList ?? this.searchProductList,
+      quantity: quantity ?? this.quantity,
+      totalAmount: totalAmount ?? this.totalAmount,
+      totalDiscountAmount: totalDiscountAmount ?? this.totalDiscountAmount,
+      totalNetAmount: totalNetAmount ?? this.totalNetAmount,
     );
   }
 }

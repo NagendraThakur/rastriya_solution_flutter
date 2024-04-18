@@ -19,6 +19,8 @@ class PostRepository {
   static String registerUser = "/api/v2/auth/register";
   static String salesOrder = "/api/v2/pos/sales-order";
   static String salesVoid = "/api/v2/pos/sales-void";
+  static String purchaseOrder = "/api/v2/pos/purchase-order";
+  static String purchaseBill = "/api/v2/pos/purchase-bill";
 
   Future<dynamic> postRequest(
       {required String path, String? editId, required Object body}) async {

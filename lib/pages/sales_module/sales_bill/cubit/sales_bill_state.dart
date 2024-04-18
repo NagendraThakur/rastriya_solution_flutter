@@ -2,6 +2,7 @@ part of 'sales_bill_cubit.dart';
 
 class SalesBillState {
   final bool? isLoading;
+  final bool? isFetching;
   final List<BillModel>? salesBillList;
   final List<BillModel>? salesBillSearchResult;
   final String? message;
@@ -11,6 +12,7 @@ class SalesBillState {
 
   SalesBillState({
     this.isLoading,
+    this.isFetching,
     required this.salesBillList,
     this.salesBillSearchResult,
     this.message,
@@ -29,6 +31,7 @@ class SalesBillState {
 
   SalesBillState copyWith({
     bool? isLoading,
+    bool? isFetching,
     List<BillModel>? salesBillList,
     List<BillModel>? salesBillSearchResult,
     String? message,
@@ -38,6 +41,7 @@ class SalesBillState {
   }) {
     return SalesBillState(
       isLoading: isLoading,
+      isFetching: isFetching,
       salesBillList: salesBillList ?? this.salesBillList,
       salesBillSearchResult:
           salesBillSearchResult ?? this.salesBillSearchResult,

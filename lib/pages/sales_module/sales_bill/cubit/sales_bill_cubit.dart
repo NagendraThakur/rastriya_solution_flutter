@@ -17,7 +17,7 @@ class SalesBillCubit extends Cubit<SalesBillState> {
       required picker.NepaliDateTime toDate}) async {
     try {
       emit(state.copyWith(
-        isLoading: true,
+        isFetching: true,
       ));
       final response = await GetRepository().getRequest(
         path: GetRepository.salesBill,
@@ -46,14 +46,12 @@ class SalesBillCubit extends Cubit<SalesBillState> {
           salesBillSearchResult: salesBillList,
           totalBillsAmount: totalBillsAmount,
           totalDiscountAmount: totalDiscountAmount,
-          isLoading: false,
         ));
       } else {
-        emit(state.copyWith(
-            message: 'Failed to fetch sales bill', isLoading: false));
+        emit(state.copyWith(message: 'Failed to fetch sales bill'));
       }
     } catch (e) {
-      emit(state.copyWith(message: 'Error: $e', isLoading: false));
+      emit(state.copyWith(message: 'Error: $e'));
     }
   }
 
