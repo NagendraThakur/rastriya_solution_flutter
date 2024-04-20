@@ -6,7 +6,7 @@ import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 class MiniBottomSheet extends StatelessWidget {
   final String label;
   String? value;
-  final Function(String) onChanged;
+  final Function(String?) onChanged;
   final List<DropdownMenuItem<String>>? items;
   final String hintText;
   final EdgeInsetsGeometry? padding;
@@ -50,7 +50,7 @@ class MiniBottomSheet extends StatelessWidget {
     // Find the DropdownMenuItem corresponding to the selected value
     var selectedItem = items!.firstWhere((item) => item.value == value);
     // Return the child of the selected DropdownMenuItem
-    return selectedItem.child!;
+    return selectedItem.child;
   }
 
   void _showBottomSheet(BuildContext context) {
@@ -96,7 +96,7 @@ class MiniBottomSheet extends StatelessWidget {
                     child: ListTile(
                       onTap: () {
                         value = item.value;
-                        onChanged(value!);
+                        onChanged(value);
                         Navigator.pop(context);
                       },
                       leading: CircleAvatar(

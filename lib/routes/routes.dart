@@ -82,6 +82,8 @@ import 'package:rastriya_solution_flutter/pages/pos_setup/table_setup/table_setu
 import 'package:rastriya_solution_flutter/pages/basic_reports/basic_reports_page.dart';
 import 'package:rastriya_solution_flutter/pages/basic_reports/top_selling_products/top_selling_products_list.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/product/purchase_production_search.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_bill/edit_purchase_bill.dart';
+import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_bill/purchase_bill_list.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_module_main.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/edit_purchase_order.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/purchase_order/purchase_order_list.dart';
@@ -144,6 +146,18 @@ class Routes {
         PurchaseModel? purchaseInfo = settings.arguments as PurchaseModel?;
         return MaterialPageRoute(
             builder: (context) => EditPurchaseOrder(
+                  purchaseInfo: purchaseInfo,
+                ));
+      case "/purchase_bill_list":
+        final bool? showSummary = settings.arguments as bool?;
+        return MaterialPageRoute(
+            builder: (context) => PurchaseBillListPage(
+                  showSummary: showSummary,
+                ));
+      case "/edit_purchase_bill":
+        PurchaseModel? purchaseInfo = settings.arguments as PurchaseModel?;
+        return MaterialPageRoute(
+            builder: (context) => EditPurchaseBillPage(
                   purchaseInfo: purchaseInfo,
                 ));
       case "/dashboard":

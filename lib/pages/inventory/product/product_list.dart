@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rastriya_solution_flutter/helper/dialog_utility.dart';
 import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/product_model.dart';
 import 'package:rastriya_solution_flutter/pages/inventory/product/cubit/product_cubit.dart';
+import 'package:rastriya_solution_flutter/helper/check_box_filter_bottom_sheet.dart';
+import 'package:rastriya_solution_flutter/pages/pos/cubit/pos_cubit.dart';
+import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
+import 'package:rastriya_solution_flutter/widgets/data_table.dart';
 import 'package:rastriya_solution_flutter/widgets/list_view_container.dart';
 import 'package:rastriya_solution_flutter/widgets/shimmer.dart';
 import 'package:toastification/toastification.dart';
@@ -59,52 +64,43 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Text(
                   "Length: ${state.productList.length}   ",
                   style: kSubtitleTextStyle.copyWith(color: Colors.blue),
-                )
+                ),
+                InkWell(
+                  onTap: () {
+                    checkBoxFilterBottomSheet(
+                      context: context,
+                      label: 'Product Filter',
+                      checkBoxItems: [
+                        'Inventory',
+                        'Discountable',
+                        'Disabled',
+                        'POS Product',
+                        'Sellable',
+                      ],
+                      onSearchPressed: (selectedItems) {
+                        print('Selected Items: $selectedItems');
+                      },
+                    );
+                  },
+                  child: SvgPicture.asset(
+                    "assets/svg/filter.svg",
+                    width: 25,
+                  ),
+                ),
+                horizontalSpaceTiny
               ],
             ),
             body: state.isFetching == true
                 ? const CustomShimmer()
-                : ListView.builder(
-                    itemCount: state.productList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      ProductModel product = state.productList[index];
-                      return ListViewContainer(
-                          child: ListTile(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            "/edit_product",
-                            arguments: {
-                              "product": product,
-                              "categoryList": state.categoryList,
-                              "unitList": state.unitList,
-                            },
-                          );
-                        },
-                        leading: CircleAvatar(
-                            child: Text(
-                                product.name.substring(0, 1).toUpperCase())),
-                        title: Text(
-                            "${product.name}(${product.baseUnitName ?? "-"})"),
-                        subtitle: Text(product.categoryName ?? ""),
-                        trailing: Text(
-                          "${product.productCode ?? ""}\nNrp${product.lastUnitPrice?.toStringAsFixed(2)}",
-                          textAlign: TextAlign.end,
-                        ),
-                      ));
-                    }),
-            // : SingleChildScrollView(
-            //     child: Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 10),
-            //       child: CustomDataTable(columnNames: const [
-            //         "Code",
-            //         "Name",
-            //         "Unit",
-            //         "Purchase Cost",
-            //         "Selling Price",
-            //         "Category Name"
-            //       ], createRow: createRow(state.productList, state)),
-            //     ),
-            //   ),
+                : OrientationBuilder(
+                    builder: (context, orientation) {
+                      if (orientation == Orientation.portrait) {
+                        return _buildListView(state: state);
+                      } else {
+                        return _buildDataTable(state: state);
+                      }
+                    },
+                  ),
             floatingActionButton: FloatingActionButton.extended(
                 icon: const Icon(CupertinoIcons.add),
                 label: Text(
@@ -122,5 +118,79 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 }));
       },
     );
+  }
+
+  Widget _buildListView({required ProductState state}) {
+    return ListView.builder(
+        itemCount: state.productList.length,
+        itemBuilder: (BuildContext context, int index) {
+          ProductModel product = state.productList[index];
+          return ListViewContainer(
+              child: ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                "/edit_product",
+                arguments: {
+                  "product": product,
+                  "categoryList": state.categoryList,
+                  "unitList": state.unitList,
+                },
+              );
+            },
+            leading: CircleAvatar(
+                child: Text(product.name.substring(0, 1).toUpperCase())),
+            title: Text("${product.name}(${product.baseUnitName ?? "-"})"),
+            subtitle: Text(product.categoryName ?? ""),
+            trailing: Text(
+              "${product.productCode ?? ""}\nNrp${product.lastUnitPrice?.toStringAsFixed(2)}",
+              textAlign: TextAlign.end,
+            ),
+          ));
+        });
+  }
+
+  Widget _buildDataTable({required ProductState state}) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: CustomDataTable(columnNames: const [
+          "Code",
+          "Name",
+          "Unit",
+          "Stock",
+          "Category Name",
+          "Purchase Cost",
+          "Selling Price",
+        ], createRow: createRow(state.productList, state)),
+      ),
+    );
+  }
+
+  createRow(List<ProductModel> productList, ProductState state) {
+    return productList.map((productInfo) {
+      return DataRow(
+        selected: false,
+        cells: [
+          DataCell(Text(productInfo.productCode ?? "")),
+          DataCell(Text(productInfo.name)),
+          DataCell(Text(productInfo.baseUnitName ?? "")),
+          DataCell(
+              Text(productInfo.stockInfo?.quantity.toStringAsFixed(2) ?? "")),
+          DataCell(Text(productInfo.categoryName ?? "")),
+          DataCell(Text(productInfo.lastUnitCost?.toStringAsFixed(2) ?? "")),
+          DataCell(Text(productInfo.lastUnitPrice?.toStringAsFixed(2) ?? "")),
+        ],
+        onSelectChanged: (value) {
+          Navigator.of(context).pushNamed(
+            "/edit_product",
+            arguments: {
+              "product": productInfo,
+              "categoryList": state.categoryList,
+              "unitList": state.unitList,
+            },
+          );
+        },
+      );
+    }).toList();
   }
 }

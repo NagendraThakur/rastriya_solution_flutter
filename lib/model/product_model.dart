@@ -1,4 +1,5 @@
 import 'package:rastriya_solution_flutter/model/batch_model.dart';
+import 'package:rastriya_solution_flutter/model/stock_model.dart';
 
 class ProductModel {
   String? id;
@@ -46,6 +47,7 @@ class ProductModel {
   bool? selected;
   String? review;
   String? batchLot;
+  StockModel? stockInfo;
 
   ProductModel({
     this.id,
@@ -93,6 +95,7 @@ class ProductModel {
     this.selected = true,
     this.review,
     this.batchLot,
+    this.stockInfo,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -154,7 +157,10 @@ class ProductModel {
         printStationId: json['print_station_id'] != null
             ? json['print_station_id'].toString()
             : null,
-        batchLot: json['batch_lot'].toString());
+        batchLot: json['batch_lot'].toString(),
+        stockInfo: json['stock_info'] != null
+            ? StockModel.fromJson(json['stock_info'])
+            : null);
   }
   Map<String, dynamic> toJson() {
     // amount is the multiple of qunatity and lastUnitPrice i.e. rate in case of retail

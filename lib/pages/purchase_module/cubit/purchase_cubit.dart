@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rastriya_solution_flutter/constants/config.dart';
 import 'package:rastriya_solution_flutter/data/repository/get_repository.dart';
 import 'package:rastriya_solution_flutter/data/repository/post_repository.dart';
@@ -14,8 +15,8 @@ part 'purchase_state.dart';
 class PurchaseCubit extends Cubit<PurchaseState> {
   PurchaseCubit() : super(PurchaseState.initial());
 
-  void message() {
-    emit(state.copyWith(message: "message"));
+  void message({required String message}) {
+    emit(state.copyWith(message: message));
   }
 
   void calculateTotals() {
@@ -86,7 +87,7 @@ class PurchaseCubit extends Cubit<PurchaseState> {
         .postRequest(path: PostRepository.purchaseBill, body: body);
     emit(state.copyWith(isLoading: false));
     if (response["status"] == "success") {
-      state.copyWith(message: response["message"]);
+      message(message: response["message"]);
       emit(state.copyWith(isLoading: false));
     } else {
       state.copyWith(message: "Failed: Something went wrong");
@@ -135,6 +136,8 @@ class PurchaseCubit extends Cubit<PurchaseState> {
           .map((PurchaseLine product) => product.toJson())
           .toList()
     };
+
+    log(body.toString());
     dynamic response;
     if (purchaseInfo == null) {
       response = await PostRepository()
@@ -148,7 +151,7 @@ class PurchaseCubit extends Cubit<PurchaseState> {
     emit(state.copyWith(isLoading: false));
     if (response["status"] == "success") {
       emit(state.copyWith(isLoading: false));
-      state.copyWith(message: response["message"]);
+      message(message: response["message"]);
     } else {
       state.copyWith(message: "Failed: Something went wrong");
     }
@@ -227,6 +230,39 @@ class PurchaseCubit extends Cubit<PurchaseState> {
   }
 
   Future<void> fetchPurchaseOrder() async {
+    emit(state.copyWith(
+      isFetching: true,
+    ));
+    final response = await GetRepository().getRequest(
+      path: GetRepository.purchaseOrder,
+      additionalHeader: {"company-id": Config.companyInfo!.id},
+    );
+    emit(state.copyWith(
+      isFetching: false,
+    ));
+    if (response["status"] == "success") {
+      double totalBillsAmount = 0.0;
+      double totalDiscountAmount = 0.0;
+      List<dynamic> data = response["data"];
+      List<PurchaseModel> purchaseList = data.map((json) {
+        PurchaseModel purchase = PurchaseModel.fromJson(json);
+        totalBillsAmount += purchase.billAmount!;
+        totalDiscountAmount += purchase.discountAmount!;
+        return purchase;
+      }).toList();
+
+      emit(state.copyWith(
+        purchaseList: purchaseList,
+        filteredPurchaseList: purchaseList,
+      ));
+    } else {
+      emit(state.copyWith(
+        message: 'Failed to fetch Purchase Order',
+      ));
+    }
+  }
+
+  Future<void> fetchPurchaseBill() async {
     emit(state.copyWith(
       isFetching: true,
     ));

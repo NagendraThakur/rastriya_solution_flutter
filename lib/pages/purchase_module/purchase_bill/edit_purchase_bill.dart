@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 import 'package:rastriya_solution_flutter/helper/nepali_calender_widget.dart';
-import 'package:rastriya_solution_flutter/helper/toastification.dart';
 import 'package:rastriya_solution_flutter/model/ledger_model.dart';
 import 'package:rastriya_solution_flutter/model/purchase_model.dart';
 import 'package:rastriya_solution_flutter/pages/purchase_module/cubit/purchase_cubit.dart';
@@ -12,24 +10,22 @@ import 'package:rastriya_solution_flutter/shared/spacing.dart';
 import 'package:rastriya_solution_flutter/shared/text_style.dart';
 import 'package:rastriya_solution_flutter/widgets/border_container.dart';
 import 'package:rastriya_solution_flutter/widgets/box_widget.dart';
-import 'package:rastriya_solution_flutter/widgets/button.dart';
 import 'package:rastriya_solution_flutter/widgets/drop_down_button.dart';
 import 'package:rastriya_solution_flutter/widgets/textfield.dart';
 import 'package:rastriya_solution_flutter/widgets/two_row_component.dart';
-import 'package:toastification/toastification.dart';
 
-class EditPurchaseOrder extends StatefulWidget {
+class EditPurchaseBillPage extends StatefulWidget {
   final PurchaseModel? purchaseInfo;
-  const EditPurchaseOrder({
+  const EditPurchaseBillPage({
     Key? key,
     this.purchaseInfo,
   }) : super(key: key);
 
   @override
-  State<EditPurchaseOrder> createState() => _EditPurchaseOrderState();
+  State<EditPurchaseBillPage> createState() => _EditPurchaseBillPageState();
 }
 
-class _EditPurchaseOrderState extends State<EditPurchaseOrder> {
+class _EditPurchaseBillPageState extends State<EditPurchaseBillPage> {
   String? vendorId;
   LedgerModel? vendor;
   TextEditingController vendorBillController = TextEditingController();
@@ -203,61 +199,6 @@ class _EditPurchaseOrderState extends State<EditPurchaseOrder> {
                         ),
                       ],
                     )),
-                CustomButton(
-                    verticalPadding: 10,
-                    horizontalPadding: 10,
-                    buttonText: "Save",
-                    onPressed: () {
-                      if (vendor == null) {
-                        showToastification(
-                            context: context,
-                            message: "Vendor Require",
-                            toastificationType: ToastificationType.warning);
-                        return;
-                      }
-                      Future.delayed(
-                          Duration.zero,
-                          () => BlocProvider.of<PurchaseCubit>(context)
-                              .createPurchaseOrder(
-                                  vendor: vendor!,
-                                  vendorBillNo: vendorBillController.text,
-                                  vendorBillDate: vendorBillDate,
-                                  poExpiryDate: expiryDate,
-                                  purchaseInfo: widget.purchaseInfo));
-                    }),
-                if (widget.purchaseInfo != null)
-                  TwoRowComponent(
-                    verticalPadding: 5,
-                    middleSpace: true,
-                    firstComponent: CustomButton(
-                      verticalPadding: 0,
-                      secondaryButton: true,
-                      buttonText: "Forced Close",
-                      onPressed: () {},
-                    ),
-                    secondComponent: CustomButton(
-                      verticalPadding: 0,
-                      buttonText: "Purchase Bill",
-                      onPressed: () {
-                        if (vendor == null) {
-                          showToastification(
-                              context: context,
-                              message: "Vendor Require",
-                              toastificationType: ToastificationType.warning);
-                          return;
-                        }
-                        Future.delayed(
-                            Duration.zero,
-                            () => BlocProvider.of<PurchaseCubit>(context)
-                                .createPurchaseBill(
-                                    vendor: vendor!,
-                                    vendorBillNo: vendorBillController.text,
-                                    vendorBillDate: vendorBillDate,
-                                    poExpiryDate: expiryDate,
-                                    purchaseInfo: widget.purchaseInfo!));
-                      },
-                    ),
-                  )
               ],
             ));
       },

@@ -60,7 +60,7 @@ class _TableSetupListState extends State<TableSetupList> {
               hintText: "",
               label: "Store",
               value: storeId,
-              onChanged: (String value) {
+              onChanged: (String? value) {
                 setState(() {
                   storeId = value;
                 });

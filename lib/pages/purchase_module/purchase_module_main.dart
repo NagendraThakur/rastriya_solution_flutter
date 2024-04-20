@@ -18,7 +18,7 @@ class PurchaseModuleMainPage extends StatelessWidget {
           svgPath: "assets/svg/purchase_bill.svg",
           label: "Purchase Bill",
           description: "Purchase Bill Description",
-          pushNamed: "/sales_return_list"),
+          pushNamed: "/purchase_order_bill"),
       ComponentButtonModel(
           svgPath: "assets/svg/purchase_return.svg",
           label: "Purchase Return",

@@ -57,7 +57,7 @@ class _SectionListScreenState extends State<SectionListScreen> {
               hintText: "",
               label: "Store",
               value: storeId,
-              onChanged: (String value) {
+              onChanged: (String? value) {
                 setState(() {
                   storeId = value;
                 });

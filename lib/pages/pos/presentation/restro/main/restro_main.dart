@@ -58,22 +58,28 @@ class _RestroMainPageState extends State<RestroMainPage> {
               leading: const CupertinoNavigationBarBackButton(),
               actions: [
                 MiniBottomSheet(
-                  avatarInitials: "S",
-                  hintText: "",
-                  label: "Section",
-                  value: sectionId,
-                  onChanged: (String value) {
-                    setState(() {
-                      sectionId = value;
-                    });
-                  },
-                  items: state.sectionList.map((SectionModel section) {
-                    return DropdownMenuItem<String>(
-                      value: section.id.toString(),
-                      child: Text(section.sectionName),
-                    );
-                  }).toList(),
-                ),
+                    avatarInitials: "S",
+                    hintText: "",
+                    label: "Section",
+                    value: sectionId,
+                    onChanged: (String? value) {
+                      setState(() {
+                        sectionId = value;
+                      });
+                    },
+                    items: [
+                      if (state.sectionList.isNotEmpty)
+                        const DropdownMenuItem<String>(
+                          value: null,
+                          child: Text("All"),
+                        ),
+                      ...state.sectionList.map((SectionModel section) {
+                        return DropdownMenuItem<String>(
+                          value: section.id.toString(),
+                          child: Text(section.sectionName),
+                        );
+                      }).toList(),
+                    ]),
                 horizontalSpaceTiny
               ],
               bottom: const TabBar(

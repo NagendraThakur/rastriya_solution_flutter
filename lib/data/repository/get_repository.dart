@@ -43,6 +43,7 @@ class GetRepository {
   static String voidReason = "/api/v2/pos/void-reason";
 
   //purchase
+  static String purchaseOrder = "/api/v2/pos/purchase-order";
   static String purchaseBill = "/api/v2/pos/purchase-bill";
 
   //Reports

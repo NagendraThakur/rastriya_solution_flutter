@@ -13,18 +13,18 @@ import 'package:rastriya_solution_flutter/widgets/border_container.dart';
 import 'package:rastriya_solution_flutter/widgets/mini_bottom_sheet.dart';
 import 'package:toastification/toastification.dart';
 
-class PurchaseOrderListPage extends StatefulWidget {
+class PurchaseBillListPage extends StatefulWidget {
   final bool? showSummary;
-  const PurchaseOrderListPage({
+  const PurchaseBillListPage({
     Key? key,
     this.showSummary = false,
   }) : super(key: key);
 
   @override
-  State<PurchaseOrderListPage> createState() => _PurchaseOrderListPageState();
+  State<PurchaseBillListPage> createState() => _PurchaseBillListPageState();
 }
 
-class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
+class _PurchaseBillListPageState extends State<PurchaseBillListPage> {
   String? status;
 
   @override
@@ -32,9 +32,7 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      BlocProvider.of<PurchaseCubit>(context).fetchPurchaseOrder();
-      BlocProvider.of<PurchaseCubit>(context).fetchLedger();
-      BlocProvider.of<PurchaseCubit>(context).fetchProduct();
+      BlocProvider.of<PurchaseCubit>(context).fetchPurchaseBill();
     });
   }
 
@@ -94,10 +92,10 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
                         child: ListTile(
                           onTap: () {
                             Navigator.of(context).pushNamed(
-                                "/edit_purchase_order",
+                                "/edit_purchase_bill",
                                 arguments: purchaseInfo);
                           },
-                          leading: const CircleAvatar(child: Text("PO")),
+                          leading: const CircleAvatar(child: Text("PB")),
                           title: Text(purchaseInfo.billNo ?? ""),
                           subtitle: Text(
                               "${purchaseInfo.vendorName}(${purchaseInfo.vendorCode})"),
@@ -109,10 +107,10 @@ class _PurchaseOrderListPageState extends State<PurchaseOrderListPage> {
                   }),
           floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
-                Navigator.of(context).pushNamed("/edit_purchase_order");
+                Navigator.of(context).pushNamed("/edit_purchase_bill");
               },
               icon: const Icon(CupertinoIcons.add),
-              label: const Text("Add Purchase Order")),
+              label: const Text("Add Purchase Bill")),
         );
       },
     );
